@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <iostream>
 #include <unordered_set>
 #include <queue>
@@ -209,14 +209,114 @@ void bfs(Node* f)
 	}*/
 }
 
+std::unordered_set<Node*, decltype(node_hash), decltype(eq)> dfs_used(100, node_hash, eq);
+bool found_answ = false;
+
 void dfs(Node* f)
 {
+	if (found_answ)
+		return;
+	if (f->solved)
+	{
+		std::list<Node*> res;
+		while (f != nullptr)
+		{
+			res.push_front(f);
+			f = f->parent;
+		}
+		while (!res.empty())
+		{
+			auto tmp = res.front();
+			res.pop_front();
+			std::cout << tmp->print() << "\n";
+		}
+		found_answ = true;
+		return;
+	}
+	dfs_used.insert(f);
+	auto ch = all_children(f);
+	for (auto el : ch)
+	{
+		if (!el->sb_is_eaten && dfs_used.find(el) == dfs_used.end())
+			dfs(el);
+	}
 
 }
-
+/*
+std::unordered_set<Node*, decltype(node_hash), decltype(eq)> ids_used(100, node_hash, eq);
+void DLS(Node* f, int depth, Node* found, bool & remaining)
+{
+	ids_used.insert(f);
+	found = nullptr;
+	if (depth == 0)
+	{
+		if (f->solved)
+		{
+			found = f;
+			remaining = true;
+			return;
+		}
+		else // (Not found, but may have children)
+		{ 
+			remaining = true;
+			return;
+		}
+	}
+	else if (depth > 0)
+	{
+		bool any_remaining = false;
+		auto ch = all_children(f);
+		for (auto el : ch)
+		{
+			if (!el->sb_is_eaten && ids_used.find(el) == ids_used.end())
+			{
+				DLS(el, depth - 1, found, remaining);
+				if (found != nullptr)
+				{
+					remaining = true;
+					return;
+				}
+				if (remaining)	// (At least one node found at depth, let IDDFS deepen)
+				{
+					any_remaining = true;
+					found = nullptr;
+					remaining = any_remaining;
+					return;
+				}
+			}
+		}
+	}
+}
+*/
 void ids(Node* f)
 {
-
+/*	for (int depth = 0; depth < 1000; ++depth)
+	{
+		Node* found = nullptr;
+		bool remaining = false;
+		DLS(f, depth, found, remaining);
+		if (found != nullptr)
+		{
+			std::list<Node*> res;
+			while (f != nullptr)
+			{
+				res.push_front(f);
+				f = f->parent;
+			}
+			while (!res.empty())
+			{
+				auto tmp = res.front();
+				res.pop_front();
+				std::cout << tmp->print() << "\n";
+			}
+			return;
+		}
+		else if (!remaining)
+		{
+			std::cout << "There is no answer :(\n";
+			return;
+		}
+	}*/
 }
 
 
