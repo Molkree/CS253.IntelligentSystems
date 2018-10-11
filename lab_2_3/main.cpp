@@ -52,11 +52,22 @@ public:
 		this->sheep = sheep;
 	}
 
+	string print()
+	{
+		string res = "";
+		for (int i = 0; i < 7; ++i)
+			res += "_|_|_|_|_|_|_|_\n";
+		res += " | | | | | | | \n";
+		return res;
+	}
 private:
 
 };
 
 int main()
 {
+	Node* start = new Node(make_pair(0, 7), make_pair(2, 7), make_pair(4, 7), make_pair(6, 7), make_pair(1, 0));
+
+	cout << start->print() << endl;
 
 }
