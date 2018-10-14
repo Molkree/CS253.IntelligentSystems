@@ -5,8 +5,8 @@
 #include <map>
 #include <algorithm>
 
-const int WOLF = 0;
-const int SHEEP = 1;
+const int WOLF = 1;
+const int SHEEP = 0;
 const int NOTHING = 2;
 using namespace std;
 
@@ -23,7 +23,7 @@ public:
 	coord sheep;
 	bool isWolf;
 	
-	//sheep - 1, wolfs - 0, nothing - 2
+	//sheep - 0, wolves - 1, nothing - 2
 	int terminal()
 	{
 		if (sheep.second == 7)
@@ -58,6 +58,12 @@ public:
 		this->sheep = sheep;
 		isWolf = (player == 0);
 	}
+
+	Node(const vector<coord> wolves, const coord& sheep, int player = 1) : wolves(wolves), sheep(sheep)
+	{
+		isWolf = (player == 0);
+	}
+
 	Node(const Node& n)
 	{
 		wolves.assign(n.wolves.begin(), n.wolves.end());
@@ -242,36 +248,68 @@ bool check_sheep_coord(int x, int y, Node* n)
 	return false;
 }
 
+Node* next_move = nullptr;
+
 // returns f(Vi)
-int minMax(Node* curr, int depth, int max_depth)
+int runMinMax(Node* curr, int depth, int max_depth)
 {
-/*	if (depth >= max_depth)
+	int test = -1;
+
+	if (depth >= max_depth)
 		return curr->heuristic();
 
-	int best_move = -1;
-	//	bool isWolf = (curr->player == WOLF);
-	int min_max = (curr->isSheep) ? INT32_MAX : INT32_MIN;
+//	int best_move = -1;
+	Node* best_move = nullptr;
+	int min_max = (curr->isWolf) ? INT32_MIN : INT32_MAX;
 
-	// it's sheep's turn
-	if (curr->isSheep)
-	{
-		for (auto move : curr->sheep_next_moves())
+	// it's wolf's turn
+	if (curr->isWolf)
+		for (auto new_wolves : curr->wolf_next_moves())
 		{
+			// next turn is sheep
+			Node * next = new Node(new_wolves, curr->sheep, SHEEP);
+			test = runMinMax(next, depth + 1, max_depth);
 
+			if (test > min_max)
+			{
+				min_max = test;
+				best_move = next;
+			}
+			else
+				delete next; // наверное, надо удалять
+		}
+	else // it's sheep's turn
+		for (auto new_sheep : curr->sheep_next_moves())
+		{
+			// next turn is wolf
+			Node* next = new Node(curr->wolves, new_sheep, WOLF);
+			test = runMinMax(next, depth + 1, max_depth);
+
+			if (test <= min_max)
+			{
+				min_max = test;
+				best_move = next;
+			}
+			else
+				delete next; // наверное, надо удалять
 		}
 
-	}
-	else // it's wolf's turn
-	{
+	if (best_move == nullptr)
+		return curr->heuristic();
 
+	if (depth == 0 && best_move != nullptr)
+	{
+		next_move = best_move;
 	}
-*/
-	return 0;
+
+	return min_max;
 }
 
 
 void start_game()
 {
+	const int max_depth = 10;
+
 	cout << "Choose a side: a sheep(1) or wolves(2). Enter the number: ";
 	int player_n;
 	cin >> player_n;
@@ -285,59 +323,73 @@ void start_game()
 	//при вводе везде индексация с единицы, в программе везде(!) с нуля
 	--player_n; // now 0 is sheep, 1 is wolves 
 
-	Node* start = new Node(make_pair(0, 7), make_pair(2, 7), make_pair(4, 7), make_pair(6, 7), make_pair(1, 0), player_n);
+	Node* field = new Node(make_pair(0, 7), make_pair(2, 7), make_pair(4, 7), make_pair(6, 7), make_pair(1, 0), player_n);
 
 
 	cout << "\n";
 	cout << "Lower left square has coordinates 1 1\n";
-	cout << start->print() << endl;
+	cout << field->print() << endl;
 
 	
 	// первым всегда ходит заяц, если игрок выбрал зайца, то первым ходит игрок, иначе первым ходит система
 	// 0 - ход игрока, 1 - ход системы
 	int turn = player_n == 0 ? 0 : 1;
-	//while (true)
-	//{
-	if (turn == 0) //ход игрока
+	while (true)
 	{
-		cout << "Your turn:\n";
-		if (player_n == 0) //играет зайцем
+		if (turn == 0) //ход игрока
 		{
-			int x = -1, y = -1;
-			while (!check_sheep_coord(x, y, start))
+			cout << "Your turn:\n";
+			if (player_n == 0) //играет зайцем
 			{
-				cout << "Enter coordinates: ";
-				cin >> x >> y; cout << "\n";
-				--x; --y;
-			}
+				int x = -1, y = -1;
+				while (!check_sheep_coord(x, y, field))
+				{
+					cout << "Enter coordinates: ";
+					cin >> x >> y; cout << "\n";
+					--x; --y;
+				}
 
-			//потом изменю переприсваивание
-			start->sheep.first = x;
-			start->sheep.second = y;
-		}
-		else
-		{
-			int numb = -1, x = -1, y = -1;
-			while (!check_woolf_coord(x, y, numb, start))
-			{
-				cout << "Enter wolve's number(1/2/3/4) and coordinates: ";
-				cin >> numb >> x >> y; cout << "\n";
-				--numb; --x; --y;
+				//потом изменю переприсваивание
+				field->sheep.first = x;
+				field->sheep.second = y;
 			}
-			start->wolves[numb].first = x;
-			start->wolves[numb].second = y;
+			else
+			{
+				int numb = -1, x = -1, y = -1;
+				while (!check_woolf_coord(x, y, numb, field))
+				{
+					cout << "Enter wolve's number(1/2/3/4) and coordinates: ";
+					cin >> numb >> x >> y; cout << "\n";
+					--numb; --x; --y;
+				}
+				field->wolves[numb].first = x;
+				field->wolves[numb].second = y;
+			}
+			turn = 1;
 		}
+		else //ход системы
+		{
+			// а надо отличать, кем ходит система?
+			cout << "Waiting for system..\n";
+			runMinMax(field, 0, max_depth);
+			delete field;
+			field = next_move;
+			turn = 0;
+			//TODO: turns
+		}
+		//и где переопределится само поле?
+		cout << field->print() << endl;
+		int t = field->terminal();
+		if (t != NOTHING)
+		{
+			if (t == player_n)
+				cout << "Congratulations! You won!\n";
+			else
+				cout << "Sorry, you lost :(\n";
+			break;
+		}
+		// TODO if terminal... break
 	}
-	else //ход системы
-	{
-		// а надо отличать, кем ходит система?
-		cout << "Waiting for system..\n";
-		//TODO: turns
-	}
-	//и где переопределится само поле?
-	cout << start->print() << endl;
-	// TODO if terminal... break
-	//}
 
 }
 
@@ -351,5 +403,10 @@ int main()
 
 	cout << start->heuristic() << endl;
 	cout << start->print() << endl;
+	
+
+
+//	start_game();
+
 
 }
