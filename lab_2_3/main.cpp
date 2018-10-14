@@ -13,7 +13,7 @@ using namespace std;
 typedef pair<uint_fast8_t, uint_fast8_t> coord;
 
 vector<int> dx{ -1, 1, 1, -1 };
-vector<int> dy{ -1, -1, 1, 1 };
+vector<int> dy{ 1, 1, -1, -1 };
 
 class Node
 {
@@ -29,22 +29,25 @@ public:
 		if (sheep.second == 7)
 			return SHEEP;
 
-		bool dead = true;
+		vector<bool> wolf(4, false);
 		for (int i = 0; i < 4; ++i)
 		{
 			int pos_x = sheep.first + dx[i];
 			int pos_y = sheep.second + dy[i];
 			if (pos_x < 0 || pos_x > 7 || pos_y < 0 || pos_y > 7)
-				continue;
+				wolf[i] = true; // I know there's no wolf, but in general, sheep can't go there
+			
 			for (int j = 0; j<4; ++j)
-				if (wolves[j].first != pos_x || wolves[j].second != pos_y)
+				if (wolves[j].first == pos_x && wolves[j].second == pos_y)
 				{
-					dead = false;
+					wolf[i] = true;
 					break;
 				}
-			if (!dead) break;
+	//		if (!dead) break;
 		}
-		if (dead) return WOLF;
+		if (wolf[0] && wolf[1] && wolf[2] && wolf[3])			
+			return WOLF;
+
 		return NOTHING;
 	}
 
@@ -56,12 +59,12 @@ public:
 		wolves.push_back(w3);
 		wolves.push_back(w4);
 		this->sheep = sheep;
-		isWolf = (player == 0);
+		isWolf = (player == WOLF);
 	}
 
 	Node(const vector<coord> wolves, const coord& sheep, int player = 1) : wolves(wolves), sheep(sheep)
 	{
-		isWolf = (player == 0);
+		isWolf = (player == WOLF);
 	}
 
 	Node(const Node& n)
@@ -160,8 +163,8 @@ public:
 
 		for (int j = 0; j < wolves.size(); ++j)
 		{
-			// i < 2 because wolves can't go back
-			for (int i = 0; i < 2; ++i)
+			// i = 2, 3 because wolves can't go back
+			for (int i = 2; i < 4; ++i)
 			{
 				int pos_x = wolves[j].first + dx[i];
 				int pos_y = wolves[j].second + dy[i];
@@ -170,6 +173,17 @@ public:
 					continue;
 
 				if (pos_x == sheep.first && pos_y == sheep.second)
+					continue;
+
+				bool free_pos = true;
+				for (int k = 0; k < wolves.size(); ++k)
+					if (pos_x == wolves[k].first && pos_y == wolves[k].second)
+					{
+						free_pos = false;
+						break;
+					}
+
+				if (!free_pos)
 					continue;
 
 				vector<coord> move(wolves);
@@ -251,11 +265,14 @@ bool check_sheep_coord(int x, int y, Node* n)
 Node* next_move = nullptr;
 
 // returns f(Vi)
-int runMinMax(Node* curr, int depth, int max_depth)
+int runMinMax(Node* curr, int depth, int max_depth, int alpha, int beta)
 {
 	int test = -1;
 
 	if (depth >= max_depth)
+		return curr->heuristic();
+
+	if (curr->terminal() != NOTHING)
 		return curr->heuristic();
 
 //	int best_move = -1;
@@ -268,30 +285,49 @@ int runMinMax(Node* curr, int depth, int max_depth)
 		{
 			// next turn is sheep
 			Node * next = new Node(new_wolves, curr->sheep, SHEEP);
-			test = runMinMax(next, depth + 1, max_depth);
+
+			// not in algorithm, just my ideas
+			if (next->heuristic() < alpha)
+				continue;
+
+			test = runMinMax(next, depth + 1, max_depth, alpha, beta);
 
 			if (test > min_max)
 			{
 				min_max = test;
 				best_move = next;
 			}
-			else
-				delete next; // наверное, надо удалять
+		//	else
+		//		delete next; // наверное, надо удалять
+
+			alpha = max(alpha, test);
+			if (beta < alpha)
+				break;
+
 		}
 	else // it's sheep's turn
 		for (auto new_sheep : curr->sheep_next_moves())
 		{
 			// next turn is wolf
 			Node* next = new Node(curr->wolves, new_sheep, WOLF);
-			test = runMinMax(next, depth + 1, max_depth);
+
+			// not in algorithm, just my ideas
+			if (next->heuristic() > beta)
+				continue;
+
+			test = runMinMax(next, depth + 1, max_depth, alpha, beta);
 
 			if (test <= min_max)
 			{
 				min_max = test;
 				best_move = next;
 			}
-			else
-				delete next; // наверное, надо удалять
+		//	else
+		//		delete next; // наверное, надо удалять
+			beta = min(beta, test);
+			if (beta < alpha)
+				break;
+
 		}
 
 	if (best_move == nullptr)
@@ -308,7 +344,7 @@ int runMinMax(Node* curr, int depth, int max_depth)
 
 void start_game()
 {
-	const int max_depth = 10;
+	const int max_depth = 3;
 
 	cout << "Choose a side: a sheep(1) or wolves(2). Enter the number: ";
 	int player_n;
@@ -336,6 +372,16 @@ void start_game()
 	int turn = player_n == 0 ? 0 : 1;
 	while (true)
 	{
+		int t = field->terminal();
+		if (t != NOTHING)
+		{
+			if (t == player_n)
+				cout << "Congratulations! You won!\n";
+			else
+				cout << "Sorry, you lost :(\n";
+			break;
+		}
+
 		if (turn == 0) //ход игрока
 		{
 			cout << "Your turn:\n";
@@ -369,44 +415,48 @@ void start_game()
 		}
 		else //ход системы
 		{
-			// а надо отличать, кем ходит система?
 			cout << "Waiting for system..\n";
-			runMinMax(field, 0, max_depth);
-			delete field;
+			field->isWolf = !field->isWolf;
+			runMinMax(field, 0, max_depth, INT32_MIN, INT32_MAX);
+			//delete field;
 			field = next_move;
 			turn = 0;
+		//	field->isWolf = !field->isWolf;
 			//TODO: turns
 		}
-		//и где переопределится само поле?
 		cout << field->print() << endl;
-		int t = field->terminal();
-		if (t != NOTHING)
-		{
-			if (t == player_n)
-				cout << "Congratulations! You won!\n";
-			else
-				cout << "Sorry, you lost :(\n";
-			break;
-		}
-		// TODO if terminal... break
+		
 	}
 
 }
 
 int main()
 {
-	Node* start = new Node(make_pair(0, 7), make_pair(2, 7), make_pair(4, 7), make_pair(6, 7), make_pair(1, 0), SHEEP); // h = 254
+/*	int alpha = INT32_MIN; // макс. значение, меньше которого волк никогда не выберет
+	int beta = INT32_MAX;  // мин. значение, больше которого овца никогда не выберет
 
+	Node* start = new Node(make_pair(0, 7), make_pair(1, 6), make_pair(1, 4), make_pair(6, 7), make_pair(4, 5), SHEEP); // h = 254
+	cout << start->print() << endl;
+	runMinMax(start, 0, 10, alpha, beta);
+	start = next_move;
+	cout << start->print() << endl;
+	runMinMax(start, 0, 10, alpha, beta);
+	start = next_move;
+	cout << start->print() << endl;
+	runMinMax(start, 0, 10, alpha, beta);
+	start = next_move;
+	cout << start->print() << endl;
+	*/
 
 	//	Node* start = new Node(make_pair(0, 5), make_pair(3, 4), make_pair(5, 6), make_pair(7, 6), make_pair(5, 4)); // h = 3
 	//	Node* start = new Node(make_pair(0, 7), make_pair(1, 6), make_pair(4, 7), make_pair(6, 7), make_pair(5, 2)); // h = 5
 
-	cout << start->heuristic() << endl;
-	cout << start->print() << endl;
+//	cout << start->heuristic() << endl;
+	
 	
 
 
-//	start_game();
+	start_game();
 
 
 }
