@@ -134,7 +134,7 @@ std::list<Node*> all_children(Node* start)
 	return res;
 }
 
-void bfs(Node* f)
+bool bfs(Node* f)
 {
 	std::unordered_set<Node*, decltype(node_hash), decltype(eq)> used(100, node_hash, eq);
 	used.insert(f);
@@ -168,23 +168,27 @@ void bfs(Node* f)
 	}
 
 	if (answ == nullptr)
-		std::cout << "There is no answer :(\n";
+	{
+		//std::cout << "There is no answer :(\n";
+		return false;
+	}
 	else
 	{
-		std::list<Node*> res;
-		while (answ != nullptr)
-		{
-			res.push_front(answ);
-			answ = answ->parent;
-		}
-		while (!res.empty())
-		{
-			auto tmp = res.front();
-			res.pop_front();
-			std::cout << tmp->print() << "\n";
-			if (tmp != f)
-				delete tmp;
-		}
+		//std::list<Node*> res;
+		//while (answ != nullptr)
+		//{
+		//	res.push_front(answ);
+		//	answ = answ->parent;
+		//}
+		//while (!res.empty())
+		//{
+		//	auto tmp = res.front();
+		//	res.pop_front();
+		//	std::cout << tmp->print() << "\n";
+		//	if (tmp != f)
+		//		delete tmp;
+		//}
+		return true;
 	}
 }
 
@@ -197,18 +201,18 @@ void dfs_help(Node* f)
 		return;
 	if (f->solved)
 	{
-		std::list<Node*> res;
-		while (f != nullptr)
-		{
-			res.push_front(f);
-			f = f->parent;
-		}
-		while (!res.empty())
-		{
-			auto tmp = res.front();
-			res.pop_front();
-			std::cout << tmp->print() << "\n";
-		}
+		//std::list<Node*> res;
+		//while (f != nullptr)
+		//{
+		//	res.push_front(f);
+		//	f = f->parent;
+		//}
+		//while (!res.empty())
+		//{
+		//	auto tmp = res.front();
+		//	res.pop_front();
+		//	std::cout << tmp->print() << "\n";
+		//}
 		found_answ = true;
 		return;
 	}
@@ -223,10 +227,12 @@ void dfs_help(Node* f)
 	}
 }
 
-void dfs(Node* f)
+bool dfs(Node* f)
 {
+	found_answ = false;
 	dfs_help(new Node(nullptr, f->field, f->boat, f->wolf_cnt, f->goat_cnt, f->cabbage_cnt));
 	dfs_used.clear();
+	return found_answ;
 }
 
 bool DLS(Node* f, int depth, int limit)
@@ -279,12 +285,6 @@ void ids(Node* f)
 			break;
 	}
 	while (!DLS(tmp, 0, lim));
-	//while (!DLS(tmp, 0, lim))
-	//{
-	//	++lim;
-	//	if (lim == 1000)
-	//		break;
-	//}
 	dfs_used.clear();
 	if (lim == 1000)
 	{
@@ -296,7 +296,35 @@ void ids(Node* f)
 
 int main()
 {
-	int w_cnt{ 10 }, g_cnt{ 20 }, c_cnt{ 200 };
+	//std::list<Node*> solvable;
+	//int w_cnt{ 10 }, g_cnt{ 20 }, c_cnt{ 30 };
+	//auto t_start = std::chrono::steady_clock::now();
+	//for (int i = 1; i <= w_cnt; ++i)
+	//	for (int j = 1 < i ? i - 1 : 1; j <= g_cnt; ++j)
+	//		for (int k = 1 < j ? j - 1 : 1; k <= c_cnt; ++k)
+	//		{
+	//			vector<pair<char, char>> field;
+	//			for (int l = 0; l < i; ++l)
+	//				field.push_back({ 'l', 'w' });
+	//			for (int l = 0; l < j; ++l)
+	//				field.push_back({ 'l', 'g' });
+	//			for (int l = 0; l < k; ++l)
+	//				field.push_back({ 'l', 'c' });
+	//			Node* start = new Node(nullptr, field, 'l', i, j, k);
+	//			if (bfs(start))
+	//			{
+	//				solvable.push_back(start);
+	//			}
+	//		}
+	//auto t_end = std::chrono::steady_clock::now();
+	//std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count() << " milliseconds\n";
+
+	//std::cout << "Wolf max = " << w_cnt << " Goat max = " << g_cnt << " Cabbage max = " << c_cnt << "\n" <<
+	//	"We can solve " << solvable.size() << " positions\n";
+	//for (const auto & pos : solvable)
+	//	std::cout << pos->wolf_cnt << "|" << pos->goat_cnt << "|" << pos->cabbage_cnt << "\n";
+
+	int w_cnt{ 1 }, g_cnt{ 1 }, c_cnt{ 1 };
 	vector<pair<char, char>> f;
 	for (int i = 0; i < w_cnt; ++i)
 		f.push_back({ 'l', 'w' });
@@ -319,9 +347,9 @@ int main()
 	t_end = std::chrono::steady_clock::now();
 	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count() << " milliseconds";
 
-	//std::cout << "\n============\nIDS\n";
-	//t_start = std::chrono::steady_clock::now();
-	//ids(start);
-	//t_end = std::chrono::steady_clock::now();
-	//std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count() << " milliseconds";
+	std::cout << "\n============\nIDS\n";
+	t_start = std::chrono::steady_clock::now();
+	ids(start);
+	t_end = std::chrono::steady_clock::now();
+	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count() << " milliseconds";
 }
