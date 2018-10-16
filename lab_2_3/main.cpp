@@ -78,24 +78,27 @@ public:
 	{
 		string res = "";
 		for (int i = 0; i < 7; ++i)
-			res += "_|_|_|_|_|_|_|_\n";
-		res += " | | | | | | | \n";
+			res += to_string(8-i) + "|_|_|_|_|_|_|_|_\n";
+
+		res += "1| | | | | | | | \n";
 		//заполняем черными квадратами (звездочками)
 		for (int i = 0; i < 8; ++i)
 			for (int j = 0; j < 8; ++j)
 				if (i % 2 == 0)
 				{
 					if (j % 2 == 0)
-						res[16 * i + j * 2] = '*';
+						res[18 * i + (j+1) * 2] = '*';
 				}
 				else
 					if (j % 2 == 1)
-						res[16 * i + j * 2] = '*';
+						res[18 * i + (j+1) * 2] = '*';
 		
 		//заполняем животными
 		for (int i = 0; i < 4; ++i)
-			res[16 * (7 - wolves[i].second) + wolves[i].first * 2] = 1+ i + '0';
-		res[16 * (7 - sheep.second) + sheep.first * 2] = 's';
+			res[18 * (7 - wolves[i].second) + (wolves[i].first+1) * 2] = 1+ i + '0';
+		res[18 * (7 - sheep.second) + (sheep.first+1) * 2] = 's';
+		
+		res += "  1 2 3 4 5 6 7 8";
 		return res;
 	}
 //private:
@@ -286,10 +289,6 @@ int runMinMax(Node* curr, int depth, int max_depth, int alpha, int beta)
 			// next turn is sheep
 			Node * next = new Node(new_wolves, curr->sheep, SHEEP);
 
-			// not in algorithm, just my ideas
-			if (next->heuristic() < alpha)
-				continue;
-
 			test = runMinMax(next, depth + 1, max_depth, alpha, beta);
 
 			if (test > min_max)
@@ -310,10 +309,6 @@ int runMinMax(Node* curr, int depth, int max_depth, int alpha, int beta)
 		{
 			// next turn is wolf
 			Node* next = new Node(curr->wolves, new_sheep, WOLF);
-
-			// not in algorithm, just my ideas
-			if (next->heuristic() > beta)
-				continue;
 
 			test = runMinMax(next, depth + 1, max_depth, alpha, beta);
 
@@ -359,7 +354,7 @@ void start_game()
 	//при вводе везде индексация с единицы, в программе везде(!) с нуля
 	--player_n; // now 0 is sheep, 1 is wolves 
 
-	Node* field = new Node(make_pair(0, 7), make_pair(2, 7), make_pair(4, 7), make_pair(6, 7), make_pair(1, 0), player_n);
+	Node* field = new Node(make_pair(0, 7), make_pair(2, 7), make_pair(4, 7), make_pair(6, 7), make_pair(3, 0), player_n);
 
 
 	cout << "\n";
