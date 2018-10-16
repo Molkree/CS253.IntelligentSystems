@@ -77,24 +77,27 @@ class Node
 	{
 		string res = "";
 		for (int i = 0; i < 7; ++i)
-			res += "_|_|_|_|_|_|_|_\n";
-		res += " | | | | | | | \n";
-		// заполняем черными квадратами (звездочками)
+			res += to_string(8 - i) + "|_|_|_|_|_|_|_|_\n";
+
+		res += "1| | | | | | | | \n";
+		//заполняем черными квадратами (звездочками)
 		for (int i = 0; i < 8; ++i)
 			for (int j = 0; j < 8; ++j)
 				if (i % 2 == 0)
 				{
 					if (j % 2 == 0)
-						res[16 * i + j * 2] = '*';
+						res[18 * i + (j + 1) * 2] = '*';
 				}
 				else
 					if (j % 2 == 1)
-						res[16 * i + j * 2] = '*';
+						res[18 * i + (j + 1) * 2] = '*';
 
-		// заполняем животными
+		//заполняем животными
 		for (int i = 0; i < 4; ++i)
-			res[16 * (7 - wolves[i].second) + wolves[i].first * 2] = 1 + i + '0';
-		res[16 * (7 - sheep.second) + sheep.first * 2] = 's';
+			res[18 * (7 - wolves[i].second) + (wolves[i].first + 1) * 2] = 1 + i + '0';
+		res[18 * (7 - sheep.second) + (sheep.first + 1) * 2] = 's';
+
+		res += "  1 2 3 4 5 6 7 8";
 		return res;
 	}
 	//private:
