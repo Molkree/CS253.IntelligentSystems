@@ -379,6 +379,8 @@ void start_game()
 				cout << "Congratulations! You won!\n";
 			else
 				cout << "Sorry, you lost :(\n";
+			int wait;
+			cin >> wait;
 			break;
 		}
 
