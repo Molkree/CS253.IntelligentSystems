@@ -17,13 +17,13 @@ vector<int> dy{ 1, 1, -1, -1 };
 
 class Node
 {
-public:
+	public:
 
 	vector<coord> wolves;
 	coord sheep;
 	bool isWolf;
-	
-	//sheep - 0, wolves - 1, nothing - 2
+
+	// sheep - 0, wolves - 1, nothing - 2
 	int terminal()
 	{
 		if (sheep.second == 7)
@@ -36,23 +36,22 @@ public:
 			int pos_y = sheep.second + dy[i];
 			if (pos_x < 0 || pos_x > 7 || pos_y < 0 || pos_y > 7)
 				wolf[i] = true; // I know there's no wolf, but in general, sheep can't go there
-			
-			for (int j = 0; j<4; ++j)
+
+			for (int j = 0; j < 4; ++j)
 				if (wolves[j].first == pos_x && wolves[j].second == pos_y)
 				{
 					wolf[i] = true;
 					break;
 				}
-	//		if (!dead) break;
 		}
-		if (wolf[0] && wolf[1] && wolf[2] && wolf[3])			
+		if (wolf[0] && wolf[1] && wolf[2] && wolf[3])
 			return WOLF;
 
 		return NOTHING;
 	}
 
 	Node(const coord& w1, const coord& w2, const coord& w3,
-		const coord& w4, const coord& sheep, int player = 1)
+		 const coord& w4, const coord& sheep, int player = 1)
 	{
 		wolves.push_back(w1);
 		wolves.push_back(w2);
@@ -78,33 +77,30 @@ public:
 	{
 		string res = "";
 		for (int i = 0; i < 7; ++i)
-			res += to_string(8-i) + "|_|_|_|_|_|_|_|_\n";
-
-		res += "1| | | | | | | | \n";
-		//заполняем черными квадратами (звездочками)
+			res += "_|_|_|_|_|_|_|_\n";
+		res += " | | | | | | | \n";
+		// заполняем черными квадратами (звездочками)
 		for (int i = 0; i < 8; ++i)
 			for (int j = 0; j < 8; ++j)
 				if (i % 2 == 0)
 				{
 					if (j % 2 == 0)
-						res[18 * i + (j+1) * 2] = '*';
+						res[16 * i + j * 2] = '*';
 				}
 				else
 					if (j % 2 == 1)
-						res[18 * i + (j+1) * 2] = '*';
-		
-		//заполняем животными
+						res[16 * i + j * 2] = '*';
+
+		// заполняем животными
 		for (int i = 0; i < 4; ++i)
-			res[18 * (7 - wolves[i].second) + (wolves[i].first+1) * 2] = 1+ i + '0';
-		res[18 * (7 - sheep.second) + (sheep.first+1) * 2] = 's';
-		
-		res += "  1 2 3 4 5 6 7 8";
+			res[16 * (7 - wolves[i].second) + wolves[i].first * 2] = 1 + i + '0';
+		res[16 * (7 - sheep.second) + sheep.first * 2] = 's';
 		return res;
 	}
-//private:
+	//private:
 
-	// number of steps to finish for sheep
-	// if finish is unreachable return 254
+		// number of steps to finish for sheep
+		// if finish is unreachable return 254
 	int heuristic()
 	{
 		map<coord, int> dist;
@@ -151,9 +147,9 @@ public:
 					dist[new_pos] = dist[pos] + 1;
 					q.push(new_pos);
 				}
-				else
-					if (dist[new_pos] > dist[pos] + 1)
-						dist[pos] = dist[pos] + 1;
+				//else
+				//	if (dist[new_pos] > dist[pos] + 1)
+				//		dist[pos] = dist[pos] + 1;
 			}
 		}
 		return 254;
@@ -225,24 +221,24 @@ public:
 
 };
 
-bool check_woolf_coord(int x, int y, int numb, Node* n)
+bool check_wolf_coord(int x, int y, int numb, Node* n)
 {
-	if (x < 0 || y < 0 || x>7 || y>7)
+	if (x < 0 || y < 0 || x > 7 || y > 7)
 		return false;
 	if (numb > 3 || numb < 0)
 		return false;
 
-	//еще проверить, что клетка не занята
+	// еще проверить, что клетка не занята
 	if (x == n->sheep.first && y == n->sheep.second)
 		return false;
 	for (int i = 0; i < 4; ++i)
 	{
-	//	if (i == numb) continue; // ведь если введены текущие координаты волка, мы не можем остаться на месте
+		//	if (i == numb) continue; // ведь если введены текущие координаты волка, мы не можем остаться на месте
 		if (x == n->wolves[i].first && y == n->wolves[i].second)
 			return false;
 	}
 
-	//волк ходит только вниз
+	// волк ходит только вниз
 	if (y != n->wolves[numb].second - 1)
 		return false;
 	if (x == n->wolves[numb].first - 1 || x == n->wolves[numb].first + 1)
@@ -252,13 +248,13 @@ bool check_woolf_coord(int x, int y, int numb, Node* n)
 
 bool check_sheep_coord(int x, int y, Node* n)
 {
-	if (x < 0 || y < 0 || x>7 || y>7)
+	if (x < 0 || y < 0 || x > 7 || y > 7)
 		return false;
-	//занята
+	// занята
 	for (int i = 0; i < 4; ++i)
 		if (x == n->wolves[i].first && y == n->wolves[i].second)
 			return false;
-	//заяц ходит и вниз, и вверх
+	// заяц ходит и вниз, и вверх
 	for (int i = 0; i < 4; ++i)
 		if (x == n->sheep.first + dx[i] && y == n->sheep.second + dy[i])
 			return true;
@@ -278,7 +274,7 @@ int runMinMax(Node* curr, int depth, int max_depth, int alpha, int beta)
 	if (curr->terminal() != NOTHING)
 		return curr->heuristic();
 
-//	int best_move = -1;
+	//	int best_move = -1;
 	Node* best_move = nullptr;
 	int min_max = (curr->isWolf) ? INT32_MIN : INT32_MAX;
 
@@ -289,6 +285,10 @@ int runMinMax(Node* curr, int depth, int max_depth, int alpha, int beta)
 			// next turn is sheep
 			Node * next = new Node(new_wolves, curr->sheep, SHEEP);
 
+			//// not in algorithm, just my ideas
+			//if (next->heuristic() < alpha)
+			//	continue;
+
 			test = runMinMax(next, depth + 1, max_depth, alpha, beta);
 
 			if (test > min_max)
@@ -296,19 +296,22 @@ int runMinMax(Node* curr, int depth, int max_depth, int alpha, int beta)
 				min_max = test;
 				best_move = next;
 			}
-		//	else
-		//		delete next; // наверное, надо удалять
+			//	else
+			//		delete next; // наверное, надо удалять
 
 			alpha = max(alpha, test);
 			if (beta < alpha)
 				break;
-
 		}
 	else // it's sheep's turn
 		for (auto new_sheep : curr->sheep_next_moves())
 		{
 			// next turn is wolf
 			Node* next = new Node(curr->wolves, new_sheep, WOLF);
+
+			//// not in algorithm, just my ideas
+			//if (next->heuristic() > beta)
+			//	continue;
 
 			test = runMinMax(next, depth + 1, max_depth, alpha, beta);
 
@@ -317,12 +320,11 @@ int runMinMax(Node* curr, int depth, int max_depth, int alpha, int beta)
 				min_max = test;
 				best_move = next;
 			}
-		//	else
-		//		delete next; // наверное, надо удалять
+			//	else
+			//		delete next; // наверное, надо удалять
 			beta = min(beta, test);
 			if (beta < alpha)
 				break;
-
 		}
 
 	if (best_move == nullptr)
@@ -350,8 +352,8 @@ void start_game()
 		cout << "Please, enter \"1\" or \"2\", and nothing else.\n";
 		cin >> player_n;
 	}
-	
-	//при вводе везде индексация с единицы, в программе везде(!) с нуля
+
+	// при вводе везде индексация с единицы, в программе везде(!) с нуля
 	--player_n; // now 0 is sheep, 1 is wolves 
 
 	Node* field = new Node(make_pair(0, 7), make_pair(2, 7), make_pair(4, 7), make_pair(6, 7), make_pair(3, 0), player_n);
@@ -361,7 +363,7 @@ void start_game()
 	cout << "Lower left square has coordinates 1 1\n";
 	cout << field->print() << endl;
 
-	
+
 	// первым всегда ходит заяц, если игрок выбрал зайца, то первым ходит игрок, иначе первым ходит система
 	// 0 - ход игрока, 1 - ход системы
 	int turn = player_n == 0 ? 0 : 1;
@@ -397,7 +399,7 @@ void start_game()
 			else
 			{
 				int numb = -1, x = -1, y = -1;
-				while (!check_woolf_coord(x, y, numb, field))
+				while (!check_wolf_coord(x, y, numb, field))
 				{
 					cout << "Enter wolve's number(1/2/3/4) and coordinates: ";
 					cin >> numb >> x >> y; cout << "\n";
@@ -410,45 +412,45 @@ void start_game()
 		}
 		else //ход системы
 		{
-			cout << "Waiting for system..\n";
+			cout << "Waiting for system...\n";
 			field->isWolf = !field->isWolf;
 			runMinMax(field, 0, max_depth, INT32_MIN, INT32_MAX);
 			//delete field;
 			field = next_move;
 			turn = 0;
-		//	field->isWolf = !field->isWolf;
-			//TODO: turns
+			//	field->isWolf = !field->isWolf;
+				//TODO: turns
 		}
 		cout << field->print() << endl;
-		
+
 	}
 
 }
 
 int main()
 {
-/*	int alpha = INT32_MIN; // макс. значение, меньше которого волк никогда не выберет
-	int beta = INT32_MAX;  // мин. значение, больше которого овца никогда не выберет
+	/*	int alpha = INT32_MIN; // макс. значение, меньше которого волк никогда не выберет
+		int beta = INT32_MAX;  // мин. значение, больше которого овца никогда не выберет
 
-	Node* start = new Node(make_pair(0, 7), make_pair(1, 6), make_pair(1, 4), make_pair(6, 7), make_pair(4, 5), SHEEP); // h = 254
-	cout << start->print() << endl;
-	runMinMax(start, 0, 10, alpha, beta);
-	start = next_move;
-	cout << start->print() << endl;
-	runMinMax(start, 0, 10, alpha, beta);
-	start = next_move;
-	cout << start->print() << endl;
-	runMinMax(start, 0, 10, alpha, beta);
-	start = next_move;
-	cout << start->print() << endl;
-	*/
+		Node* start = new Node(make_pair(0, 7), make_pair(1, 6), make_pair(1, 4), make_pair(6, 7), make_pair(4, 5), SHEEP); // h = 254
+		cout << start->print() << endl;
+		runMinMax(start, 0, 10, alpha, beta);
+		start = next_move;
+		cout << start->print() << endl;
+		runMinMax(start, 0, 10, alpha, beta);
+		start = next_move;
+		cout << start->print() << endl;
+		runMinMax(start, 0, 10, alpha, beta);
+		start = next_move;
+		cout << start->print() << endl;
+		*/
 
-	//	Node* start = new Node(make_pair(0, 5), make_pair(3, 4), make_pair(5, 6), make_pair(7, 6), make_pair(5, 4)); // h = 3
-	//	Node* start = new Node(make_pair(0, 7), make_pair(1, 6), make_pair(4, 7), make_pair(6, 7), make_pair(5, 2)); // h = 5
+		//	Node* start = new Node(make_pair(0, 5), make_pair(3, 4), make_pair(5, 6), make_pair(7, 6), make_pair(5, 4)); // h = 3
+		//	Node* start = new Node(make_pair(0, 7), make_pair(1, 6), make_pair(4, 7), make_pair(6, 7), make_pair(5, 2)); // h = 5
 
-//	cout << start->heuristic() << endl;
-	
-	
+	//	cout << start->heuristic() << endl;
+
+
 
 
 	start_game();
