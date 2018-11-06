@@ -37,6 +37,7 @@
             this.check_forward = new System.Windows.Forms.RadioButton();
             this.check_backward = new System.Windows.Forms.RadioButton();
             this.list_info = new System.Windows.Forms.ListBox();
+            this.button_clear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -66,13 +67,13 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Команда героев";
             // 
-            // label_heros
+            // label_heroes
             // 
             this.label_heroes.AutoSize = true;
             this.label_heroes.BackColor = System.Drawing.Color.White;
             this.label_heroes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_heroes.Location = new System.Drawing.Point(337, 37);
-            this.label_heroes.Name = "label_heros";
+            this.label_heroes.Name = "label_heroes";
             this.label_heroes.Size = new System.Drawing.Size(55, 15);
             this.label_heroes.TabIndex = 3;
             this.label_heroes.Text = "Никого...";
@@ -127,11 +128,22 @@
             this.list_info.Size = new System.Drawing.Size(680, 173);
             this.list_info.TabIndex = 10;
             // 
+            // button_clear
+            // 
+            this.button_clear.Location = new System.Drawing.Point(154, 37);
+            this.button_clear.Name = "button_clear";
+            this.button_clear.Size = new System.Drawing.Size(75, 23);
+            this.button_clear.TabIndex = 11;
+            this.button_clear.Text = "Очистить";
+            this.button_clear.UseVisualStyleBackColor = true;
+            this.button_clear.Click += new System.EventHandler(this.button_clear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 459);
+            this.Controls.Add(this.button_clear);
             this.Controls.Add(this.list_info);
             this.Controls.Add(this.check_backward);
             this.Controls.Add(this.check_forward);
@@ -159,6 +171,7 @@
         private System.Windows.Forms.RadioButton check_forward;
         private System.Windows.Forms.RadioButton check_backward;
         private System.Windows.Forms.ListBox list_info;
+        private System.Windows.Forms.Button button_clear;
     }
 }
 
