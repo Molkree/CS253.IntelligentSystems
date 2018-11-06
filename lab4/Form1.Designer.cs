@@ -33,10 +33,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label_heros = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label_info = new System.Windows.Forms.Label();
             this.button_exec = new System.Windows.Forms.Button();
             this.check_forward = new System.Windows.Forms.RadioButton();
             this.check_backward = new System.Windows.Forms.RadioButton();
+            this.list_info = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -86,17 +86,6 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "Информация о выводе";
             // 
-            // label_info
-            // 
-            this.label_info.AutoSize = true;
-            this.label_info.BackColor = System.Drawing.Color.White;
-            this.label_info.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_info.Location = new System.Drawing.Point(13, 271);
-            this.label_info.Name = "label_info";
-            this.label_info.Size = new System.Drawing.Size(18, 15);
-            this.label_info.TabIndex = 5;
-            this.label_info.Text = "...";
-            // 
             // button_exec
             // 
             this.button_exec.Location = new System.Drawing.Point(13, 195);
@@ -129,15 +118,24 @@
             this.check_backward.Text = "Обратный вывод";
             this.check_backward.UseVisualStyleBackColor = true;
             // 
+            // list_info
+            // 
+            this.list_info.FormattingEnabled = true;
+            this.list_info.Location = new System.Drawing.Point(13, 261);
+            this.list_info.Name = "list_info";
+            this.list_info.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.list_info.Size = new System.Drawing.Size(680, 173);
+            this.list_info.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 459);
+            this.Controls.Add(this.list_info);
             this.Controls.Add(this.check_backward);
             this.Controls.Add(this.check_forward);
             this.Controls.Add(this.button_exec);
-            this.Controls.Add(this.label_info);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label_heros);
             this.Controls.Add(this.label2);
@@ -157,10 +155,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label_heros;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label_info;
         private System.Windows.Forms.Button button_exec;
         private System.Windows.Forms.RadioButton check_forward;
         private System.Windows.Forms.RadioButton check_backward;
+        private System.Windows.Forms.ListBox list_info;
     }
 }
 

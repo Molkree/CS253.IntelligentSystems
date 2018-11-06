@@ -120,6 +120,7 @@ namespace lab4
             given_facts.Clear();
             known_facts.Clear();
             label_heros.Text = "";
+            list_info.Items.Clear();
             terminals.Clear();
 
             foreach (int ind in list_villains.SelectedIndices)
@@ -165,7 +166,11 @@ namespace lab4
                     {
                         if (known_facts.ContainsKey(r.result))
                             known_facts[r.result] += 1;
-                        else known_facts.Add(r.result, 1);
+                        else
+                        {
+                            known_facts.Add(r.result, 1);
+                            list_info.Items.Add(r.info);
+                        }
 //                        known_facts.Add(r.result);
                     }
                 }
