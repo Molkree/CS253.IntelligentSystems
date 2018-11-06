@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.list_villains = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label_heros = new System.Windows.Forms.Label();
+            this.label_heroes = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button_exec = new System.Windows.Forms.Button();
             this.check_forward = new System.Windows.Forms.RadioButton();
@@ -68,14 +68,14 @@
             // 
             // label_heros
             // 
-            this.label_heros.AutoSize = true;
-            this.label_heros.BackColor = System.Drawing.Color.White;
-            this.label_heros.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_heros.Location = new System.Drawing.Point(337, 37);
-            this.label_heros.Name = "label_heros";
-            this.label_heros.Size = new System.Drawing.Size(55, 15);
-            this.label_heros.TabIndex = 3;
-            this.label_heros.Text = "Никого...";
+            this.label_heroes.AutoSize = true;
+            this.label_heroes.BackColor = System.Drawing.Color.White;
+            this.label_heroes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_heroes.Location = new System.Drawing.Point(337, 37);
+            this.label_heroes.Name = "label_heros";
+            this.label_heroes.Size = new System.Drawing.Size(55, 15);
+            this.label_heroes.TabIndex = 3;
+            this.label_heroes.Text = "Никого...";
             // 
             // label4
             // 
@@ -137,7 +137,7 @@
             this.Controls.Add(this.check_forward);
             this.Controls.Add(this.button_exec);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label_heros);
+            this.Controls.Add(this.label_heroes);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.list_villains);
             this.Controls.Add(this.label1);
@@ -153,7 +153,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox list_villains;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label_heros;
+        private System.Windows.Forms.Label label_heroes;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button_exec;
         private System.Windows.Forms.RadioButton check_forward;

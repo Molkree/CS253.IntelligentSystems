@@ -119,7 +119,7 @@ namespace lab4
         {
             given_facts.Clear();
             known_facts.Clear();
-            label_heros.Text = "";
+            label_heroes.Text = "";
             list_info.Items.Clear();
             terminals.Clear();
 
@@ -131,7 +131,7 @@ namespace lab4
                     given_facts.Add(fact);
                 }
             }
-            label_heros.Text = "";
+            label_heroes.Text = "";
 
             if (check_forward.Checked)
                 forward_reasoning();
@@ -198,7 +198,7 @@ namespace lab4
                 foreach (var t in terms)
                     if (t.Value == p)
                     {
-                        label_heros.Text += t.Key.info + "\n";
+                        label_heroes.Text += t.Key.info + "\n";
                         terms.Remove(t.Key);
                         break;
                     }
@@ -218,6 +218,8 @@ namespace lab4
         // для каждого факта - отдельно
         public void forward_reasoning()
         {
+            List<Fact> result = new List<Fact>();
+
             foreach (Fact fact in given_facts)
             {
                 known_facts.Add(fact, 1);
@@ -250,6 +252,7 @@ namespace lab4
                         break;
                 }
 
+                // find terminal facts
                 Dictionary<Fact, int> terms = new Dictionary<Fact, int>();
                 foreach (var p in known_facts)
                 {
@@ -257,30 +260,21 @@ namespace lab4
                         terms[p.Key] = p.Value;
                 }
 
-                /*           for (int i = 0; i < given_facts.Count; ++i)
-                           {
-                               var p = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
-                               label_heros.Text += p.Key.info + "\n";
-                               terms.Remove(p.Key);
-                           }*/
-
-                var term1 = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
-                label_heros.Text += term1.Key.info + "\n";
-                /*   var term = terms.Values.Max();
-                   foreach (var t in terms)
-                       if (t.Value == term)
-                       {
-                           label_heros.Text += t.Key.info + "\n";
-                           terms.Remove(t.Key);
-                           break;
-                       }
-                       */
-
+                // in order not to repeat heroes
+                while (terms.Count != 0)
+                {
+                    var term1 = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
+                    if (!result.Contains(term1.Key, cmp))
+                    {
+                        label_heroes.Text += term1.Key.info + "\n";
+                        result.Add(term1.Key);
+                        break;
+                    }
+                    else
+                        terms.Remove(term1.Key);
+                }
                 known_facts.Clear();
-
-            }
-            
-            
+            }         
         }
 
         public void backward_reasoning()
