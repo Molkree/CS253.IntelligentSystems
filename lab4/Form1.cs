@@ -18,7 +18,8 @@ namespace lab4
         List<Rule> rules = new List<Rule>();
         static FactComparer cmp = new FactComparer();
 
-        HashSet<Fact> known_facts = new HashSet<Fact>(cmp);
+        Dictionary<Fact, int> known_facts = new Dictionary<Fact, int>(cmp);
+    //    HashSet<Fact> known_facts = new HashSet<Fact>(cmp);
 
 //        List<Fact> known_facts = new List<Fact>(); // proven facts
         List<Fact> support_area = new List<Fact>(); // non terminal
@@ -116,6 +117,11 @@ namespace lab4
 
         private void button_exec_Click(object sender, EventArgs e)
         {
+            given_facts.Clear();
+            known_facts.Clear();
+            label_heros.Text = "";
+            terminals.Clear();
+
             foreach (int ind in list_villains.SelectedIndices)
             {
                 Fact fact = all_facts.Find(f => f.info == (list_villains.Items[ind]).ToString());
@@ -135,7 +141,13 @@ namespace lab4
         public void forward_reasoning()
         {
             foreach (Fact fact in given_facts)
-                known_facts.Add(fact);
+            {
+                if (known_facts.ContainsKey(fact))
+                    known_facts[fact] += 1;
+                else known_facts.Add(fact, 1);
+            }
+//                known_facts[fact] += 1;
+//                known_facts.Add(fact);
 
             while (true)
             {
@@ -144,26 +156,57 @@ namespace lab4
                 {
                     bool cond = true;
                     foreach (Fact f in r.condition)
-                        if (!known_facts.Contains(f, cmp))
+                        if (!known_facts.ContainsKey(f))
                         {
                             cond = false;
                             break;
                         }
                     if (cond)
                     {
-                        known_facts.Add(r.result);
+                        if (known_facts.ContainsKey(r.result))
+                            known_facts[r.result] += 1;
+                        else known_facts.Add(r.result, 1);
+//                        known_facts.Add(r.result);
                     }
                 }
                 if (prev_cnt == known_facts.Count)
                     break;
             }
 
-            foreach (Fact f in known_facts)
+            Dictionary<Fact, int> terms = new Dictionary<Fact, int>();
+            foreach (var p in known_facts)
+            {
+                if (p.Key.id[0] == 't')
+                    terms[p.Key] = p.Value;
+            }
+
+ /*           for (int i = 0; i < given_facts.Count; ++i)
+            {
+                var p = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
+                label_heros.Text += p.Key.info + "\n";
+                terms.Remove(p.Key);
+            }*/
+            for (int i = 0; i < given_facts.Count; ++i)
+            {
+
+                var p = terms.Values.Max();
+                foreach (var t in terms)
+                    if (t.Value == p)
+                    {
+                        label_heros.Text += t.Key.info + "\n";
+                        terms.Remove(t.Key);
+                        break;
+                    }
+                    
+
+            }
+
+/*            foreach (Fact f in known_facts)
             {
                 if (f.id[0] == 't')
                     label_heros.Text += f.info + "\n";
             }
-
+            */
         
         }
 
