@@ -61,6 +61,7 @@ namespace lab4
             }
 
             // t
+            n += 1;
             str = lines[n].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             int term_cnt = Int32.Parse(str[0]);
             n += 1;
@@ -87,8 +88,8 @@ namespace lab4
                 {
                     string index = fact_str[j].Trim();
                     Fact fact = all_facts.Find(f => f.id.Equals(index));
-
-                    if (fact.id != "") // exists
+                    
+                    if (fact != null && fact.id != "") // exists
                         cond.Add(fact);
                 }
 
