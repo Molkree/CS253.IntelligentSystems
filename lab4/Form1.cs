@@ -53,7 +53,7 @@ namespace lab4
             // s
             str = lines[facts_cnt + 1].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             int support_cnt = Int32.Parse(str[0]);
-            int n = facts_cnt + support_cnt + 1;
+            int n = facts_cnt + support_cnt + 2;
             for (int i = facts_cnt + 2; i < n; ++i)
             {
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
@@ -61,7 +61,6 @@ namespace lab4
             }
 
             // t
-            n += 1;
             str = lines[n].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             int term_cnt = Int32.Parse(str[0]);
             n += 1;
@@ -140,7 +139,7 @@ namespace lab4
                 backward_reasoning();
         }
 
-        public void forward_reasoning()
+        public void forward_reasoning_all_rules()
         {
             foreach (Fact fact in given_facts)
             {
@@ -148,8 +147,8 @@ namespace lab4
                     known_facts[fact] += 1;
                 else known_facts.Add(fact, 1);
             }
-//                known_facts[fact] += 1;
-//                known_facts.Add(fact);
+            //                known_facts[fact] += 1;
+            //                known_facts.Add(fact);
 
             while (true)
             {
@@ -172,7 +171,7 @@ namespace lab4
                             known_facts.Add(r.result, 1);
                             list_info.Items.Add(r.info);
                         }
-//                        known_facts.Add(r.result);
+                        //                        known_facts.Add(r.result);
                     }
                 }
                 if (prev_cnt == known_facts.Count)
@@ -186,12 +185,12 @@ namespace lab4
                     terms[p.Key] = p.Value;
             }
 
- /*           for (int i = 0; i < given_facts.Count; ++i)
-            {
-                var p = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
-                label_heros.Text += p.Key.info + "\n";
-                terms.Remove(p.Key);
-            }*/
+            /*           for (int i = 0; i < given_facts.Count; ++i)
+                       {
+                           var p = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
+                           label_heros.Text += p.Key.info + "\n";
+                           terms.Remove(p.Key);
+                       }*/
             for (int i = 0; i < given_facts.Count; ++i)
             {
 
@@ -203,17 +202,85 @@ namespace lab4
                         terms.Remove(t.Key);
                         break;
                     }
-                    
+
 
             }
 
-/*            foreach (Fact f in known_facts)
+            /*            foreach (Fact f in known_facts)
+                        {
+                            if (f.id[0] == 't')
+                                label_heros.Text += f.info + "\n";
+                        }
+                        */
+
+        }
+
+        // для каждого факта - отдельно
+        public void forward_reasoning()
+        {
+            foreach (Fact fact in given_facts)
             {
-                if (f.id[0] == 't')
-                    label_heros.Text += f.info + "\n";
+                known_facts.Add(fact, 1);
+
+                // check rules
+                while (true)
+                {
+                    int prev_cnt = known_facts.Count;
+                    foreach (Rule r in rules)
+                    {
+                        bool cond = true;
+                        foreach (Fact f in r.condition)
+                            if (!known_facts.ContainsKey(f))
+                            {
+                                cond = false;
+                                break;
+                            }
+                        if (cond)
+                        {
+                            if (known_facts.ContainsKey(r.result))
+                                known_facts[r.result] += 1;
+                            else
+                            {
+                                known_facts.Add(r.result, 1);
+                                list_info.Items.Add(r.info);
+                            }
+                        }
+                    }
+                    if (prev_cnt == known_facts.Count)
+                        break;
+                }
+
+                Dictionary<Fact, int> terms = new Dictionary<Fact, int>();
+                foreach (var p in known_facts)
+                {
+                    if (p.Key.id[0] == 't')
+                        terms[p.Key] = p.Value;
+                }
+
+                /*           for (int i = 0; i < given_facts.Count; ++i)
+                           {
+                               var p = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
+                               label_heros.Text += p.Key.info + "\n";
+                               terms.Remove(p.Key);
+                           }*/
+
+                var term1 = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
+                label_heros.Text += term1.Key.info + "\n";
+                /*   var term = terms.Values.Max();
+                   foreach (var t in terms)
+                       if (t.Value == term)
+                       {
+                           label_heros.Text += t.Key.info + "\n";
+                           terms.Remove(t.Key);
+                           break;
+                       }
+                       */
+
+                known_facts.Clear();
+
             }
-            */
-        
+            
+            
         }
 
         public void backward_reasoning()
