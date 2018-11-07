@@ -95,7 +95,7 @@ namespace lab4
                 fact_str = str[2].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 Fact res = all_facts.Find(f => f.id.Equals(fact_str[0].Trim()));
 
-                if (res.id != "") // exists
+                if (res != null && res.id != "") // exists
                 {
                     rules.Add(new Rule(id, cond, res));
                 }
@@ -216,45 +216,51 @@ namespace lab4
         public void forward_reasoning()
         {
             List<Fact> result = new List<Fact>();
+            Dictionary<Fact, int> terms = new Dictionary<Fact, int>();
+            HashSet<Fact> known_facts_set = new HashSet<Fact>(cmp);
 
             foreach (Fact fact in given_facts)
             {
-                known_facts.Add(fact, 1);
+                known_facts_set.Add(fact);
 
                 // check rules
                 while (true)
                 {
-                    int prev_cnt = known_facts.Count;
+                    int prev_cnt = known_facts_set.Count;
                     foreach (Rule r in rules)
                     {
                         bool cond = true;
                         foreach (Fact f in r.condition)
-                            if (!known_facts.ContainsKey(f))
+                        //if (!known_facts.ContainsKey(f))
+                            if (!known_facts_set.Contains(f))
                             {
                                 cond = false;
                                 break;
                             }
                         if (cond)
                         {
-                            if (known_facts.ContainsKey(r.result))
-                                known_facts[r.result] += 1;
-                            else
+                            if (r.result.isTerminal())
                             {
-                                known_facts.Add(r.result, 1);
+                                if (terms.ContainsKey(r.result))
+                                    terms[r.result] += 1;
+                                else
+                                {
+                                    terms.Add(r.result, 1);
+                                    list_info.Items.Add(r.info);
+                                }
+                            }
+
+                            if (!known_facts_set.Contains(r.result))
+                            {                               
+                                known_facts_set.Add(r.result);
                                 list_info.Items.Add(r.info);
                             }
                         }
+                        
+                        
                     }
-                    if (prev_cnt == known_facts.Count)
+                    if (prev_cnt == known_facts_set.Count)
                         break;
-                }
-
-                // find terminal facts
-                Dictionary<Fact, int> terms = new Dictionary<Fact, int>();
-                foreach (var p in known_facts)
-                {
-                    if (p.Key.isTerminal())
-                        terms[p.Key] = p.Value;
                 }
 
                 // in order not to repeat heroes
