@@ -19,16 +19,7 @@ namespace lab4
         static FactComparer cmp = new FactComparer();
 
         Dictionary<Fact, int> known_facts = new Dictionary<Fact, int>(cmp);
-    //    HashSet<Fact> known_facts = new HashSet<Fact>(cmp);
-
-//        List<Fact> known_facts = new List<Fact>(); // proven facts
         List<Fact> support_area = new List<Fact>(); // non terminal
-            
-        //private List<Fact> possible_knoweledge = new List<Fact>(); //all facts that users can change
-        //private List<TerminalFact> terminals = new List<TerminalFact>(); // terminal facts
-        //private List<Rule> Rules = new List<Rule>();
-        //private HashSet<Fact> work_area = new HashSet<Fact>(); // proven facts
-        //private HashSet<Fact> support_area = new HashSet<Fact>();  // non terminal 
         public Form1()
         {
             InitializeComponent();
@@ -144,8 +135,6 @@ namespace lab4
                     known_facts[fact] += 1;
                 else known_facts.Add(fact, 1);
             }
-            //                known_facts[fact] += 1;
-            //                known_facts.Add(fact);
 
             while (true)
             {
@@ -168,7 +157,6 @@ namespace lab4
                             known_facts.Add(r.result, 1);
                             list_info.Items.Add(r.info);
                         }
-                        //                        known_facts.Add(r.result);
                     }
                 }
                 if (prev_cnt == known_facts.Count)
@@ -181,13 +169,6 @@ namespace lab4
                 if (p.Key.id[0] == 't')
                     terms[p.Key] = p.Value;
             }
-
-            /*           for (int i = 0; i < given_facts.Count; ++i)
-                       {
-                           var p = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
-                           label_heros.Text += p.Key.info + "\n";
-                           terms.Remove(p.Key);
-                       }*/
             for (int i = 0; i < given_facts.Count; ++i)
             {
 
@@ -202,14 +183,6 @@ namespace lab4
 
 
             }
-
-            /*            foreach (Fact f in known_facts)
-                        {
-                            if (f.id[0] == 't')
-                                label_heros.Text += f.info + "\n";
-                        }
-                        */
-
         }
 
         // для каждого факта - отдельно
@@ -231,7 +204,6 @@ namespace lab4
                     {
                         bool cond = true;
                         foreach (Fact f in r.condition)
-                        //if (!known_facts.ContainsKey(f))
                             if (!known_facts_set.Contains(f))
                             {
                                 cond = false;
@@ -256,8 +228,6 @@ namespace lab4
                                 list_info.Items.Add(r.info);
                             }
                         }
-                        
-                        
                     }
                     if (prev_cnt == known_facts_set.Count)
                         break;
@@ -302,16 +272,12 @@ namespace lab4
             Dictionary<Terminal, int> res = new Dictionary<Terminal, int>();
 
             HashSet<Fact> known_facts_set = new HashSet<Fact>(cmp);
-//            known_facts.Clear();
             foreach (Fact fact in given_facts)
             {
                 known_facts_set.Add(fact);
             }
 
             HashSet<Fact> targets = new HashSet<Fact>(cmp);
-
-            //            Node tree = new Node();
-
             // check all terminals
             int heroes_count = 0;
             foreach (Fact term in all_facts)
@@ -390,82 +356,20 @@ namespace lab4
                                 while (n.children.Count != 0)
                                 {
                                     n = n.children[0];
-                                    //if (n is AndNode)
-                                        //list_info.Items.Add((n as AndNode).r.info);
-                                    //else continue;
                                 }
                                 
-                                //
- //                               res.Add(root.f as Terminal, cnt);
                                 break;
                             }
                         }
                     if (heroes_count == list_villains.SelectedIndices.Count)
                         break;
-
-                    //     targets.Add(term);
-                    /*
-                                        foreach (Rule r in rules)
-                                        {
-                                            // check hypotheses
-                                            foreach (Fact h in targets)
-                                            {
-                                                if (h.Equals(r.result))
-                                                {
-                                                    bool cond = true;
-                                                    foreach (Fact c in r.condition)
-                                                        if (!known_facts_set.Contains(c))
-                                                        {
-                                                            cond = false;
-                                                            targets.Add(c);
-                                                        }
-                                                    if (cond)
-                                                    {
-                                                        targets.Remove(h);
-                                                        known_facts_set.Add(h);
-                                                    }
-                                                }
-
-                                            }
-
-                                        }*/
-
-                    //     targets.Clear();
-
                 }
             
             if (res.Count != 0)
             {
                 Terminal best = res.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
                 label_heroes.Text += best.info + "\n";
-                //  pictureBox1.ImageLocation = best.img;
             }
-
-
-            /*          
-                      foreach (Fact fact in terminals)
-                      {
-                          targets.Add(fact);
-                      }
-
-                      //foreach (Fact fact in terminals)
-                      //    known_facts.Add(fact);
-
-                      while (true)
-                      {
-                          foreach (Rule r in rules)
-                          {
-                              if (targets.Contains(r.result, cmp))
-                              {
-                                  foreach (Fact cond in r.condition)
-                                  {
-                                      if (!known_facts.Contains(cond, cmp))
-                                          targets.Add(cond);
-                                  }
-
-                              }
-                          }
-                      }*/
         }
 
         private void button_clear_Click(object sender, EventArgs e)
@@ -491,19 +395,11 @@ namespace lab4
         {
             this.id = id.Trim();
             this.info = info;
-        //    if (id[0] == 't')
-        //        isTerminal = true;
         }
         public bool isTerminal()
         {
             return id[0] == 't';
         }
-
-        /*    public bool Equals(Fact obj)
-            {
-                if (obj == null) return false;
-                return id.Equals(obj.id);
-            }*/
     }
 
     public class FactComparer : IEqualityComparer<Fact>
@@ -551,12 +447,6 @@ namespace lab4
 
             info = id + ": " + string.Join(", ", condition.Select(f => f.info)) + " => " + string.Join(", ", res.info);
         }
-
-   /*     public bool Equals(Rule obj)
-        {
-            if (obj == null) return false;
-            return id.Equals(obj.id);
-        }*/
     }
     public class RuleComparer : IEqualityComparer<Rule>
     {
