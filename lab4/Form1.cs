@@ -310,9 +310,10 @@ namespace lab4
 
             HashSet<Fact> targets = new HashSet<Fact>(cmp);
 
-//            Node tree = new Node();
+            //            Node tree = new Node();
 
             // check all terminals
+            int heroes_count = 0;
             foreach (Fact term in all_facts)
                if (term.isTerminal())
                 {
@@ -360,6 +361,7 @@ namespace lab4
                                     or_node.children.Add(and_dict[rule]);
                                     and_dict[rule].parents.Add(or_node);
                                     tree.Push(and_dict[rule]);
+                                    list_info.Items.Add(rule.info);
                                 }
                         }
                     }
@@ -379,15 +381,18 @@ namespace lab4
                                 resolve(p);
                             if (root.flag == true)
                             {
-                                label_heroes.Text += root.f.info + "\n";
+                                if (heroes_count++ <= list_villains.SelectedIndices.Count)
+                                    label_heroes.Text += root.f.info + "\n";
+                                else
+                                    break;
 
                                 Node n = root;
                                 while (n.children.Count != 0)
                                 {
                                     n = n.children[0];
-                                    if (n is AndNode)
-                                        list_info.Items.Add((n as AndNode).r.info);
-                                    else continue;
+                                    //if (n is AndNode)
+                                        //list_info.Items.Add((n as AndNode).r.info);
+                                    //else continue;
                                 }
                                 
                                 //
@@ -395,7 +400,8 @@ namespace lab4
                                 break;
                             }
                         }
-
+                    if (heroes_count == list_villains.SelectedIndices.Count)
+                        break;
 
                     //     targets.Add(term);
                     /*
@@ -425,7 +431,7 @@ namespace lab4
                                         }*/
 
                     //     targets.Clear();
-                    
+
                 }
             
             if (res.Count != 0)
