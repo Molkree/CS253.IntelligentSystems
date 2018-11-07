@@ -34,7 +34,6 @@ namespace lab4
             InitializeComponent();
             read_data("../../database.txt");
             init_listbox();
-            list_heroes.Enabled = false;
         }
 
         public void read_data(string filename)
@@ -111,10 +110,6 @@ namespace lab4
                     break;
                 list_villains.Items.Add(f.info);
             }
-            foreach (var f in terminals)
-            {
-                list_heroes.Items.Add(f.info);
-            }
         }
 
         private void button_exec_Click(object sender, EventArgs e)
@@ -123,7 +118,7 @@ namespace lab4
             known_facts.Clear();
             label_heroes.Text = "";
             list_info.Items.Clear();
-            //terminals.Clear();
+            terminals.Clear();
 
             foreach (int ind in list_villains.SelectedIndices)
             {
@@ -187,6 +182,12 @@ namespace lab4
                     terms[p.Key] = p.Value;
             }
 
+            /*           for (int i = 0; i < given_facts.Count; ++i)
+                       {
+                           var p = terms.Aggregate((x, y) => (x.Value > y.Value) ? x : y);
+                           label_heros.Text += p.Key.info + "\n";
+                           terms.Remove(p.Key);
+                       }*/
             for (int i = 0; i < given_facts.Count; ++i)
             {
 
@@ -201,6 +202,13 @@ namespace lab4
 
 
             }
+
+            /*            foreach (Fact f in known_facts)
+                        {
+                            if (f.id[0] == 't')
+                                label_heros.Text += f.info + "\n";
+                        }
+                        */
 
         }
 
@@ -289,262 +297,179 @@ namespace lab4
             }
         }
 
-        /*        public void backward_reasoning()
-                {
-                    Dictionary<Terminal, int> res = new Dictionary<Terminal, int>();
-
-                    HashSet<Fact> known_facts_set = new HashSet<Fact>(cmp);
-                    foreach (Fact fact in given_facts)
-                    {
-                        known_facts_set.Add(fact);
-                    }
-
-                    HashSet<Fact> targets = new HashSet<Fact>(cmp);
-
-                    // check all terminals
-                    foreach (Fact term in all_facts)
-                       if (term.isTerminal())
-                        {
-                            Dictionary<Rule, AndNode> and_dict = new Dictionary<Rule, AndNode>();
-                            Dictionary<Fact, OrNode> or_dict = new Dictionary<Fact, OrNode>();
-                            OrNode root = new OrNode(term);
-                            or_dict.Add(term, root);
-
-                            Stack<Node> tree = new Stack<Node>();
-                            tree.Push(root);
-                            while (tree.Count != 0)
-                            {
-                                Node current = tree.Pop();
-                                if (current is AndNode)
-                                {
-                                    AndNode and_node = current as AndNode;
-                                    foreach (Fact f in and_node.r.condition)
-                                    {
-                                        if (or_dict.ContainsKey(f))
-                                        {
-                                            current.children.Add(or_dict[f]);
-                                            or_dict[f].parents.Add(current);
-                                        }
-                                        else
-                                        {
-                                            or_dict.Add(f, new OrNode(f));
-                                            and_node.children.Add(or_dict[f]);
-                                            or_dict[f].parents.Add(and_node);
-                                            tree.Push(or_dict[f]);
-                                        }
-                                    }
-                                }
-                                else // current is OrNode
-                                {
-                                    OrNode or_node = current as OrNode;
-                                    foreach (Rule rule in rules.Where(r => r.result.Equals(or_node.f)))
-                                        if (and_dict.ContainsKey(rule))
-                                        {
-                                            current.children.Add(and_dict[rule]);
-                                            and_dict[rule].parents.Add(current);
-                                        }
-                                        else
-                                        {
-                                            and_dict.Add(rule, new AndNode(rule));
-                                            or_node.children.Add(and_dict[rule]);
-                                            and_dict[rule].parents.Add(or_node);
-                                            tree.Push(and_dict[rule]);
-                                        }
-                                }
-                            }
-
-                            int cnt = 0;
-                            foreach (var f in or_dict)
-                            {
-                                if (given_facts.Contains(f.Key))
-                                    ++cnt;
-                            }
-
-                            foreach (var val in or_dict)
-                                if (given_facts.Contains(val.Key))
-                                {
-                                    val.Value.flag = true;
-                                    foreach (Node p in val.Value.parents)
-                                        resolve(p);
-                                    if (root.flag == true)
-                                    {
-                                        label_heroes.Text += root.f.info + "\n";
-
-                                        Node n = root;
-                                        while (n.children.Count != 0)
-                                        {
-                                            n = n.children[0];
-                                            if (n is AndNode)
-                                                list_info.Items.Add((n as AndNode).r.info);
-                                            else continue;
-                                        }
-
-                                        break;
-                                    }
-                                }
-
-                        }
-
-                    if (res.Count != 0)
-                    {
-                        Terminal best = res.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-                        label_heroes.Text += best.info + "\n";
-                    }
-
-                }
-        */
-
-
-        /*     var sterm = list_heroes.Items[list_heroes.SelectedIndex] as string;
-             Fact term = terminals[0];
-                 foreach (var t in terminals)
-                 {
-                     if (t.info.Equals(sterm))
-                     {
-                         term = t; break;
-                     }
-     }*/
-
         public void backward_reasoning()
         {
-            Dictionary<Fact, int> res = new Dictionary<Fact, int>();
+            Dictionary<Terminal, int> res = new Dictionary<Terminal, int>();
 
             HashSet<Fact> known_facts_set = new HashSet<Fact>(cmp);
-            foreach (Fact fact in all_facts)
+//            known_facts.Clear();
+            foreach (Fact fact in given_facts)
             {
-                if (fact.id[0] == 'f')
-                    known_facts_set.Add(fact);
+                known_facts_set.Add(fact);
             }
 
             HashSet<Fact> targets = new HashSet<Fact>(cmp);
 
-            var sterm = list_heroes.Items[list_heroes.SelectedIndex] as string;
-            Fact term = terminals[0];
-            foreach (var t in terminals)
-            {
-                if (t.info.Equals(sterm))
-                {
-                    term = t; break;
-                }
-            }
-            
-            Dictionary<Rule, AndNode> and_dict = new Dictionary<Rule, AndNode>();
-            Dictionary<Fact, OrNode> or_dict = new Dictionary<Fact, OrNode>();
-            OrNode root = new OrNode(term);
-            or_dict.Add(term, root);
+//            Node tree = new Node();
 
-            Stack<Node> tree = new Stack<Node>();
-            tree.Push(root);
-            while (tree.Count != 0)
-            {
-                Node current = tree.Pop();
-                if (current is AndNode)
+            // check all terminals
+            foreach (Fact term in all_facts)
+               if (term.isTerminal())
                 {
-                    AndNode and_node = current as AndNode;
-                    foreach (Fact f in and_node.r.condition)
+                    Dictionary<Rule, AndNode> and_dict = new Dictionary<Rule, AndNode>();
+                    Dictionary<Fact, OrNode> or_dict = new Dictionary<Fact, OrNode>();
+                    OrNode root = new OrNode(term);
+                    or_dict.Add(term, root);
+
+                    Stack<Node> tree = new Stack<Node>();
+                    tree.Push(root);
+                    while (tree.Count != 0)
                     {
-                        if (or_dict.ContainsKey(f))
+                        Node current = tree.Pop();
+                        if (current is AndNode)
                         {
-                            current.children.Add(or_dict[f]);
-                            or_dict[f].parents.Add(current);
-                        }
-                        else
-                        {
-                            or_dict.Add(f, new OrNode(f));
-                            and_node.children.Add(or_dict[f]);
-                            or_dict[f].parents.Add(and_node);
-                            tree.Push(or_dict[f]);
-                        }
-                    }
-                }
-                else // current is OrNode
-                {
-                    OrNode or_node = current as OrNode;
-                    if (or_node.f.id[0].Equals('f'))
-                        label_heroes.Text += or_node.f.info + '\n';
-                    foreach (Rule rule in rules.Where(r => r.result.Equals(or_node.f)))
-                        if (and_dict.ContainsKey(rule))
-                        {
-                            current.children.Add(and_dict[rule]);
-                            and_dict[rule].parents.Add(current);
-                        }
-                        else
-                        {
-                            and_dict.Add(rule, new AndNode(rule));
-                            or_node.children.Add(and_dict[rule]);
-                            and_dict[rule].parents.Add(or_node);
-                            tree.Push(and_dict[rule]);
-                            list_info.Items.Add(rule.info);
-                        }
-                }
-            }
-
-                /*int cnt = 0;
-                foreach (var f in or_dict)
-                {
-                    if (given_facts.Contains(f.Key))
-                        ++cnt;
-                }
-
-                foreach (var val in or_dict)
-                    if (given_facts.Contains(val.Key))
-                    {
-                        val.Value.flag = true;
-                        foreach (Node p in val.Value.parents)
-                            resolve(p);
-                        if (root.flag == true)
-                        {
-                            label_heroes.Text += root.f.info + "\n";
-
-                            Node n = root;
-                            while (n.children.Count != 0)
+                            AndNode and_node = current as AndNode;
+                            foreach (Fact f in and_node.r.condition)
                             {
-                                n = n.children[0];
-                                if (n is AndNode)
-                                    list_info.Items.Add((n as AndNode).r.info);
-                                else continue;
+                                if (or_dict.ContainsKey(f))
+                                {
+                                    current.children.Add(or_dict[f]);
+                                    or_dict[f].parents.Add(current);
+                                }
+                                else
+                                {
+                                    or_dict.Add(f, new OrNode(f));
+                                    and_node.children.Add(or_dict[f]);
+                                    or_dict[f].parents.Add(and_node);
+                                    tree.Push(or_dict[f]);
+                                }
                             }
-
-                            break;
+                        }
+                        else // current is OrNode
+                        {
+                            OrNode or_node = current as OrNode;
+                            foreach (Rule rule in rules.Where(r => r.result.Equals(or_node.f)))
+                                if (and_dict.ContainsKey(rule))
+                                {
+                                    current.children.Add(and_dict[rule]);
+                                    and_dict[rule].parents.Add(current);
+                                }
+                                else
+                                {
+                                    and_dict.Add(rule, new AndNode(rule));
+                                    or_node.children.Add(and_dict[rule]);
+                                    and_dict[rule].parents.Add(or_node);
+                                    tree.Push(and_dict[rule]);
+                                }
                         }
                     }
-                    */
-            
 
-            /*if (res.Count != 0)
+                    int cnt = 0;
+                    foreach (var f in or_dict)
+                    {
+                        if (given_facts.Contains(f.Key))
+                            ++cnt;
+                    }
+
+                    foreach (var val in or_dict)
+                        if (given_facts.Contains(val.Key))
+                        {
+                            val.Value.flag = true;
+                            foreach (Node p in val.Value.parents)
+                                resolve(p);
+                            if (root.flag == true)
+                            {
+                                label_heroes.Text += root.f.info + "\n";
+
+                                Node n = root;
+                                while (n.children.Count != 0)
+                                {
+                                    n = n.children[0];
+                                    if (n is AndNode)
+                                        list_info.Items.Add((n as AndNode).r.info);
+                                    else continue;
+                                }
+                                
+                                //
+ //                               res.Add(root.f as Terminal, cnt);
+                                break;
+                            }
+                        }
+
+
+                    //     targets.Add(term);
+                    /*
+                                        foreach (Rule r in rules)
+                                        {
+                                            // check hypotheses
+                                            foreach (Fact h in targets)
+                                            {
+                                                if (h.Equals(r.result))
+                                                {
+                                                    bool cond = true;
+                                                    foreach (Fact c in r.condition)
+                                                        if (!known_facts_set.Contains(c))
+                                                        {
+                                                            cond = false;
+                                                            targets.Add(c);
+                                                        }
+                                                    if (cond)
+                                                    {
+                                                        targets.Remove(h);
+                                                        known_facts_set.Add(h);
+                                                    }
+                                                }
+
+                                            }
+
+                                        }*/
+
+                    //     targets.Clear();
+                    
+                }
+            
+            if (res.Count != 0)
             {
                 Terminal best = res.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
                 label_heroes.Text += best.info + "\n";
-            }*/
+                //  pictureBox1.ImageLocation = best.img;
+            }
 
+
+            /*          
+                      foreach (Fact fact in terminals)
+                      {
+                          targets.Add(fact);
+                      }
+
+                      //foreach (Fact fact in terminals)
+                      //    known_facts.Add(fact);
+
+                      while (true)
+                      {
+                          foreach (Rule r in rules)
+                          {
+                              if (targets.Contains(r.result, cmp))
+                              {
+                                  foreach (Fact cond in r.condition)
+                                  {
+                                      if (!known_facts.Contains(cond, cmp))
+                                          targets.Add(cond);
+                                  }
+
+                              }
+                          }
+                      }*/
         }
-
 
         private void button_clear_Click(object sender, EventArgs e)
         {
             given_facts.Clear();
             known_facts.Clear();
-            //    terminals.Clear();
+            terminals.Clear();
             list_villains.SelectedIndices.Clear();
             label_heroes.Text = "Никого...";
             list_info.Items.Clear();
-        }
-
-        private void check_forward_CheckedChanged(object sender, EventArgs e)
-        {
-            if (check_forward.Checked)
-            {
-                list_heroes.Enabled = false;
-                list_villains.Enabled = true;
-            }
-
-            else
-            {
-                list_villains.Enabled = false;
-                list_heroes.Enabled = true;
-                list_heroes.SelectedIndex = 0;
-            }
-
         }
     }
 
@@ -560,16 +485,19 @@ namespace lab4
         {
             this.id = id.Trim();
             this.info = info;
+        //    if (id[0] == 't')
+        //        isTerminal = true;
         }
         public bool isTerminal()
         {
             return id[0] == 't';
         }
-        public bool Equals(Fact obj)
-        {
-            if (obj == null) return false;
-            return id.Equals(obj.id);
-        }
+
+        /*    public bool Equals(Fact obj)
+            {
+                if (obj == null) return false;
+                return id.Equals(obj.id);
+            }*/
     }
 
     public class FactComparer : IEqualityComparer<Fact>
