@@ -42,40 +42,39 @@ namespace lab4
             
             // f
             var str = lines[0].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int facts_cnt = Int32.Parse(str[0]);
+            int facts_cnt = int.Parse(str[0]);
             for (int i = 1; i < facts_cnt + 1; ++i)
             {
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Fact f = new Fact(str[0].Trim(), str[1]);
-                all_facts.Add(f);
+                all_facts.Add(new Fact(str[0].Trim(), str[1].Trim()));
             }
 
             // s
             str = lines[facts_cnt + 1].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int support_cnt = Int32.Parse(str[0]);
+            int support_cnt = int.Parse(str[0]);
             int n = facts_cnt + support_cnt + 2;
             for (int i = facts_cnt + 2; i < n; ++i)
             {
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                all_facts.Add(new Fact(str[0].Trim(), str[1]));
+                all_facts.Add(new Fact(str[0].Trim(), str[1].Trim()));
             }
 
             // t
             str = lines[n].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int term_cnt = Int32.Parse(str[0]);
+            int term_cnt = int.Parse(str[0]);
             n += 1;
             for (int i = n; i < n + term_cnt; ++i)
             {
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                all_facts.Add(new Terminal(str[0].Trim(), str[1]));
-                terminals.Add(new Terminal(str[0].Trim(), str[1]));
+                all_facts.Add(new Terminal(str[0].Trim(), str[1].Trim()));
+                terminals.Add(new Terminal(str[0].Trim(), str[1].Trim()));
             }
 
             // r
             n += term_cnt;
             str = lines[n].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int rules_cnt = Int32.Parse(str[0]);
-            for (int i = n + 1; i < n + rules_cnt; ++i)
+            int rules_cnt = int.Parse(str[0]);
+            for (int i = n + 1; i < n + rules_cnt + 1; ++i)
             {
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 string id = str[0].Trim();
@@ -100,8 +99,6 @@ namespace lab4
                 {
                     rules.Add(new Rule(id, cond, res));
                 }
-
-
             }
         }
 
@@ -125,7 +122,7 @@ namespace lab4
 
             foreach (int ind in list_villains.SelectedIndices)
             {
-                Fact fact = all_facts.Find(f => f.info == (list_villains.Items[ind]).ToString());
+                Fact fact = all_facts.Find(f => f.info == list_villains.Items[ind].ToString());
                 if (fact != null && fact.id != "")
                 {
                     given_facts.Add(fact);
@@ -137,8 +134,6 @@ namespace lab4
                 forward_reasoning();
             else
                 backward_reasoning();
-                
-         
         }
 
         public void forward_reasoning_all_rules()
