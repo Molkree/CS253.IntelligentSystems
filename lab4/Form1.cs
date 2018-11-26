@@ -18,6 +18,8 @@ namespace lab4
         List<Rule> rules = new List<Rule>();
         static FactComparer cmp = new FactComparer();
 
+        double treshold = 0.4;
+
         Dictionary<Fact, int> known_facts = new Dictionary<Fact, int>(cmp);
         List<Fact> support_area = new List<Fact>(); // non terminal
         public Form1()
@@ -86,10 +88,16 @@ namespace lab4
                 fact_str = str[2].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 Fact res = all_facts.Find(f => f.id.Equals(fact_str[0].Trim()));
 
+                var strc = str[3].Trim();
+                double coef = double.Parse(strc.Replace('.', ','));
+
                 if (res != null && res.id != "") // exists
                 {
-                    rules.Add(new Rule(id, cond, res));
+                    rules.Add(new Rule(id, cond, res, coef));
                 }
+
+                
+
             }
         }
 
@@ -122,7 +130,12 @@ namespace lab4
             label_heroes.Text = "";
 
             if (check_forward.Checked)
-                forward_reasoning();
+            {
+                if (checkBox_coef.Checked)
+                    forward_reasoning_with_coef();
+                else
+                    forward_reasoning();
+            }
             else
                 backward_reasoning();
         }
@@ -223,7 +236,7 @@ namespace lab4
                             }
 
                             if (!known_facts_set.Contains(r.result))
-                            {                               
+                            {
                                 known_facts_set.Add(r.result);
                                 list_info.Items.Add(r.info);
                             }
@@ -249,6 +262,110 @@ namespace lab4
                 known_facts.Clear();
             }         
         }
+
+        // прямой вывод с учетом коэффициентов
+        public void forward_reasoning_with_coef()
+        {
+            List<Fact> result = new List<Fact>();
+            Dictionary<Fact, int> terms = new Dictionary<Fact, int>();
+            HashSet<Fact> known_facts_set = new HashSet<Fact>(cmp);
+            List<Terminal> terms_list = new List<Terminal>();
+
+            foreach (Fact fact in given_facts)
+            {
+                known_facts_set.Add(fact);
+
+                // check rules
+                while (true)
+                {
+                    int prev_cnt = known_facts_set.Count;
+                    foreach (Rule r in rules)
+                    {
+                        bool cond = true;
+                        foreach (Fact f in r.condition)
+                            if (!known_facts_set.Contains(f))
+                            {
+                                cond = false;
+                                break;
+                            }
+                        if (cond)
+                        {
+                            // count coef for result
+                            r.result.coef = r.coef * r.condition.Min(f => f.coef);
+
+
+                            if (r.result.coef > treshold)
+                            {
+                                // Terms list
+                                if (r.result.isTerminal())
+                                {
+                                    if (terms_list.Contains(r.result, new FactComparer()))
+                                    {
+
+                                        Terminal old_t = null;
+                                        old_t = terms_list.Find(t => t.Equals(r.result));
+
+                                        if (old_t != null)
+                                        {
+                                            old_t.coef = old_t.coef + r.result.coef - old_t.coef * r.result.coef;
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+                                        terms_list.Add(r.result as Terminal);
+                                        list_info.Items.Add(r.info);
+                                    }
+                                }
+                                
+
+                                // All known facts list
+                                if (!known_facts_set.Contains(r.result))
+                                {
+                                    known_facts_set.Add(r.result);
+                                    list_info.Items.Add(r.info);
+                                }
+                                else
+                                {
+                                    Fact old_f = null;
+                                    foreach (var ft in known_facts_set)
+                                        if (ft.Equals(r.result))
+                                            old_f = ft;
+
+                                    if (old_f != null)
+                                    {
+                                        old_f.coef = old_f.coef + r.result.coef - old_f.coef * r.result.coef;
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                    if (prev_cnt == known_facts_set.Count)
+                        break;
+                }
+
+                // in order not to repeat heroes
+                while (terms_list.Count > 0)
+                {
+                    var term1 = terms_list.Aggregate((x, y) => (x.coef > y.coef) ? x : y);
+                    if (!result.Contains(term1, cmp))
+                    {
+                        label_heroes.Text += term1.info + "\n";
+                        result.Add(term1);
+                        break;
+                    }
+                    else
+                        terms_list.Remove(term1);
+                }
+
+             
+             }
+             known_facts_set.Clear();
+         }
+     
+
 
         private void resolve(Node n)
         {
@@ -387,14 +504,16 @@ namespace lab4
     {
         public string id = "";
         public string info = "";
-        
+        public double coef = 1;
+
 
         public Fact() { }
 
-        public Fact(string id, string info)
+        public Fact(string id, string info, double coef = 1)
         {
             this.id = id.Trim();
             this.info = info;
+            this.coef = coef;
         }
         public bool isTerminal()
         {
@@ -420,10 +539,11 @@ namespace lab4
     {
         public Terminal() { }
 
-        public Terminal(string id, string info)
+        public Terminal(string id, string info, double coef = 1)
         {
             this.id = id.Trim();
             this.info = info;
+            this.coef = coef;
         }
     }
 
@@ -433,19 +553,21 @@ namespace lab4
         public List<Fact> condition;
         public Fact result;
         public string info = "";
+        public double coef = 1;
 
         public Rule()
         {
             condition = new List<Fact>();
             result = new Fact();          
         }
-        public Rule(string id, List<Fact> cond, Fact res)
+        public Rule(string id, List<Fact> cond, Fact res, double coef = 1)
         {
             this.id = id;
+            this.coef = coef;
             condition = new List<Fact>(cond);
             result = res;
 
-            info = id + ": " + string.Join(", ", condition.Select(f => f.info)) + " => " + string.Join(", ", res.info);
+            info = id + ": " + string.Join(", ", condition.Select(f => f.info)) + " => " + string.Join(", ", res.info) + " (coef = " + coef.ToString() + ")";
         }
     }
     public class RuleComparer : IEqualityComparer<Rule>
@@ -490,3 +612,4 @@ namespace lab4
         }
     }
 }
+

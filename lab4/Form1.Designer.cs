@@ -38,6 +38,7 @@
             this.check_backward = new System.Windows.Forms.RadioButton();
             this.list_info = new System.Windows.Forms.ListBox();
             this.button_clear = new System.Windows.Forms.Button();
+            this.checkBox_coef = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -138,11 +139,22 @@
             this.button_clear.UseVisualStyleBackColor = true;
             this.button_clear.Click += new System.EventHandler(this.button_clear_Click);
             // 
+            // checkBox_coef
+            // 
+            this.checkBox_coef.AutoSize = true;
+            this.checkBox_coef.Location = new System.Drawing.Point(166, 140);
+            this.checkBox_coef.Name = "checkBox_coef";
+            this.checkBox_coef.Size = new System.Drawing.Size(125, 17);
+            this.checkBox_coef.TabIndex = 12;
+            this.checkBox_coef.Text = "С коэффициентами";
+            this.checkBox_coef.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 459);
+            this.Controls.Add(this.checkBox_coef);
             this.Controls.Add(this.button_clear);
             this.Controls.Add(this.list_info);
             this.Controls.Add(this.check_backward);
@@ -172,6 +184,7 @@
         private System.Windows.Forms.RadioButton check_backward;
         private System.Windows.Forms.ListBox list_info;
         private System.Windows.Forms.Button button_clear;
+        private System.Windows.Forms.CheckBox checkBox_coef;
     }
 }
 
