@@ -18,7 +18,7 @@ namespace lab4
         List<Rule> rules = new List<Rule>();
         static FactComparer cmp = new FactComparer();
 
-        double treshold = 0.4;
+        double treshold = 0.1;
 
         Dictionary<Fact, int> known_facts = new Dictionary<Fact, int>(cmp);
         List<Fact> support_area = new List<Fact>(); // non terminal
@@ -231,14 +231,14 @@ namespace lab4
                                 else
                                 {
                                     terms.Add(r.result, 1);
-                                    list_info.Items.Add(r.to_string());
+                                    list_info.Items.Add(r.info);
                                 }
                             }
 
                             if (!known_facts_set.Contains(r.result))
                             {
                                 known_facts_set.Add(r.result);
-                                list_info.Items.Add(r.to_string());
+                                list_info.Items.Add(r.info);
                             }
                         }
                     }
@@ -291,11 +291,12 @@ namespace lab4
                         if (cond)
                         {
                             // count coef for result
-                            r.result.coef = r.coef * r.condition.Min(f => f.coef);
+                            var newcoef = r.coef * r.condition.Min(f => f.coef);
 
 
-                            if (r.result.coef > treshold)
+                            if (newcoef > treshold)
                             {
+                                r.result.coef = newcoef;
                                 // Terms list
                                 if (r.result.isTerminal())
                                 {
@@ -307,7 +308,8 @@ namespace lab4
 
                                         if (old_t != null)
                                         {
-                                            old_t.coef = old_t.coef + r.result.coef - old_t.coef * r.result.coef;
+                                            old_t.coef = Math.Max(old_t.coef, r.result.coef);
+//                                            old_t.coef = old_t.coef + r.result.coef - old_t.coef * r.result.coef;
                                         }
 
 
@@ -335,7 +337,9 @@ namespace lab4
 
                                     if (old_f != null)
                                     {
-                                        old_f.coef = old_f.coef + r.result.coef - old_f.coef * r.result.coef;
+                                        old_f.coef = Math.Max(old_f.coef, r.result.coef); // / 2;
+
+                                        //                                        old_f.coef = old_f.coef + r.result.coef - old_f.coef * r.result.coef;
                                     }
                                     
                                 }
@@ -352,7 +356,7 @@ namespace lab4
                     var term1 = terms_list.Aggregate((x, y) => (x.coef > y.coef) ? x : y);
                     if (!result.Contains(term1, cmp))
                     {
-                        label_heroes.Text += term1.info + "\n";
+                        label_heroes.Text += term1.info + "( " + term1.coef + ")" + "\n";
                         result.Add(term1);
                         break;
                     }
@@ -566,8 +570,7 @@ namespace lab4
             this.coef = coef;
             condition = new List<Fact>(cond);
             result = res;
-
-            info = id + ": " + string.Join(", ", condition.Select(f => f.info + " (" + f.coef.ToString() + ")")) + " => " + string.Join(", ", res.info + " (" + res.coef.ToString() + ")") + " (coef = " + coef.ToString() + ")";
+            info = id + ": " + string.Join(", ", condition.Select(f => f.info)) + " => " + string.Join(", ", result.info);
         }
 
         public string to_string()
