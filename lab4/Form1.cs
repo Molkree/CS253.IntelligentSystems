@@ -356,9 +356,9 @@ namespace lab4
                     var term1 = terms_list.Aggregate((x, y) => (x.coef > y.coef) ? x : y);
                     if (!result.Contains(term1, cmp))
                     {
-                        label_heroes.Text += term1.info + "( " + term1.coef + ")" + "\n";
+                        label_heroes.Text += term1.info + " (" + term1.coef + ")" + "\n";
                         result.Add(term1);
-                        break;
+                        //break;
                     }
                     else
                         terms_list.Remove(term1);
