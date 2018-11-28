@@ -168,7 +168,7 @@ namespace lab4
                         else
                         {
                             known_facts.Add(r.result, 1);
-                            list_info.Items.Add(r.info);
+                            list_info.Items.Add(r.to_string());
                         }
                     }
                 }
@@ -231,14 +231,14 @@ namespace lab4
                                 else
                                 {
                                     terms.Add(r.result, 1);
-                                    list_info.Items.Add(r.info);
+                                    list_info.Items.Add(r.to_string());
                                 }
                             }
 
                             if (!known_facts_set.Contains(r.result))
                             {
                                 known_facts_set.Add(r.result);
-                                list_info.Items.Add(r.info);
+                                list_info.Items.Add(r.to_string());
                             }
                         }
                     }
@@ -315,7 +315,7 @@ namespace lab4
                                     else
                                     {
                                         terms_list.Add(r.result as Terminal);
-                                        list_info.Items.Add(r.info);
+                                        list_info.Items.Add(r.to_string());
                                     }
                                 }
                                 
@@ -324,7 +324,7 @@ namespace lab4
                                 if (!known_facts_set.Contains(r.result))
                                 {
                                     known_facts_set.Add(r.result);
-                                    list_info.Items.Add(r.info);
+                                    list_info.Items.Add(r.to_string());
                                 }
                                 else
                                 {
@@ -444,7 +444,7 @@ namespace lab4
                                     or_node.children.Add(and_dict[rule]);
                                     and_dict[rule].parents.Add(or_node);
                                     tree.Push(and_dict[rule]);
-                                    list_info.Items.Add(rule.info);
+                                    list_info.Items.Add(rule.to_string());
                                 }
                         }
                     }
@@ -567,7 +567,13 @@ namespace lab4
             condition = new List<Fact>(cond);
             result = res;
 
-            info = id + ": " + string.Join(", ", condition.Select(f => f.info)) + " => " + string.Join(", ", res.info) + " (coef = " + coef.ToString() + ")";
+            info = id + ": " + string.Join(", ", condition.Select(f => f.info + " (" + f.coef.ToString() + ")")) + " => " + string.Join(", ", res.info + " (" + res.coef.ToString() + ")") + " (coef = " + coef.ToString() + ")";
+        }
+
+        public string to_string()
+        {
+            return (id + ": " + string.Join(", ", condition.Select(f => f.info + " (" + f.coef.ToString() + ")")) + " => " + string.Join(", ", result.info + " (" + result.coef.ToString() + ")") + " (coef = " + coef.ToString() + ")");
+
         }
     }
     public class RuleComparer : IEqualityComparer<Rule>
