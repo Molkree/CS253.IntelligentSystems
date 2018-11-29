@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lab_2_3", "..\lab_2_3\lab_2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab4", "..\lab4\lab4.csproj", "{8C858A57-858C-46D2-93C4-A0531BDF6CF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clips", "..\..\..\..\Desktop\CLIPS\CLIPSFormsExample\Clips.csproj", "{243F17BC-AE10-4F70-AF17-6FCDDFC39F00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clips", "..\clips\Clips.csproj", "{243F17BC-AE10-4F70-AF17-6FCDDFC39F00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
