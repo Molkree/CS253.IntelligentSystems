@@ -16,7 +16,7 @@ namespace ClipsFormsExample
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ClipsFormsExample());
+            Application.Run(new ClipsMatchmaking());
         }
     }
 }

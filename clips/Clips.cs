@@ -6,11 +6,12 @@ using CLIPSNET;
 
 namespace ClipsFormsExample
 {
-    public partial class ClipsFormsExample : Form
+    public partial class ClipsMatchmaking : Form
     {
+        private CLIPSNET.Environment all_villains = new CLIPSNET.Environment();
         private CLIPSNET.Environment clips = new CLIPSNET.Environment();
 
-        public ClipsFormsExample()
+        public ClipsMatchmaking()
         {
             InitializeComponent();
         }
@@ -18,13 +19,12 @@ namespace ClipsFormsExample
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            LoadAllVillains();
         }
 
         private void HandleResponse()
         {
             //  Вытаскиаваем факт из ЭС
-            //string evalStr = "(find-fact ((?f ioproxy)) TRUE)";
-            //FactAddressValue fv = (FactAddressValue)((MultifieldValue)clips.Eval(evalStr))[0];
             FactAddressValue fv = clips.FindFact("ioproxy");
 
             MultifieldValue damf = (MultifieldValue)fv["messages"];
@@ -58,10 +58,28 @@ namespace ClipsFormsExample
             HandleResponse();
         }
 
+        private void resetBtn_Click(object sender, EventArgs e)
+        {
+            //clips.Clear();
+
+            ///*string stroka = codeBox.Text;
+            //System.IO.File.WriteAllText("tmp.clp", codeBox.Text);
+            //clips.Load("tmp.clp");*/
+
+            ////  Так тоже можно - без промежуточного вывода в файл
+            ////clips.LoadFromString(codeBox.Text);
+            //clips.LoadFromString(System.IO.File.ReadAllText("../../../rules.clp"));
+
+            //clips.Reset();
+
+            ////init_listbox();
+            //textBox1.Text = "Выполнены команды Clear и Reset." + System.Environment.NewLine;
+        }
+
         public void init_listbox()
         {
-            clips.Run();
-            var villains = clips.FindAllFacts("villain");
+            all_villains.Run();
+            var villains = all_villains.FindAllFacts("villain");
             foreach (var v in villains)
             {
                 byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)v["name"]).Value);
@@ -69,42 +87,17 @@ namespace ClipsFormsExample
             }
         }
 
-        private void resetBtn_Click(object sender, EventArgs e)
-        {
-            textBox1.Text = "Выполнены команды Clear и Reset." + System.Environment.NewLine;
-            //  Здесь сохранение в файл, и потом инициализация через него
-            clips.Clear();
-
-            /*string stroka = codeBox.Text;
-            System.IO.File.WriteAllText("tmp.clp", codeBox.Text);
-            clips.Load("tmp.clp");*/
-
-            //  Так тоже можно - без промежуточного вывода в файл
-            clips.LoadFromString(codeBox.Text);
-
-            clips.Reset();
-
-            init_listbox();
-        }
-
         private void LoadAllVillains()
         {
-            clips.Clear();
-            clips.LoadFromString(System.IO.File.ReadAllText("../../../heroes.clp"));
-            clips.Reset();
+            all_villains.Clear();
+            all_villains.LoadFromString(System.IO.File.ReadAllText("../../../villains.clp"));
+            all_villains.Reset();
             init_listbox();
-            codeBox.Text = System.IO.File.ReadAllText("../../../heroes.clp");
-            //Text = "Экспертная система \"Тиндер\" – " + clipsOpenFileDialog.FileName;
+            codeBox.Text = System.IO.File.ReadAllText("../../../villains.clp");
         }
 
         private void openFile_Click(object sender, EventArgs e)
         {
-            LoadAllVillains();
-            //if (clipsOpenFileDialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    codeBox.Text = System.IO.File.ReadAllText(clipsOpenFileDialog.FileName);
-            //    Text = "Экспертная система \"Тиндер\" – " + clipsOpenFileDialog.FileName;
-            //}
         }
 
         private void fontSelect_Click(object sender, EventArgs e)
@@ -123,6 +116,26 @@ namespace ClipsFormsExample
             {
                 System.IO.File.WriteAllText(clipsSaveFileDialog.FileName, codeBox.Text);
             }
+        }
+
+        private void button_exec_Click(object sender, EventArgs e)
+        {
+            clips.Clear();
+            clips.LoadFromString(System.IO.File.ReadAllText("../../../templates.clp"));
+
+            string villains = "(deffacts villains";
+            foreach (int ind in list_villains.SelectedIndices)
+            {
+                villains += " (villain (name \"" + list_villains.Items[ind].ToString() + "\"))";
+            }
+            villains += ")";
+            System.IO.File.WriteAllText("tmp.clp", villains);
+            clips.LoadFromString(System.IO.File.ReadAllText("tmp.clp"));
+
+            clips.LoadFromString(System.IO.File.ReadAllText("../../../rules.clp"));
+
+            clips.Reset();
+            textBox1.Text = "Выполнены команды Clear и Reset." + System.Environment.NewLine;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ClipsFormsExample
 {
-    partial class ClipsFormsExample
+    partial class ClipsMatchmaking
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClipsFormsExample));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClipsMatchmaking));
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.list_villains = new System.Windows.Forms.ListBox();
             this.codeBox = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -42,7 +43,7 @@
             this.clipsOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.clipsSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.list_villains = new System.Windows.Forms.ListBox();
+            this.button_exec = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -58,40 +59,47 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.splitContainer1);
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1315, 746);
+            this.panel1.Size = new System.Drawing.Size(986, 606);
             this.panel1.TabIndex = 2;
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button_exec);
             this.splitContainer1.Panel1.Controls.Add(this.list_villains);
             this.splitContainer1.Panel1.Controls.Add(this.codeBox);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1315, 746);
-            this.splitContainer1.SplitterDistance = 617;
-            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.Size = new System.Drawing.Size(986, 606);
+            this.splitContainer1.SplitterDistance = 462;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // list_villains
+            // 
+            this.list_villains.FormattingEnabled = true;
+            this.list_villains.Location = new System.Drawing.Point(12, 10);
+            this.list_villains.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.list_villains.Name = "list_villains";
+            this.list_villains.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.list_villains.Size = new System.Drawing.Size(198, 303);
+            this.list_villains.TabIndex = 10;
             // 
             // codeBox
             // 
             this.codeBox.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.codeBox.Location = new System.Drawing.Point(0, 433);
-            this.codeBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.codeBox.Location = new System.Drawing.Point(0, 352);
             this.codeBox.Multiline = true;
             this.codeBox.Name = "codeBox";
             this.codeBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.codeBox.Size = new System.Drawing.Size(398, 568);
+            this.codeBox.Size = new System.Drawing.Size(300, 462);
             this.codeBox.TabIndex = 2;
             // 
             // textBox1
@@ -99,11 +107,10 @@
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(693, 746);
+            this.textBox1.Size = new System.Drawing.Size(520, 606);
             this.textBox1.TabIndex = 1;
             // 
             // panel2
@@ -114,18 +121,16 @@
             this.panel2.Controls.Add(this.saveAsButton);
             this.panel2.Controls.Add(this.openButton);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 746);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Location = new System.Drawing.Point(0, 606);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1317, 66);
+            this.panel2.Size = new System.Drawing.Size(988, 54);
             this.panel2.TabIndex = 6;
             // 
             // fontButton
             // 
-            this.fontButton.Location = new System.Drawing.Point(352, 15);
-            this.fontButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fontButton.Location = new System.Drawing.Point(264, 12);
             this.fontButton.Name = "fontButton";
-            this.fontButton.Size = new System.Drawing.Size(160, 37);
+            this.fontButton.Size = new System.Drawing.Size(120, 30);
             this.fontButton.TabIndex = 9;
             this.fontButton.Text = "Шрифт...";
             this.fontButton.UseVisualStyleBackColor = true;
@@ -134,10 +139,9 @@
             // nextButton
             // 
             this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.nextButton.Location = new System.Drawing.Point(1140, 15);
-            this.nextButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nextButton.Location = new System.Drawing.Point(855, 12);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(160, 37);
+            this.nextButton.Size = new System.Drawing.Size(120, 30);
             this.nextButton.TabIndex = 8;
             this.nextButton.Text = "Дальше";
             this.nextButton.UseVisualStyleBackColor = true;
@@ -146,10 +150,9 @@
             // resetButton
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetButton.Location = new System.Drawing.Point(972, 15);
-            this.resetButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.resetButton.Location = new System.Drawing.Point(729, 12);
             this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(160, 37);
+            this.resetButton.Size = new System.Drawing.Size(120, 30);
             this.resetButton.TabIndex = 7;
             this.resetButton.Text = "Рестарт";
             this.resetButton.UseVisualStyleBackColor = true;
@@ -157,10 +160,9 @@
             // 
             // saveAsButton
             // 
-            this.saveAsButton.Location = new System.Drawing.Point(184, 15);
-            this.saveAsButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveAsButton.Location = new System.Drawing.Point(138, 12);
             this.saveAsButton.Name = "saveAsButton";
-            this.saveAsButton.Size = new System.Drawing.Size(160, 37);
+            this.saveAsButton.Size = new System.Drawing.Size(120, 30);
             this.saveAsButton.TabIndex = 6;
             this.saveAsButton.Text = "Сохранить как...";
             this.saveAsButton.UseVisualStyleBackColor = true;
@@ -168,10 +170,9 @@
             // 
             // openButton
             // 
-            this.openButton.Location = new System.Drawing.Point(16, 15);
-            this.openButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.openButton.Location = new System.Drawing.Point(12, 12);
             this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(160, 37);
+            this.openButton.Size = new System.Drawing.Size(120, 30);
             this.openButton.TabIndex = 5;
             this.openButton.Text = "Открыть";
             this.openButton.UseVisualStyleBackColor = true;
@@ -187,27 +188,27 @@
             this.clipsSaveFileDialog.Filter = "CLIPS files|*.clp|All files|*.*";
             this.clipsSaveFileDialog.Title = "Созранить файл как...";
             // 
-            // list_villains
+            // button_exec
             // 
-            this.list_villains.FormattingEnabled = true;
-            this.list_villains.ItemHeight = 16;
-            this.list_villains.Location = new System.Drawing.Point(16, 12);
-            this.list_villains.Name = "list_villains";
-            this.list_villains.Size = new System.Drawing.Size(262, 372);
-            this.list_villains.TabIndex = 10;
+            this.button_exec.Location = new System.Drawing.Point(12, 318);
+            this.button_exec.Name = "button_exec";
+            this.button_exec.Size = new System.Drawing.Size(120, 23);
+            this.button_exec.TabIndex = 11;
+            this.button_exec.Text = "Собрать команду";
+            this.button_exec.UseVisualStyleBackColor = true;
+            this.button_exec.Click += new System.EventHandler(this.button_exec_Click);
             // 
-            // ClipsFormsExample
+            // ClipsMatchmaking
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 812);
+            this.ClientSize = new System.Drawing.Size(988, 660);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MinimumSize = new System.Drawing.Size(874, 358);
-            this.Name = "ClipsFormsExample";
-            this.Text = "Экспертная система \"Тиндер\"";
+            this.MinimumSize = new System.Drawing.Size(660, 298);
+            this.Name = "ClipsMatchmaking";
+            this.Text = "Экспертная система";
             this.panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -235,6 +236,7 @@
     private System.Windows.Forms.FontDialog fontDialog1;
     private System.Windows.Forms.SaveFileDialog clipsSaveFileDialog;
         private System.Windows.Forms.ListBox list_villains;
+        private System.Windows.Forms.Button button_exec;
     }
 }
 
