@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClipsMatchmaking));
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button_exec = new System.Windows.Forms.Button();
             this.list_villains = new System.Windows.Forms.ListBox();
             this.codeBox = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -39,11 +40,9 @@
             this.nextButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.saveAsButton = new System.Windows.Forms.Button();
-            this.openButton = new System.Windows.Forms.Button();
-            this.clipsOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.generateButton = new System.Windows.Forms.Button();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.clipsSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.button_exec = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -82,11 +81,21 @@
             this.splitContainer1.SplitterDistance = 462;
             this.splitContainer1.TabIndex = 2;
             // 
+            // button_exec
+            // 
+            this.button_exec.Location = new System.Drawing.Point(12, 318);
+            this.button_exec.Name = "button_exec";
+            this.button_exec.Size = new System.Drawing.Size(120, 23);
+            this.button_exec.TabIndex = 11;
+            this.button_exec.Text = "Собрать команду";
+            this.button_exec.UseVisualStyleBackColor = true;
+            this.button_exec.Click += new System.EventHandler(this.button_exec_Click);
+            // 
             // list_villains
             // 
             this.list_villains.FormattingEnabled = true;
             this.list_villains.Location = new System.Drawing.Point(12, 10);
-            this.list_villains.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.list_villains.Margin = new System.Windows.Forms.Padding(2);
             this.list_villains.Name = "list_villains";
             this.list_villains.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.list_villains.Size = new System.Drawing.Size(198, 303);
@@ -119,7 +128,7 @@
             this.panel2.Controls.Add(this.nextButton);
             this.panel2.Controls.Add(this.resetButton);
             this.panel2.Controls.Add(this.saveAsButton);
-            this.panel2.Controls.Add(this.openButton);
+            this.panel2.Controls.Add(this.generateButton);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 606);
             this.panel2.Name = "panel2";
@@ -168,35 +177,20 @@
             this.saveAsButton.UseVisualStyleBackColor = true;
             this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
             // 
-            // openButton
+            // generateButton
             // 
-            this.openButton.Location = new System.Drawing.Point(12, 12);
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(120, 30);
-            this.openButton.TabIndex = 5;
-            this.openButton.Text = "Открыть";
-            this.openButton.UseVisualStyleBackColor = true;
-            this.openButton.Click += new System.EventHandler(this.openFile_Click);
-            // 
-            // clipsOpenFileDialog
-            // 
-            this.clipsOpenFileDialog.Filter = "CLIPS files|*.clp|All files|*.*";
-            this.clipsOpenFileDialog.Title = "Открыть файл кода CLIPS";
+            this.generateButton.Location = new System.Drawing.Point(12, 12);
+            this.generateButton.Name = "generateButton";
+            this.generateButton.Size = new System.Drawing.Size(120, 30);
+            this.generateButton.TabIndex = 5;
+            this.generateButton.Text = "Сгенерировать";
+            this.generateButton.UseVisualStyleBackColor = true;
+            this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
             // 
             // clipsSaveFileDialog
             // 
             this.clipsSaveFileDialog.Filter = "CLIPS files|*.clp|All files|*.*";
             this.clipsSaveFileDialog.Title = "Созранить файл как...";
-            // 
-            // button_exec
-            // 
-            this.button_exec.Location = new System.Drawing.Point(12, 318);
-            this.button_exec.Name = "button_exec";
-            this.button_exec.Size = new System.Drawing.Size(120, 23);
-            this.button_exec.TabIndex = 11;
-            this.button_exec.Text = "Собрать команду";
-            this.button_exec.UseVisualStyleBackColor = true;
-            this.button_exec.Click += new System.EventHandler(this.button_exec_Click);
             // 
             // ClipsMatchmaking
             // 
@@ -230,8 +224,7 @@
     private System.Windows.Forms.Button nextButton;
     private System.Windows.Forms.Button resetButton;
     private System.Windows.Forms.Button saveAsButton;
-    private System.Windows.Forms.Button openButton;
-    private System.Windows.Forms.OpenFileDialog clipsOpenFileDialog;
+    private System.Windows.Forms.Button generateButton;
     private System.Windows.Forms.Button fontButton;
     private System.Windows.Forms.FontDialog fontDialog1;
     private System.Windows.Forms.SaveFileDialog clipsSaveFileDialog;

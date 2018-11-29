@@ -82,27 +82,3 @@
 	(retract ?update-key)
 	(printout t "Messages received : " ?msg-list crlf)
 )
-
-;======================================================================================
-(deftemplate hero 
-	(slot name) 
-)
-
-(deffacts heroes
-	(hero (name "Капитан Марвел"))
-	(hero (name Тор))
-	(hero (name "Железный человек"))
-	(hero (name "Профессор Х"))
-	(hero (name Росомаха))
-	(hero (name Человек-Паук))
-	(hero (name Халк))
-	(hero (name Ртуть))
-	(hero (name "Доктор Стрэндж"))
-	(hero (name "Алая Ведьма"))
-	(hero (name Сорвиголова))
-	(hero (name "Капитан Америка"))
-)
-
-(deftemplate villain
-	(slot name)
-)

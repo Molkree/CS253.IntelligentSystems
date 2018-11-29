@@ -110,9 +110,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="persons.clp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Include="rules.clp" />
     <None Include="villains.clp" />
     <None Include="Properties\Settings.settings">
