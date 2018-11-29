@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab4
@@ -89,15 +87,12 @@ namespace lab4
                 Fact res = all_facts.Find(f => f.id.Equals(fact_str[0].Trim()));
 
                 var strc = str[3].Trim();
-                double coef = double.Parse(strc.Replace('.', ','));
+                double coef = double.Parse(strc, new CultureInfo("us"));
 
                 if (res != null && res.id != "") // exists
                 {
                     rules.Add(new Rule(id, cond, res, coef));
                 }
-
-                
-
             }
         }
 
