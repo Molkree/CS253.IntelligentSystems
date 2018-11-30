@@ -76,7 +76,7 @@ namespace ClipsFormsExample
             {
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 string id = str[0].Trim();
-                clp += "defrule " + id + "\n";
+                clp += "(defrule " + id + "\n";
 
                 // condition
                 var fact_str = str[1].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
@@ -100,14 +100,14 @@ namespace ClipsFormsExample
                 {
                     var trait = db_clips.FindFact("?t", "trait", "(= (str-compare ?t:id " + id + ") 0)");
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)trait["name"]).Value);
-                    clp += "    (assert (trait (name " + Encoding.UTF8.GetString(bytes) + ") (id " + id + "))\n";
+                    clp += "    (assert (trait (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ")))\n";
                 }
                 // hero
                 else
                 {
                     var hero = db_clips.FindFact("?h", "hero", "(= (str-compare ?h:id " + id + ") 0)");
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)hero["name"]).Value);
-                    clp += "    (assert (hero (name " + Encoding.UTF8.GetString(bytes) + ") (id " + id + "))\n";
+                    clp += "    (assert (hero (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ")))\n";
                 }
 
                 // without coefficients for now
@@ -229,6 +229,7 @@ namespace ClipsFormsExample
             System.IO.File.WriteAllText("tmp.clp", villains);
             clips.LoadFromString(System.IO.File.ReadAllText("tmp.clp"));
 
+            clips.LoadFromString(System.IO.File.ReadAllText("../../../rules_tmp.clp"));
             clips.LoadFromString(System.IO.File.ReadAllText("../../../rules.clp"));
             
             clips.Reset();

@@ -82,3 +82,13 @@
 	(retract ?update-key)
 	(printout t "Messages received : " ?msg-list crlf)
 )
+
+(deftemplate hero
+    (slot id)
+    (slot name)
+)
+
+(deftemplate trait
+    (slot id)
+    (slot name)
+)
