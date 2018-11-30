@@ -3,7 +3,7 @@
     (slot name)
 )
 
-(deffacts traits
+(deffacts heroes
     (hero (id t1) (name "Капитан Марвел"))
     (hero (id t2) (name "Тор"))
     (hero (id t3) (name "Железный человек"))
