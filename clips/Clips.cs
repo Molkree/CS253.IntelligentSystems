@@ -108,7 +108,7 @@ namespace ClipsFormsExample
                     var hero = db_clips.FindFact("?h", "hero", "(= (str-compare ?h:id " + id + ") 0)");
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)hero["name"]).Value);
                     string first_occurence = string.Copy(rule);
-                    first_occurence = first_occurence.Insert(first_occurence.IndexOf('\n'), "f\n"); // modify rule id
+                    first_occurence = first_occurence.Insert(first_occurence.IndexOf('\n'), "f"); // modify rule id
                     first_occurence += "    (not (exists (hero (id " + id + "))))\n";
                     first_occurence += "    =>\n";
                     first_occurence += "    (assert (hero (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ") (count 0)))\n";
@@ -118,7 +118,7 @@ namespace ClipsFormsExample
                     rule += "    ?h <- (hero (id " + id + "))\n";
                     rule += "    (bind ?old_count ?h:count)\n";
                     rule += "    =>\n";
-                    rule += "    (assert (sendmessagehalt \"Ага!!!!!!!!\"))\n";
+                    //rule += "    (assert (sendmessagehalt \"Ага!!!!!!!!\"))\n";
                     rule += "    (modify ?h (count (+ ?old_count 1)))\n";
                 }
 

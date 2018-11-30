@@ -400,7 +400,6 @@
 )
 
 (defrule r67f
-
     (trait (id s1))
     (not (exists (hero (id t1))))
     =>
@@ -413,12 +412,10 @@
     ?h <- (hero (id t1))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r68f
-
     (trait (id s12))
     (not (exists (hero (id t1))))
     =>
@@ -431,12 +428,10 @@
     ?h <- (hero (id t1))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r69f
-
     (trait (id s14))
     (not (exists (hero (id t1))))
     =>
@@ -449,12 +444,10 @@
     ?h <- (hero (id t1))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r70f
-
     (trait (id s16))
     (not (exists (hero (id t1))))
     =>
@@ -467,12 +460,10 @@
     ?h <- (hero (id t1))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r71f
-
     (trait (id s12))
     (not (exists (hero (id t2))))
     =>
@@ -485,12 +476,10 @@
     ?h <- (hero (id t2))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r72f
-
     (trait (id s16))
     (not (exists (hero (id t2))))
     =>
@@ -503,12 +492,10 @@
     ?h <- (hero (id t2))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r73f
-
     (trait (id s24))
     (not (exists (hero (id t2))))
     =>
@@ -521,12 +508,10 @@
     ?h <- (hero (id t2))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r74f
-
     (trait (id s16))
     (not (exists (hero (id t3))))
     =>
@@ -539,12 +524,10 @@
     ?h <- (hero (id t3))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r75f
-
     (trait (id s30))
     (not (exists (hero (id t3))))
     =>
@@ -557,12 +540,10 @@
     ?h <- (hero (id t3))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r76f
-
     (trait (id s8))
     (not (exists (hero (id t4))))
     =>
@@ -575,12 +556,10 @@
     ?h <- (hero (id t4))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r77f
-
     (trait (id s12))
     (not (exists (hero (id t5))))
     =>
@@ -593,12 +572,10 @@
     ?h <- (hero (id t5))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r78f
-
     (trait (id s14))
     (not (exists (hero (id t5))))
     =>
@@ -611,12 +588,10 @@
     ?h <- (hero (id t5))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r79f
-
     (trait (id s28))
     (not (exists (hero (id t5))))
     =>
@@ -629,12 +604,10 @@
     ?h <- (hero (id t5))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r80f
-
     (trait (id s18))
     (not (exists (hero (id t6))))
     =>
@@ -647,12 +620,10 @@
     ?h <- (hero (id t6))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r81f
-
     (trait (id s28))
     (not (exists (hero (id t6))))
     =>
@@ -665,12 +636,10 @@
     ?h <- (hero (id t6))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r82f
-
     (trait (id s30))
     (not (exists (hero (id t6))))
     =>
@@ -683,12 +652,10 @@
     ?h <- (hero (id t6))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r83f
-
     (trait (id s10))
     (not (exists (hero (id t7))))
     =>
@@ -701,12 +668,10 @@
     ?h <- (hero (id t7))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r84f
-
     (trait (id s12))
     (not (exists (hero (id t7))))
     =>
@@ -719,12 +684,10 @@
     ?h <- (hero (id t7))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r85f
-
     (trait (id s14))
     (not (exists (hero (id t7))))
     =>
@@ -737,12 +700,10 @@
     ?h <- (hero (id t7))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r86f
-
     (trait (id s10))
     (not (exists (hero (id t8))))
     =>
@@ -755,12 +716,10 @@
     ?h <- (hero (id t8))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r87f
-
     (trait (id s18))
     (not (exists (hero (id t8))))
     =>
@@ -773,12 +732,10 @@
     ?h <- (hero (id t8))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r88f
-
     (trait (id s20))
     (not (exists (hero (id t8))))
     =>
@@ -791,12 +748,10 @@
     ?h <- (hero (id t8))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r89f
-
     (trait (id s8))
     (not (exists (hero (id t9))))
     =>
@@ -809,12 +764,10 @@
     ?h <- (hero (id t9))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r90f
-
     (trait (id s14))
     (not (exists (hero (id t9))))
     =>
@@ -827,12 +780,10 @@
     ?h <- (hero (id t9))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r91f
-
     (trait (id s16))
     (not (exists (hero (id t9))))
     =>
@@ -845,12 +796,10 @@
     ?h <- (hero (id t9))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r92f
-
     (trait (id s22))
     (not (exists (hero (id t9))))
     =>
@@ -863,12 +812,10 @@
     ?h <- (hero (id t9))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r93f
-
     (trait (id s24))
     (not (exists (hero (id t9))))
     =>
@@ -881,12 +828,10 @@
     ?h <- (hero (id t9))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r94f
-
     (trait (id s28))
     (not (exists (hero (id t9))))
     =>
@@ -899,12 +844,10 @@
     ?h <- (hero (id t9))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r95f
-
     (trait (id s8))
     (not (exists (hero (id t10))))
     =>
@@ -917,12 +860,10 @@
     ?h <- (hero (id t10))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r96f
-
     (trait (id s16))
     (not (exists (hero (id t10))))
     =>
@@ -935,12 +876,10 @@
     ?h <- (hero (id t10))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r97f
-
     (trait (id s22))
     (not (exists (hero (id t10))))
     =>
@@ -953,12 +892,10 @@
     ?h <- (hero (id t10))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r98f
-
     (trait (id s24))
     (not (exists (hero (id t10))))
     =>
@@ -971,12 +908,10 @@
     ?h <- (hero (id t10))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r99f
-
     (trait (id s18))
     (not (exists (hero (id t11))))
     =>
@@ -989,12 +924,10 @@
     ?h <- (hero (id t11))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r100f
-
     (trait (id s28))
     (not (exists (hero (id t11))))
     =>
@@ -1007,12 +940,10 @@
     ?h <- (hero (id t11))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r101f
-
     (trait (id s12))
     (not (exists (hero (id t12))))
     =>
@@ -1025,12 +956,10 @@
     ?h <- (hero (id t12))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r102f
-
     (trait (id s18))
     (not (exists (hero (id t12))))
     =>
@@ -1043,12 +972,10 @@
     ?h <- (hero (id t12))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r103f
-
     (trait (id s20))
     (not (exists (hero (id t12))))
     =>
@@ -1061,8 +988,7 @@
     ?h <- (hero (id t12))
     (bind ?old_count ?h:count)
     =>
-    (assert (sendmessagehalt "Ага!!!!!!!!"))
-    (modify ?h (count 3))
+    (modify ?h (count (+ ?old_count 1)))
 )
 
 (defrule r104
