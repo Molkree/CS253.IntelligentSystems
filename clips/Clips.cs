@@ -111,7 +111,7 @@ namespace ClipsFormsExample
                     first_occurence = first_occurence.Insert(first_occurence.IndexOf('\n'), "f"); // modify rule id
                     first_occurence += "    (not (exists (hero (id " + id + "))))\n";
                     first_occurence += "    =>\n";
-                    first_occurence += "    (assert (hero (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ") (count 0)))\n";
+                    first_occurence += "    (assert (hero (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\") (count 0)))\n";
                     first_occurence += ")\n\n";
                     clp += first_occurence;
                     rule += "    (exists (hero (id " + id + ")))\n";

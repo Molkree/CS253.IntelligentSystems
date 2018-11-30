@@ -403,7 +403,7 @@
     (trait (id s1))
     (not (exists (hero (id t1))))
     =>
-    (assert (hero (name "Капитан Марвел") (id t1) (count 0)))
+    (assert (hero (id t1) (name "Капитан Марвел") (count 0)))
 )
 
 (defrule r67
@@ -419,7 +419,7 @@
     (trait (id s12))
     (not (exists (hero (id t1))))
     =>
-    (assert (hero (name "Капитан Марвел") (id t1) (count 0)))
+    (assert (hero (id t1) (name "Капитан Марвел") (count 0)))
 )
 
 (defrule r68
@@ -435,7 +435,7 @@
     (trait (id s14))
     (not (exists (hero (id t1))))
     =>
-    (assert (hero (name "Капитан Марвел") (id t1) (count 0)))
+    (assert (hero (id t1) (name "Капитан Марвел") (count 0)))
 )
 
 (defrule r69
@@ -451,7 +451,7 @@
     (trait (id s16))
     (not (exists (hero (id t1))))
     =>
-    (assert (hero (name "Капитан Марвел") (id t1) (count 0)))
+    (assert (hero (id t1) (name "Капитан Марвел") (count 0)))
 )
 
 (defrule r70
@@ -467,7 +467,7 @@
     (trait (id s12))
     (not (exists (hero (id t2))))
     =>
-    (assert (hero (name "Тор") (id t2) (count 0)))
+    (assert (hero (id t2) (name "Тор") (count 0)))
 )
 
 (defrule r71
@@ -483,7 +483,7 @@
     (trait (id s16))
     (not (exists (hero (id t2))))
     =>
-    (assert (hero (name "Тор") (id t2) (count 0)))
+    (assert (hero (id t2) (name "Тор") (count 0)))
 )
 
 (defrule r72
@@ -499,7 +499,7 @@
     (trait (id s24))
     (not (exists (hero (id t2))))
     =>
-    (assert (hero (name "Тор") (id t2) (count 0)))
+    (assert (hero (id t2) (name "Тор") (count 0)))
 )
 
 (defrule r73
@@ -515,7 +515,7 @@
     (trait (id s16))
     (not (exists (hero (id t3))))
     =>
-    (assert (hero (name "Железный человек") (id t3) (count 0)))
+    (assert (hero (id t3) (name "Железный человек") (count 0)))
 )
 
 (defrule r74
@@ -531,7 +531,7 @@
     (trait (id s30))
     (not (exists (hero (id t3))))
     =>
-    (assert (hero (name "Железный человек") (id t3) (count 0)))
+    (assert (hero (id t3) (name "Железный человек") (count 0)))
 )
 
 (defrule r75
@@ -547,7 +547,7 @@
     (trait (id s8))
     (not (exists (hero (id t4))))
     =>
-    (assert (hero (name "Профессор Х") (id t4) (count 0)))
+    (assert (hero (id t4) (name "Профессор Х") (count 0)))
 )
 
 (defrule r76
@@ -563,7 +563,7 @@
     (trait (id s12))
     (not (exists (hero (id t5))))
     =>
-    (assert (hero (name "Росомаха") (id t5) (count 0)))
+    (assert (hero (id t5) (name "Росомаха") (count 0)))
 )
 
 (defrule r77
@@ -579,7 +579,7 @@
     (trait (id s14))
     (not (exists (hero (id t5))))
     =>
-    (assert (hero (name "Росомаха") (id t5) (count 0)))
+    (assert (hero (id t5) (name "Росомаха") (count 0)))
 )
 
 (defrule r78
@@ -595,7 +595,7 @@
     (trait (id s28))
     (not (exists (hero (id t5))))
     =>
-    (assert (hero (name "Росомаха") (id t5) (count 0)))
+    (assert (hero (id t5) (name "Росомаха") (count 0)))
 )
 
 (defrule r79
@@ -611,7 +611,7 @@
     (trait (id s18))
     (not (exists (hero (id t6))))
     =>
-    (assert (hero (name "Человек-Паук") (id t6) (count 0)))
+    (assert (hero (id t6) (name "Человек-Паук") (count 0)))
 )
 
 (defrule r80
@@ -627,7 +627,7 @@
     (trait (id s28))
     (not (exists (hero (id t6))))
     =>
-    (assert (hero (name "Человек-Паук") (id t6) (count 0)))
+    (assert (hero (id t6) (name "Человек-Паук") (count 0)))
 )
 
 (defrule r81
@@ -643,7 +643,7 @@
     (trait (id s30))
     (not (exists (hero (id t6))))
     =>
-    (assert (hero (name "Человек-Паук") (id t6) (count 0)))
+    (assert (hero (id t6) (name "Человек-Паук") (count 0)))
 )
 
 (defrule r82
@@ -659,7 +659,7 @@
     (trait (id s10))
     (not (exists (hero (id t7))))
     =>
-    (assert (hero (name "Халк") (id t7) (count 0)))
+    (assert (hero (id t7) (name "Халк") (count 0)))
 )
 
 (defrule r83
@@ -675,7 +675,7 @@
     (trait (id s12))
     (not (exists (hero (id t7))))
     =>
-    (assert (hero (name "Халк") (id t7) (count 0)))
+    (assert (hero (id t7) (name "Халк") (count 0)))
 )
 
 (defrule r84
@@ -691,7 +691,7 @@
     (trait (id s14))
     (not (exists (hero (id t7))))
     =>
-    (assert (hero (name "Халк") (id t7) (count 0)))
+    (assert (hero (id t7) (name "Халк") (count 0)))
 )
 
 (defrule r85
@@ -707,7 +707,7 @@
     (trait (id s10))
     (not (exists (hero (id t8))))
     =>
-    (assert (hero (name "Ртуть") (id t8) (count 0)))
+    (assert (hero (id t8) (name "Ртуть") (count 0)))
 )
 
 (defrule r86
@@ -723,7 +723,7 @@
     (trait (id s18))
     (not (exists (hero (id t8))))
     =>
-    (assert (hero (name "Ртуть") (id t8) (count 0)))
+    (assert (hero (id t8) (name "Ртуть") (count 0)))
 )
 
 (defrule r87
@@ -739,7 +739,7 @@
     (trait (id s20))
     (not (exists (hero (id t8))))
     =>
-    (assert (hero (name "Ртуть") (id t8) (count 0)))
+    (assert (hero (id t8) (name "Ртуть") (count 0)))
 )
 
 (defrule r88
@@ -755,7 +755,7 @@
     (trait (id s8))
     (not (exists (hero (id t9))))
     =>
-    (assert (hero (name "Доктор Стрэндж") (id t9) (count 0)))
+    (assert (hero (id t9) (name "Доктор Стрэндж") (count 0)))
 )
 
 (defrule r89
@@ -771,7 +771,7 @@
     (trait (id s14))
     (not (exists (hero (id t9))))
     =>
-    (assert (hero (name "Доктор Стрэндж") (id t9) (count 0)))
+    (assert (hero (id t9) (name "Доктор Стрэндж") (count 0)))
 )
 
 (defrule r90
@@ -787,7 +787,7 @@
     (trait (id s16))
     (not (exists (hero (id t9))))
     =>
-    (assert (hero (name "Доктор Стрэндж") (id t9) (count 0)))
+    (assert (hero (id t9) (name "Доктор Стрэндж") (count 0)))
 )
 
 (defrule r91
@@ -803,7 +803,7 @@
     (trait (id s22))
     (not (exists (hero (id t9))))
     =>
-    (assert (hero (name "Доктор Стрэндж") (id t9) (count 0)))
+    (assert (hero (id t9) (name "Доктор Стрэндж") (count 0)))
 )
 
 (defrule r92
@@ -819,7 +819,7 @@
     (trait (id s24))
     (not (exists (hero (id t9))))
     =>
-    (assert (hero (name "Доктор Стрэндж") (id t9) (count 0)))
+    (assert (hero (id t9) (name "Доктор Стрэндж") (count 0)))
 )
 
 (defrule r93
@@ -835,7 +835,7 @@
     (trait (id s28))
     (not (exists (hero (id t9))))
     =>
-    (assert (hero (name "Доктор Стрэндж") (id t9) (count 0)))
+    (assert (hero (id t9) (name "Доктор Стрэндж") (count 0)))
 )
 
 (defrule r94
@@ -851,7 +851,7 @@
     (trait (id s8))
     (not (exists (hero (id t10))))
     =>
-    (assert (hero (name "Алая Ведьма") (id t10) (count 0)))
+    (assert (hero (id t10) (name "Алая Ведьма") (count 0)))
 )
 
 (defrule r95
@@ -867,7 +867,7 @@
     (trait (id s16))
     (not (exists (hero (id t10))))
     =>
-    (assert (hero (name "Алая Ведьма") (id t10) (count 0)))
+    (assert (hero (id t10) (name "Алая Ведьма") (count 0)))
 )
 
 (defrule r96
@@ -883,7 +883,7 @@
     (trait (id s22))
     (not (exists (hero (id t10))))
     =>
-    (assert (hero (name "Алая Ведьма") (id t10) (count 0)))
+    (assert (hero (id t10) (name "Алая Ведьма") (count 0)))
 )
 
 (defrule r97
@@ -899,7 +899,7 @@
     (trait (id s24))
     (not (exists (hero (id t10))))
     =>
-    (assert (hero (name "Алая Ведьма") (id t10) (count 0)))
+    (assert (hero (id t10) (name "Алая Ведьма") (count 0)))
 )
 
 (defrule r98
@@ -915,7 +915,7 @@
     (trait (id s18))
     (not (exists (hero (id t11))))
     =>
-    (assert (hero (name "Сорвиголова") (id t11) (count 0)))
+    (assert (hero (id t11) (name "Сорвиголова") (count 0)))
 )
 
 (defrule r99
@@ -931,7 +931,7 @@
     (trait (id s28))
     (not (exists (hero (id t11))))
     =>
-    (assert (hero (name "Сорвиголова") (id t11) (count 0)))
+    (assert (hero (id t11) (name "Сорвиголова") (count 0)))
 )
 
 (defrule r100
@@ -947,7 +947,7 @@
     (trait (id s12))
     (not (exists (hero (id t12))))
     =>
-    (assert (hero (name "Капитан Америка") (id t12) (count 0)))
+    (assert (hero (id t12) (name "Капитан Америка") (count 0)))
 )
 
 (defrule r101
@@ -963,7 +963,7 @@
     (trait (id s18))
     (not (exists (hero (id t12))))
     =>
-    (assert (hero (name "Капитан Америка") (id t12) (count 0)))
+    (assert (hero (id t12) (name "Капитан Америка") (count 0)))
 )
 
 (defrule r102
@@ -979,7 +979,7 @@
     (trait (id s20))
     (not (exists (hero (id t12))))
     =>
-    (assert (hero (name "Капитан Америка") (id t12) (count 0)))
+    (assert (hero (id t12) (name "Капитан Америка") (count 0)))
 )
 
 (defrule r103
