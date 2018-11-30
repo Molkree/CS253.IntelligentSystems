@@ -86,6 +86,7 @@
 (deftemplate hero
     (slot id)
     (slot name)
+	(slot count)
 )
 
 (deftemplate trait

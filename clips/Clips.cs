@@ -21,7 +21,6 @@ namespace ClipsFormsExample
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            //GenerateCLIPSFiles();
             LoadDatabase();
         }
 
@@ -74,9 +73,10 @@ namespace ClipsFormsExample
             clp = "";
             for (int i = n + 1; i < n + rules_cnt + 1; ++i)
             {
+                string rule = "";
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 string id = str[0].Trim();
-                clp += "(defrule " + id + "\n";
+                rule += "(defrule " + id + "\n";
 
                 // condition
                 var fact_str = str[1].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
@@ -85,35 +85,48 @@ namespace ClipsFormsExample
                     string index = fact_str[j].Trim();
                     // villain
                     if (index[0] == 'f')
-                        clp += "    (villain (id " + index + "))\n";
+                        rule += "    (villain (id " + index + "))\n";
                     // trait
                     else
-                        clp += "    (trait (id " + index + "))\n";
+                        rule += "    (trait (id " + index + "))\n";
                 }
 
-                clp += "    =>\n";
                 // result
                 fact_str = str[2].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries); // why array? if we decide to give list of resulting facts
                 id = fact_str[0].Trim();
                 // trait
                 if (id[0] == 's')
                 {
+                    rule += "    =>\n";
                     var trait = db_clips.FindFact("?t", "trait", "(= (str-compare ?t:id " + id + ") 0)");
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)trait["name"]).Value);
-                    clp += "    (assert (trait (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ")))\n";
+                    rule += "    (assert (trait (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ")))\n";
                 }
                 // hero
                 else
                 {
                     var hero = db_clips.FindFact("?h", "hero", "(= (str-compare ?h:id " + id + ") 0)");
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)hero["name"]).Value);
-                    clp += "    (assert (hero (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ")))\n";
+                    string first_occurence = string.Copy(rule);
+                    first_occurence = first_occurence.Insert(first_occurence.IndexOf('\n'), "f\n"); // modify rule id
+                    first_occurence += "    (not (exists (hero (id " + id + "))))\n";
+                    first_occurence += "    =>\n";
+                    first_occurence += "    (assert (hero (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ") (count 0)))\n";
+                    first_occurence += ")\n\n";
+                    clp += first_occurence;
+                    rule += "    (exists (hero (id " + id + ")))\n";
+                    rule += "    ?h <- (hero (id " + id + "))\n";
+                    rule += "    (bind ?old_count ?h:count)\n";
+                    rule += "    =>\n";
+                    rule += "    (assert (sendmessagehalt \"Ага!!!!!!!!\"))\n";
+                    rule += "    (modify ?h (count (+ ?old_count 1)))\n";
                 }
 
                 // without coefficients for now
                 //var strc = str[3].Trim();
                 //double coef = double.Parse(strc, new CultureInfo("us"));
-                clp += ")\n\n";
+                rule += ")\n\n";
+                clp += rule;
             }
             System.IO.File.WriteAllText("../../../rules_tmp.clp", clp);
         }
@@ -150,7 +163,7 @@ namespace ClipsFormsExample
 
         private void nextBtn_Click(object sender, EventArgs e)
         {
-            clips.Run();
+            label1.Text = clips.Run().ToString();
             HandleResponse();
         }
 
