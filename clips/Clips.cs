@@ -100,7 +100,7 @@ namespace ClipsFormsExample
                     rule += "    =>\n";
                     var trait = db_clips.FindFact("?t", "trait", "(= (str-compare ?t:id " + id + ") 0)");
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)trait["name"]).Value);
-                    rule += "    (assert (trait (name \"" + Encoding.UTF8.GetString(bytes) + "\") (id " + id + ")))\n";
+                    rule += "    (assert (trait (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\")))\n";
                 }
                 // hero
                 else
@@ -109,12 +109,12 @@ namespace ClipsFormsExample
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)hero["name"]).Value);
                     string first_occurence = string.Copy(rule);
                     first_occurence = first_occurence.Insert(first_occurence.IndexOf('\n'), "f"); // modify rule id
-                    first_occurence += "    (not (exists (hero (id " + id + "))))\n";
+                    first_occurence += "    (not (hero (id " + id + ")))\n";
                     first_occurence += "    =>\n";
-                    first_occurence += "    (assert (hero (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\") (count 0)))\n";
+                    first_occurence += "    (assert (hero (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\") (count 1)))\n";
                     first_occurence += ")\n\n";
                     clp += first_occurence;
-                    rule += "    (exists (hero (id " + id + ")))\n";
+                    rule += "    (hero (id " + id + "))\n";
                     rule += "    ?h <- (hero (id " + id + "))\n";
                     rule += "    (bind ?old_count ?h:count)\n";
                     rule += "    =>\n";

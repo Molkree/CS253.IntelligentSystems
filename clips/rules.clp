@@ -13,8 +13,8 @@
    (assert (appendmessage (str-cat ?name1 " - " ?value1)))
 )
 
-(defrule match-pair-for-user 
-	(declare (salience 10))
-	=> 
-	(assert (sendmessagehalt "Вам пары не досталось, но вы там держитесь!"))
-)
+;(defrule match-pair-for-user 
+;	(declare (salience 10))
+;	=> 
+;	(assert (sendmessage "Вам пары не досталось, но вы там держитесь!"))
+;)
