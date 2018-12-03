@@ -27,11 +27,14 @@
     (slot id)
     (slot name)
 	(slot count)
+	(slot possibility)
+	(slot picked (default no))
 )
 
 (deftemplate trait
     (slot id)
     (slot name)
+	(slot possibility)
 )
 
 (deftemplate already-increased

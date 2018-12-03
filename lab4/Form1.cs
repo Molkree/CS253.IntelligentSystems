@@ -16,7 +16,7 @@ namespace lab4
         List<Rule> rules = new List<Rule>();
         static FactComparer cmp = new FactComparer();
 
-        double treshold = 0.1;
+        double threshold = 0.1;
 
         Dictionary<Fact, int> known_facts = new Dictionary<Fact, int>(cmp);
         List<Fact> support_area = new List<Fact>(); // non terminal
@@ -289,7 +289,7 @@ namespace lab4
                             var newcoef = r.coef * r.condition.Min(f => f.coef);
 
 
-                            if (newcoef > treshold)
+                            if (newcoef > threshold)
                             {
                                 r.result.coef = newcoef;
                                 // Terms list
@@ -304,10 +304,7 @@ namespace lab4
                                         if (old_t != null)
                                         {
                                             old_t.coef = Math.Max(old_t.coef, r.result.coef);
-//                                            old_t.coef = old_t.coef + r.result.coef - old_t.coef * r.result.coef;
                                         }
-
-
                                     }
                                     else
                                     {
@@ -332,11 +329,8 @@ namespace lab4
 
                                     if (old_f != null)
                                     {
-                                        old_f.coef = Math.Max(old_f.coef, r.result.coef); // / 2;
-
-                                        //                                        old_f.coef = old_f.coef + r.result.coef - old_f.coef * r.result.coef;
+                                        old_f.coef = Math.Max(old_f.coef, r.result.coef);
                                     }
-                                    
                                 }
                             }
                         }
@@ -353,19 +347,14 @@ namespace lab4
                     {
                         label_heroes.Text += term1.info + " (" + term1.coef + ")" + "\n";
                         result.Add(term1);
-                        //break;
                     }
                     else
                         terms_list.Remove(term1);
                 }
-
-             
              }
              known_facts_set.Clear();
          }
      
-
-
         private void resolve(Node n)
         {
             if (n.flag)

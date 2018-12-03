@@ -82,6 +82,7 @@ namespace ClipsFormsExample
 
                 // condition
                 var fact_str = str[1].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                var condition_list = new List<string>();
                 for (int j = 0; j < fact_str.Count(); ++j)
                 {
                     string index = fact_str[j].Trim();
@@ -90,19 +91,48 @@ namespace ClipsFormsExample
                         rule += "    (villain (id " + index + "))\n";
                     // trait
                     else
-                        rule += "    (trait (id " + index + "))\n";
+                    {
+                        condition_list.Add(index);
+                        rule += "    (trait (id " + index + ") (possibility ?" + index + "-coef))\n";
+                    }
                 }
+
+                // read rule possibility
+                var strc = str[3].Trim();
+                double coef = double.Parse(strc, new CultureInfo("us"));
 
                 // result
                 fact_str = str[2].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries); // why array? if we decide to give list of resulting facts
                 string id = fact_str[0].Trim();
+
                 // trait
                 if (id[0] == 's')
                 {
-                    rule += "    =>\n";
                     var trait = db_clips.FindFact("?t", "trait", "(= (str-compare ?t:id " + id + ") 0)");
                     byte[] bytes = Encoding.Default.GetBytes(((LexemeValue)trait["name"]).Value);
-                    rule += "    (assert (trait (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\")))\n";
+                    string first_occurence = string.Copy(rule);
+                    first_occurence = first_occurence.Insert(first_occurence.IndexOf('\n'), "f"); // modify rule id
+                    first_occurence += "    (not (trait (id " + id + ")))\n";
+                    first_occurence += "    =>\n";
+                    first_occurence += "    (assert (trait (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\") (possibility (* ";
+                    // calculate min possibility of conditions
+                    first_occurence += "(min 1";
+                    foreach (var cond in condition_list)
+                        first_occurence += " ?" + cond + "-coef";
+                    first_occurence += ") " + coef.ToString() + "))))\n";
+                    first_occurence += ")\n\n";
+                    clp += first_occurence;
+                    rule += "    (trait (id " + id + ") (possibility ?old-coef))\n";
+                    rule += "    (not (already-increased (id t" + rule_id + ")))\n";
+                    rule += "    ?t <- (trait (id " + id + "))\n";
+                    rule += "    =>\n";
+                    rule += "    (modify ?t (possibility (max ?old-coef (* ";
+                    // calculate min possibility of conditions
+                    rule += "(min 1";
+                    foreach (var cond in condition_list)
+                        rule += " ?" + cond + "-coef";
+                    rule += ") " + coef.ToString() + "))))\n";
+                    rule += "    (assert (already-increased (id t" + rule_id + ")))\n";
                 }
                 // hero
                 else
@@ -113,20 +143,27 @@ namespace ClipsFormsExample
                     first_occurence = first_occurence.Insert(first_occurence.IndexOf('\n'), "f"); // modify rule id
                     first_occurence += "    (not (hero (id " + id + ")))\n";
                     first_occurence += "    =>\n";
-                    first_occurence += "    (assert (hero (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\") (count 1)))\n";
+                    first_occurence += "    (assert (hero (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\") (count 1) (possibility (* ";
+                    // calculate min possibility of conditions
+                    first_occurence += "(min 1";
+                    foreach (var cond in condition_list)
+                        first_occurence += " ?" + cond + "-coef";
+                    first_occurence += ") " + coef.ToString() + "))))\n";
                     first_occurence += ")\n\n";
                     clp += first_occurence;
-                    rule += "    (hero (id " + id + ") (count ?cnt))\n";
-                    rule += "    (not (already-increased (id " + rule_id + ")))\n"; 
+                    rule += "    (hero (id " + id + ") (count ?cnt) (possibility ?old-coef))\n";
+                    rule += "    (not (already-increased (id h" + rule_id + ")))\n";
                     rule += "    ?h <- (hero (id " + id + "))\n";
                     rule += "    =>\n";
-                    rule += "    (modify ?h (count (+ ?cnt 1)))\n";
-                    rule += "    (assert (already-increased (id " + rule_id + ")))\n";
+                    rule += "    (modify ?h (count (+ ?cnt 1)) (possibility (max ?old-coef (* ";
+                    // calculate min possibility of conditions
+                    rule += "(min 1";
+                    foreach (var cond in condition_list)
+                        rule += " ?" + cond + "-coef";
+                    rule += ") " + coef.ToString() + "))))\n";
+                    rule += "    (assert (already-increased (id h" + rule_id + ")))\n";
                 }
 
-                // without coefficients for now
-                //var strc = str[3].Trim();
-                //double coef = double.Parse(strc, new CultureInfo("us"));
                 rule += ")\n\n";
                 clp += rule;
             }
@@ -140,7 +177,7 @@ namespace ClipsFormsExample
 
             MultifieldValue damf = (MultifieldValue)fv["messages"];
 
-            textBox1.Text += "Новая итерация : " + System.Environment.NewLine;
+            textBox1.Text = "";
             for (int i = 0; i < damf.Count; i++)
             {
                 LexemeValue da = (LexemeValue)damf[i];
@@ -197,7 +234,14 @@ namespace ClipsFormsExample
             clips.LoadFromString(System.IO.File.ReadAllText("../../../rules.clp"));
             
             clips.Reset();
-            clips.AssertString("(team-size (count " + list_villains.SelectedIndices.Count.ToString(CultureInfo.InvariantCulture) + "))");
+            if (!checkBox1.Checked)
+            {
+                clips.AssertString("(team-size (count " + list_villains.SelectedIndices.Count.ToString(CultureInfo.InvariantCulture) + "))");
+            }
+            else
+            {
+                clips.AssertString("(team-size (count " + (-list_villains.SelectedIndices.Count).ToString(CultureInfo.InvariantCulture) + "))");
+            }
 
             clips.Run();
             HandleResponse();

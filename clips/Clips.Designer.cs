@@ -38,6 +38,7 @@
             this.fontButton = new System.Windows.Forms.Button();
             this.generateButton = new System.Windows.Forms.Button();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -53,7 +54,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.splitContainer1);
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(854, 491);
             this.panel1.TabIndex = 2;
@@ -62,11 +63,12 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel1.Controls.Add(this.button_exec);
             this.splitContainer1.Panel1.Controls.Add(this.list_villains);
             // 
@@ -81,7 +83,7 @@
             // button_exec
             // 
             this.button_exec.Location = new System.Drawing.Point(16, 391);
-            this.button_exec.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_exec.Margin = new System.Windows.Forms.Padding(4);
             this.button_exec.Name = "button_exec";
             this.button_exec.Size = new System.Drawing.Size(160, 28);
             this.button_exec.TabIndex = 11;
@@ -105,7 +107,7 @@
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -118,7 +120,7 @@
             this.panel2.Controls.Add(this.generateButton);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 491);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(856, 66);
             this.panel2.TabIndex = 6;
@@ -126,7 +128,7 @@
             // fontButton
             // 
             this.fontButton.Location = new System.Drawing.Point(308, 15);
-            this.fontButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fontButton.Margin = new System.Windows.Forms.Padding(4);
             this.fontButton.Name = "fontButton";
             this.fontButton.Size = new System.Drawing.Size(160, 37);
             this.fontButton.TabIndex = 9;
@@ -137,13 +139,23 @@
             // generateButton
             // 
             this.generateButton.Location = new System.Drawing.Point(16, 15);
-            this.generateButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.generateButton.Margin = new System.Windows.Forms.Padding(4);
             this.generateButton.Name = "generateButton";
             this.generateButton.Size = new System.Drawing.Size(160, 37);
             this.generateButton.TabIndex = 5;
             this.generateButton.Text = "Сгенерировать";
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(200, 397);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(157, 21);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.Text = "с коэффициентами";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // ClipsMatchmaking
             // 
@@ -153,12 +165,13 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(874, 356);
             this.Name = "ClipsMatchmaking";
             this.Text = "Экспертная система";
             this.panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -178,6 +191,7 @@
     private System.Windows.Forms.FontDialog fontDialog1;
         private System.Windows.Forms.ListBox list_villains;
         private System.Windows.Forms.Button button_exec;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
