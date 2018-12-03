@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -30,7 +31,7 @@ namespace ClipsFormsExample
 
             // Villains
             var str = lines[0].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int facts_cnt = int.Parse(str[0]);
+            int facts_cnt = int.Parse(str[0], CultureInfo.InvariantCulture);
             var clp = "(deftemplate villain\n    (slot id)\n    (slot name)\n)\n\n(deffacts villains\n";
             for (int i = 1; i < facts_cnt + 1; ++i)
             {
@@ -42,7 +43,7 @@ namespace ClipsFormsExample
 
             // Traits
             str = lines[facts_cnt + 1].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int support_cnt = int.Parse(str[0]);
+            int support_cnt = int.Parse(str[0], CultureInfo.InvariantCulture);
             int n = facts_cnt + support_cnt + 2;
             clp = "(deftemplate trait\n    (slot id)\n    (slot name)\n)\n\n(deffacts traits\n";
             for (int i = facts_cnt + 2; i < n; ++i)
@@ -55,7 +56,7 @@ namespace ClipsFormsExample
 
             // Heroes
             str = lines[n].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int term_cnt = int.Parse(str[0]);
+            int term_cnt = int.Parse(str[0], CultureInfo.InvariantCulture);
             n += 1;
             clp = "(deftemplate hero\n    (slot id)\n    (slot name)\n)\n\n(deffacts heroes\n";
             for (int i = n; i < n + term_cnt; ++i)
@@ -69,14 +70,15 @@ namespace ClipsFormsExample
             // Rules
             n += term_cnt;
             str = lines[n].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            int rules_cnt = int.Parse(str[0]);
+            int rules_cnt = int.Parse(str[0], CultureInfo.InvariantCulture);
             clp = "";
             for (int i = n + 1; i < n + rules_cnt + 1; ++i)
             {
                 string rule = "";
                 str = lines[i].Split(new char[] { ':', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                string id = str[0].Trim();
-                rule += "(defrule " + id + "\n";
+                string rule_id = str[0].Trim();
+                rule += "(defrule " + rule_id + "\n";
+                rule += "    (declare (salience 99))\n";
 
                 // condition
                 var fact_str = str[1].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
@@ -93,7 +95,7 @@ namespace ClipsFormsExample
 
                 // result
                 fact_str = str[2].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries); // why array? if we decide to give list of resulting facts
-                id = fact_str[0].Trim();
+                string id = fact_str[0].Trim();
                 // trait
                 if (id[0] == 's')
                 {
@@ -114,12 +116,12 @@ namespace ClipsFormsExample
                     first_occurence += "    (assert (hero (id " + id + ") (name \"" + Encoding.UTF8.GetString(bytes) + "\") (count 1)))\n";
                     first_occurence += ")\n\n";
                     clp += first_occurence;
-                    rule += "    (hero (id " + id + "))\n";
+                    rule += "    (hero (id " + id + ") (count ?cnt))\n";
+                    rule += "    (not (already-increased (id " + rule_id + ")))\n"; 
                     rule += "    ?h <- (hero (id " + id + "))\n";
-                    rule += "    (bind ?old_count ?h:count)\n";
                     rule += "    =>\n";
-                    //rule += "    (assert (sendmessagehalt \"Ага!!!!!!!!\"))\n";
-                    rule += "    (modify ?h (count (+ ?old_count 1)))\n";
+                    rule += "    (modify ?h (count (+ ?cnt 1)))\n";
+                    rule += "    (assert (already-increased (id " + rule_id + ")))\n";
                 }
 
                 // without coefficients for now
@@ -137,7 +139,6 @@ namespace ClipsFormsExample
             FactAddressValue fv = clips.FindFact("ioproxy");
 
             MultifieldValue damf = (MultifieldValue)fv["messages"];
-            MultifieldValue vamf = (MultifieldValue)fv["answers"];
 
             textBox1.Text += "Новая итерация : " + System.Environment.NewLine;
             for (int i = 0; i < damf.Count; i++)
@@ -147,45 +148,10 @@ namespace ClipsFormsExample
                 textBox1.Text += Encoding.UTF8.GetString(bytes) + System.Environment.NewLine;
             }
 
-            if (vamf.Count > 0)
-            {
-                textBox1.Text += "----------------------------------------------------" + System.Environment.NewLine;
-                for (int i = 0; i < damf.Count; i++)
-                {
-
-                    LexemeValue va = (LexemeValue)vamf[i];
-                    textBox1.Text += va.Value + System.Environment.NewLine;
-                }
-            }
-
             clips.Eval("(assert (clearmessage))");
         }
 
-        private void nextBtn_Click(object sender, EventArgs e)
-        {
-            label1.Text = clips.Run().ToString();
-            HandleResponse();
-        }
-
-        private void resetBtn_Click(object sender, EventArgs e)
-        {
-            //clips.Clear();
-
-            ///*string stroka = codeBox.Text;
-            //System.IO.File.WriteAllText("tmp.clp", codeBox.Text);
-            //clips.Load("tmp.clp");*/
-
-            ////  Так тоже можно - без промежуточного вывода в файл
-            ////clips.LoadFromString(codeBox.Text);
-            //clips.LoadFromString(System.IO.File.ReadAllText("../../../rules.clp"));
-
-            //clips.Reset();
-
-            ////init_listbox();
-            //textBox1.Text = "Выполнены команды Clear и Reset." + System.Environment.NewLine;
-        }
-
-        public void init_listbox()
+        public void InitListbox()
         {
             var villains = db_clips.FindAllFacts("villain");
             foreach (var v in villains)
@@ -202,30 +168,15 @@ namespace ClipsFormsExample
             db_clips.LoadFromString(System.IO.File.ReadAllText("../../../traits.clp"));
             db_clips.LoadFromString(System.IO.File.ReadAllText("../../../heroes.clp"));
             db_clips.Reset();
-            init_listbox();
-            codeBox.Text = System.IO.File.ReadAllText("../../../traits.clp");
-        }
-
-        private void openFile_Click(object sender, EventArgs e)
-        {
+            InitListbox();
         }
 
         private void fontSelect_Click(object sender, EventArgs e)
         {
             if (fontDialog1.ShowDialog() == DialogResult.OK)
             {
-                codeBox.Font = fontDialog1.Font;
                 textBox1.Font = fontDialog1.Font;
             }
-        }
-
-        private void saveAsButton_Click(object sender, EventArgs e)
-        {
-            //clipsSaveFileDialog.FileName = clipsOpenFileDialog.FileName;
-            //if (clipsSaveFileDialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    System.IO.File.WriteAllText(clipsSaveFileDialog.FileName, codeBox.Text);
-            //}
         }
 
         private void button_exec_Click(object sender, EventArgs e)
@@ -246,7 +197,10 @@ namespace ClipsFormsExample
             clips.LoadFromString(System.IO.File.ReadAllText("../../../rules.clp"));
             
             clips.Reset();
-            textBox1.Text = "Выполнены команды Clear и Reset." + System.Environment.NewLine;
+            clips.AssertString("(team-size (count " + list_villains.SelectedIndices.Count.ToString(CultureInfo.InvariantCulture) + "))");
+
+            clips.Run();
+            HandleResponse();
         }
 
         private void generateButton_Click(object sender, EventArgs e)
