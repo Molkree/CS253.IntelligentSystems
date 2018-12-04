@@ -99,7 +99,7 @@ namespace ClipsFormsExample
 
                 // read rule possibility
                 var strc = str[3].Trim();
-                double coef = double.Parse(strc, new CultureInfo("us"));
+                double coef = double.Parse(strc, new CultureInfo("en-us"));
 
                 // result
                 fact_str = str[2].Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries); // why array? if we decide to give list of resulting facts
@@ -119,7 +119,7 @@ namespace ClipsFormsExample
                     first_occurence += "(min 1";
                     foreach (var cond in condition_list)
                         first_occurence += " ?" + cond + "-coef";
-                    first_occurence += ") " + coef.ToString() + "))))\n";
+                    first_occurence += ") " + coef.ToString(new CultureInfo("en-us")) + "))))\n";
                     first_occurence += ")\n\n";
                     clp += first_occurence;
                     rule += "    (trait (id " + id + ") (possibility ?old-coef))\n";
@@ -131,7 +131,7 @@ namespace ClipsFormsExample
                     rule += "(min 1";
                     foreach (var cond in condition_list)
                         rule += " ?" + cond + "-coef";
-                    rule += ") " + coef.ToString() + "))))\n";
+                    rule += ") " + coef.ToString(new CultureInfo("en-us")) + "))))\n";
                     rule += "    (assert (already-increased (id t" + rule_id + ")))\n";
                 }
                 // hero
@@ -148,7 +148,7 @@ namespace ClipsFormsExample
                     first_occurence += "(min 1";
                     foreach (var cond in condition_list)
                         first_occurence += " ?" + cond + "-coef";
-                    first_occurence += ") " + coef.ToString() + "))))\n";
+                    first_occurence += ") " + coef.ToString(new CultureInfo("en-us")) + "))))\n";
                     first_occurence += ")\n\n";
                     clp += first_occurence;
                     rule += "    (hero (id " + id + ") (count ?cnt) (possibility ?old-coef))\n";
@@ -160,7 +160,7 @@ namespace ClipsFormsExample
                     rule += "(min 1";
                     foreach (var cond in condition_list)
                         rule += " ?" + cond + "-coef";
-                    rule += ") " + coef.ToString() + "))))\n";
+                    rule += ") " + coef.ToString(new CultureInfo("en-us")) + "))))\n";
                     rule += "    (assert (already-increased (id h" + rule_id + ")))\n";
                 }
 
