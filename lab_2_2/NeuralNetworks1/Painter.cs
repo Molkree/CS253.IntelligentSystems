@@ -79,11 +79,12 @@ namespace NeuralNetworks1
             return null;
         }
 
-        public Image GenerateImage(Image img)
+        public Image GenerateImage(Image img, int type = -1)
         {
             if (img == null) return null;
 
             Graphics g = Graphics.FromImage(img);
+            g.Clear(Color.White);
 
             Random rand = new Random();
 
@@ -97,8 +98,8 @@ namespace NeuralNetworks1
             int max_size_x = w - cx;
             int max_size_y = h - cy;
 
-
-            int type = rand.Next(0, 4);
+            if (type < 0 || type > 4)
+                type = rand.Next(0, 4);
 
             switch (type)
             {

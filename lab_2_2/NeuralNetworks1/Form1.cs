@@ -29,8 +29,8 @@ namespace NeuralNetworks1
 
             Graphics g = Graphics.FromImage(pictureBox1.Image);
 
-            g.FillRectangle(new SolidBrush(Color.White), 0, 0, pictureBox1.Width, pictureBox1.Height);
-
+            //g.FillRectangle(new SolidBrush(Color.White), 0, 0, pictureBox1.Width, pictureBox1.Height);
+            g.Clear(Color.White);
             p.MoveTo(0, 0);
         }
 
@@ -97,7 +97,7 @@ namespace NeuralNetworks1
 
         private void button_train_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Image is null)
+            /*if (pictureBox1.Image is null)
             {
                 MessageBox.Show("Нет изображения", "Выберите / сгенерируйте / нарисуйте изображение для сети.", MessageBoxButtons.OK);
             }
@@ -108,62 +108,26 @@ namespace NeuralNetworks1
             else
             {
                 net.Train(Preprocess(pictureBox1.Image), (Type)comboBox_label.SelectedIndex);
-            }
+            }*/
+            label_ready.Text = "...";
+            net.Train();
+            label_ready.Text = "ready!";
         }
 
         private void button_predict_Click(object sender, EventArgs e)
         {
             if (pictureBox1.Image is null)
             {
-                MessageBox.Show("Нет изображения", "Выберите / сгенерируйте / нарисуйте изображение для сети.", MessageBoxButtons.OK);
+                MessageBox.Show("Выберите / сгенерируйте / нарисуйте изображение для сети.", "Нет изображения", MessageBoxButtons.OK);
             }
             else
             {
-                Type t = net.Predict(Preprocess(pictureBox1.Image));
+                Type t = net.Predict(net.Preprocess(pictureBox1.Image));
                 comboBox_label.SelectedIndex = (int)t;
             }
         }
 
-        private int[] Preprocess(Image image)
-        {
-/*         Rectangle rect = new Rectangle(0, 0, img.Width, img.Height);
-            System.Drawing.Imaging.BitmapData bmpData =
-                img.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
-                img.PixelFormat);
-            IntPtr ptr = bmpData.Scan0;
-            int bytes = Math.Abs(bmpData.Stride) * img.Height;
-            byte[] Values = new byte[bytes];
-            System.Runtime.InteropServices.Marshal.Copy(ptr, Values, 0, bytes);
-
-
-
-            for (int counter = 0; counter < Values.Length; counter += 3)
-            {
-
-
-            }*/
-
-            Bitmap img = image as Bitmap;
-
-            int[] res = new int[400];
-            int sz = 200;
-
-            // sum in rows and cols
-            for (int i = 0; i < img.Height; ++i)
-            {
-                for (int j = 0; j < img.Width; ++j)
-                {
-                    Color c = img.GetPixel(i, j);
-                    int avg = (c.R + c.G + c.B) / 3;
-                    // row
-                    res[i] += avg;
-                    // col
-                    res[sz + j] += avg;
-                }
-            }
-
-            return res;
-        }
+        
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {

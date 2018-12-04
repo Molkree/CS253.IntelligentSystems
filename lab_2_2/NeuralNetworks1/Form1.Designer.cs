@@ -39,6 +39,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label_ready = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -141,11 +142,21 @@
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             // 
+            // label_ready
+            // 
+            this.label_ready.AutoSize = true;
+            this.label_ready.Location = new System.Drawing.Point(416, 20);
+            this.label_ready.Name = "label_ready";
+            this.label_ready.Size = new System.Drawing.Size(16, 13);
+            this.label_ready.TabIndex = 9;
+            this.label_ready.Text = "...";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 233);
+            this.Controls.Add(this.label_ready);
             this.Controls.Add(this.comboBox_label);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_predict);
@@ -176,6 +187,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label_ready;
     }
 }
 
