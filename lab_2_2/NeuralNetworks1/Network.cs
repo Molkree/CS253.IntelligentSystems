@@ -12,7 +12,7 @@ namespace NeuralNetworks1
     class Network
     {
         const int epoches = 10;
-        const double learning_rate = 0.01;
+        const double learning_rate = 0.1;
         const int samples_cnt = 100;
 
         const double eps = 0.001;
@@ -110,8 +110,8 @@ namespace NeuralNetworks1
         public void Train()
         {
             Painter p = new Painter();
-            //for (int i = 0; i < samples_cnt; ++i)
-            while (true)
+            for (int i = 0; i < 1; ++i)
+            //while (true)
             {
                 //bool b = false;
                 //if (i % 100 == 0)
@@ -127,6 +127,28 @@ namespace NeuralNetworks1
                     if (check_last_correct() > 0.4)
                         break;
             }
+            Save_weights();
+        }
+
+        private void Save_weights()
+        {
+            string lines = "";
+            for (int i = 0; i < Weights0.Length; ++i)
+                lines += Weights0[i] + " ";
+
+            System.IO.File.WriteAllText(@"weights0.txt", lines);
+
+            lines = "";
+            for (int i = 0; i < Weights1.Length; ++i)
+                lines += Weights1[i] + " ";
+
+            System.IO.File.WriteAllText(@"weights1.txt", lines);
+
+            lines = "";
+            for (int i = 0; i < Weights2.Length; ++i)
+                lines += Weights2[i] + " ";
+
+            System.IO.File.WriteAllText(@"weights2.txt", lines);
         }
 
         private double check_last_correct()

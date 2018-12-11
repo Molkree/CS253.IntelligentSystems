@@ -167,7 +167,7 @@
             this.Controls.Add(this.button_gen);
             this.Controls.Add(this.button_draw);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Neural Net";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
