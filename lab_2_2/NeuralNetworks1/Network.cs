@@ -70,7 +70,7 @@ namespace NeuralNetworks1
         private double Activation(double x)
         {
             //return 1 / (1 + Math.Exp(-1 * x)); // sigmoid
-            // return x; // identity
+            //return x; // identity
             return (x > 0) ? x : 0; // ReLU
         }
 
@@ -110,8 +110,8 @@ namespace NeuralNetworks1
         public void Train()
         {
             Painter p = new Painter();
-            for (int i = 0; i < 1; ++i)
-            //while (true)
+            //for (int i = 0; i < 1; ++i)
+            while (true)
             {
                 //bool b = false;
                 //if (i % 100 == 0)
@@ -159,7 +159,7 @@ namespace NeuralNetworks1
                 if (correct[i])
                     ++res;
             }
-            return res / 1000.0;
+            return res / 10000.0;
         }
         
         private void TrainOne(double[] data, Type label)
@@ -169,6 +169,7 @@ namespace NeuralNetworks1
             var t = Predict(data);
             if (t == label)
                 correct.Add(true);
+            //else correct.Add(false);
 
             while (t != label)
             {
