@@ -13,12 +13,12 @@ namespace NeuralNetworks1
         Pen pen = Pens.Black;
 
         // отклонение от цетра по x и y
-        int dx = 10;
-        int dy = 10;
+        int dx = 0;
+        int dy = 0;
 
 
         int min_size = 10;
-
+       
 
         //  Координаты текущей точки на канве
         int x, y;
@@ -98,6 +98,11 @@ namespace NeuralNetworks1
             int max_size_x = w - cx;
             int max_size_y = h - cy;
 
+            // in order not to scale
+            max_size_x -= 20;
+            max_size_y -= 20;
+
+
             if (type < 0 || type > 4)
                 type = rand.Next(0, 4);
 
@@ -106,12 +111,15 @@ namespace NeuralNetworks1
                 case 0: // синусоида
                     {
                         // длина
-                        int size1 = rand.Next(min_size, max_size_x) / 2;
+                        //int size1 = rand.Next(min_size, max_size_x) / 2;
+                        int size1 = max_size_x / 2;
                         // высота
-                        int size2 = rand.Next(min_size, max_size_y) / 2;
-
+                        //int size2 = rand.Next(min_size, max_size_y) / 2;
+                        int size2 = max_size_y / 2;
 
                         double scale_x = rand.NextDouble() * 7;
+
+                        scale_x = 0.5;
 
                         List<Point> pts = new List<Point>();
 
@@ -126,8 +134,11 @@ namespace NeuralNetworks1
                     {
                         // ширина
                         int size1 = rand.Next(min_size, max_size_x);
+                        size1 = max_size_x / 2;
                         // высота
                         int size2 = rand.Next(min_size, max_size_y);
+                        size2 = max_size_y / 2;
+
                         // левый верхний угол
                         int x0 = cx - size1 / 2;
                         int y0 = cy - size2 / 2;
@@ -139,14 +150,18 @@ namespace NeuralNetworks1
                     {
                         // длина горизонтальной линии
                         int size1 = rand.Next(min_size, max_size_x);
+                        size1 = max_size_x / 2;
                         // высота
                         int size2 = rand.Next(min_size, max_size_y);
+                        size2 = max_size_y / 2;
 
                         int x0 = cx - size1 / 2;
                         int y0 = cy - size2 / 2;
 
                         // x-координата третьей точки
                         int x2 = rand.Next(x0, x0 + size1);
+
+                        x2 = (x0 + size1) / 2;
 
                         Point p0 = new Point(x0, y0);
                         Point p1 = new Point(x0 + size1, y0);
@@ -162,6 +177,7 @@ namespace NeuralNetworks1
                 case 3: // окружность
                     {
                         int rad = rand.Next(min_size, Math.Min(max_size_x, max_size_y));
+                        rad = Math.Min(max_size_x / 2, max_size_y / 2);
                         int x0 = cx - rad;
                         int y0 = cy - rad;
 

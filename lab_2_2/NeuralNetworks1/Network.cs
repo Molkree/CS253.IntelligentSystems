@@ -121,6 +121,7 @@ namespace NeuralNetworks1
                 //int t = i % 4;
                 int t = rand.Next() % 4;
                 img = p.GenerateImage(img, t);
+                img.Save("img" + iter_cnt.ToString() + ".png");
                 TrainOne(Preprocess(img), (Type)t);
                 ++iter_cnt;
                 if (correct.Count > 10000)
