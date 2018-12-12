@@ -13,8 +13,8 @@ namespace NeuralNetworks1
         Pen pen = Pens.Black;
 
         // отклонение от цетра по x и y
-        int dx = 0;
-        int dy = 0;
+        int dx = 5;
+        int dy = 5;
 
 
         int min_size = 10;
@@ -99,23 +99,23 @@ namespace NeuralNetworks1
             int max_size_y = h - cy;
 
             // in order not to scale
-            max_size_x -= 20;
-            max_size_y -= 20;
+            //max_size_x -= 20;
+            //max_size_y -= 20;
 
 
-            if (type < 0 || type > 4)
-                type = rand.Next(0, 4);
+            if (type < 0 || type > 2)
+                type = rand.Next(0, 2);
 
             switch (type)
             {
                 case 0: // синусоида
                     {
                         // длина
-                        //int size1 = rand.Next(min_size, max_size_x) / 2;
-                        int size1 = max_size_x / 2;
+                        int size1 = rand.Next(min_size, max_size_x) / 2;
+                        //int size1 = max_size_x / 2;
                         // высота
-                        //int size2 = rand.Next(min_size, max_size_y) / 2;
-                        int size2 = max_size_y / 2;
+                        int size2 = rand.Next(min_size, max_size_y) / 2;
+                        //int size2 = max_size_y / 2;
 
                         double scale_x = rand.NextDouble() * 7;
 
@@ -134,10 +134,10 @@ namespace NeuralNetworks1
                     {
                         // ширина
                         int size1 = rand.Next(min_size, max_size_x);
-                        size1 = max_size_x / 2;
+                        //size1 = max_size_x / 2;
                         // высота
                         int size2 = rand.Next(min_size, max_size_y);
-                        size2 = max_size_y / 2;
+                        //size2 = max_size_y / 2;
 
                         // левый верхний угол
                         int x0 = cx - size1 / 2;
