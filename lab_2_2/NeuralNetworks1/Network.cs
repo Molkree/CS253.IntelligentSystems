@@ -13,7 +13,7 @@ namespace NeuralNetworks1
     class Network
     {
         const int epoches = 10;
-        const double learning_rate = 2;
+        const double learning_rate = 0.9;
         const int samples_cnt = 100;
 
         const double eps = 0.001;
@@ -224,12 +224,14 @@ namespace NeuralNetworks1
                 // diffenerence between output and desired results 
                 double d = Out_layer[(int)t] - Out_layer[(int)label];
                 if (Math.Abs(d) < 1e-2)
-                    d += 0.1;
+                    d += 0.5;
                 if (double.IsNaN(d))
                     b = true;
                 for (int i = 0; i < Out_layer_size; ++i)
                 {
-                    if (Out_layer[i] > Out_layer[(int)label])
+                    if (i == (int)label)
+                        continue;
+                    if (Math.Abs(Out_layer[i] - Out_layer[(int)label]) < 1e-2 || Out_layer[i] < Out_layer[(int)label])
                     {
                         dest[i] = Out_layer[i] - d;
                         err_out[i] = -d;

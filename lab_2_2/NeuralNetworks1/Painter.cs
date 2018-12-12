@@ -17,7 +17,7 @@ namespace NeuralNetworks1
         int dy = 5;
 
 
-        int min_size = 10;
+        int min_size = 70;
        
 
         //  Координаты текущей точки на канве
@@ -98,6 +98,8 @@ namespace NeuralNetworks1
             int max_size_x = w - cx;
             int max_size_y = h - cy;
 
+            min_size = max_size_x - 30;
+
             // in order not to scale
             //max_size_x -= 20;
             //max_size_y -= 20;
@@ -105,6 +107,9 @@ namespace NeuralNetworks1
 
             if (type < 0 || type > 2)
                 type = rand.Next(0, 2);
+
+            if (type == 0)
+                type = 2;
 
             switch (type)
             {
@@ -150,10 +155,10 @@ namespace NeuralNetworks1
                     {
                         // длина горизонтальной линии
                         int size1 = rand.Next(min_size, max_size_x);
-                        size1 = max_size_x / 2;
+                        //size1 = max_size_x / 2;
                         // высота
                         int size2 = rand.Next(min_size, max_size_y);
-                        size2 = max_size_y / 2;
+                        //size2 = max_size_y / 2;
 
                         int x0 = cx - size1 / 2;
                         int y0 = cy - size2 / 2;
@@ -161,7 +166,7 @@ namespace NeuralNetworks1
                         // x-координата третьей точки
                         int x2 = rand.Next(x0, x0 + size1);
 
-                        x2 = (x0 + size1) / 2;
+                        //x2 = (x0 + size1) / 2;
 
                         Point p0 = new Point(x0, y0);
                         Point p1 = new Point(x0 + size1, y0);
