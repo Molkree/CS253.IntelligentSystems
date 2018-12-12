@@ -143,5 +143,12 @@ namespace NeuralNetworks1
             if (e.Button == MouseButtons.Left)
                 pictureBox1.Image = p.LineTo(pictureBox1.Image, e.X, e.Y);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            label_ready.Text = "...";
+            net.Train(true);
+            label_ready.Text = "ready!";
+        }
     }
 }

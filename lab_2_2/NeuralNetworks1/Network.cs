@@ -107,28 +107,35 @@ namespace NeuralNetworks1
             return res;
         }
 
-        public void Train()
+        public void Train(bool load = false)
         {
-            Painter p = new Painter();
-            //for (int i = 0; i < 1; ++i)
-            while (true)
+            if (load)
             {
-                //bool b = false;
-                //if (i % 100 == 0)
-                //    b = true;
-                Random rand = new Random();
-                Image img = new Bitmap(200, 200);
-                //int t = i % 4;
-                int t = rand.Next() % 4;
-                img = p.GenerateImage(img, t);
-                img.Save("img" + iter_cnt.ToString() + ".png");
-                TrainOne(Preprocess(img), (Type)t);
-                ++iter_cnt;
-                if (correct.Count > 10000)
-                    if (check_last_correct() > 0.4)
-                        break;
+                Load_weights("relu_notrand_weights0.txt", "relu_notrand_weights1.txt", "relu_notrand_weights2.txt");
             }
-            Save_weights();
+            else
+            {
+                Painter p = new Painter();
+                //for (int i = 0; i < 1; ++i)
+                while (true)
+                {
+                    //bool b = false;
+                    //if (i % 100 == 0)
+                    //    b = true;
+                    Random rand = new Random();
+                    Image img = new Bitmap(200, 200);
+                    //int t = i % 4;
+                    int t = rand.Next() % 4;
+                    img = p.GenerateImage(img, t);
+                    //img.Save("img" + iter_cnt.ToString() + ".png");
+                    TrainOne(Preprocess(img), (Type)t);
+                    ++iter_cnt;
+                    if (correct.Count > 1000)
+                        if (check_last_correct() > 0.4)
+                            break;
+                }
+                Save_weights();
+            }
         }
 
         private void Save_weights()
@@ -152,15 +159,41 @@ namespace NeuralNetworks1
             System.IO.File.WriteAllText(@"weights2.txt", lines);
         }
 
+        private void Load_weights(string w0, string w1, string w2)
+        {
+            string text = System.IO.File.ReadAllText(w0);
+            string[] w = text.Split(' ');
+            if (w.Length - 1 != Weights0.Length)
+                System.Console.WriteLine("Wrong w0 length!");
+
+            for (int i = 0; i < w.Length - 1; ++i)
+                Weights0[i] = double.Parse(w[i]);
+
+            text = System.IO.File.ReadAllText(w1);
+            w = text.Split(' ');
+            if (w.Length - 1 != Weights1.Length)
+                System.Console.WriteLine("Wrong w1 length!");
+            for (int i = 0; i < w.Length - 1; ++i)
+                Weights1[i] = double.Parse(w[i]);
+
+
+            text = System.IO.File.ReadAllText(w2);
+            w = text.Split(' ');
+            if (w.Length - 1 != Weights2.Length)
+                System.Console.WriteLine("Wrong w2 length!");
+            for (int i = 0; i < w.Length - 1; ++i)
+                Weights2[i] = double.Parse(w[i]);
+        }
+
         private double check_last_correct()
         {
             double res = 0;
-            for (int i = correct.Count - 10000; i < correct.Count; ++i)
+            for (int i = correct.Count - 1000; i < correct.Count; ++i)
             {
                 if (correct[i])
                     ++res;
             }
-            return res / 10000.0;
+            return res / 1000.0;
         }
         
         private void TrainOne(double[] data, Type label)

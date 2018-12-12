@@ -40,6 +40,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label_ready = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -151,11 +152,22 @@
             this.label_ready.TabIndex = 9;
             this.label_ready.Text = "...";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(468, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(102, 29);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Загрузить веса";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 233);
+            this.ClientSize = new System.Drawing.Size(623, 233);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label_ready);
             this.Controls.Add(this.comboBox_label);
             this.Controls.Add(this.label1);
@@ -188,6 +200,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label_ready;
+        private System.Windows.Forms.Button button1;
     }
 }
 
