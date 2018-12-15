@@ -13,7 +13,7 @@ namespace NeuralNetworks1
     class Network
     {
         const int epoches = 10;
-        const double learning_rate = 0.9;
+        const double learning_rate = 0.01;
         const int samples_cnt = 100;
 
         const double eps = 0.001;
@@ -21,8 +21,8 @@ namespace NeuralNetworks1
         const int Img_size = 200;
         const int Input_size = Img_size + Img_size;
         const int Hidden_layer1_size = 800;
-        const int Hidden_layer2_size = 300;
-        const int Out_layer_size = 2;
+        const int Hidden_layer2_size = 400;
+        const int Out_layer_size = 4;
 
         private double[] Weights0 = new double[Input_size * Hidden_layer1_size];
         private double[] Weights1 = new double[Hidden_layer1_size * Hidden_layer2_size];
@@ -126,7 +126,7 @@ namespace NeuralNetworks1
                     Random rand = new Random();
                     Image img = new Bitmap(200, 200);
                     //int t = i % 4;
-                    int t = rand.Next() % 2;
+                    int t = rand.Next() % 4;
                     img = p.GenerateImage(img, t);
                     //img.Save("img" + iter_cnt.ToString() + ".png");
                     Debug.WriteLine("Label: " + t.ToString());
@@ -137,7 +137,7 @@ namespace NeuralNetworks1
                         if (check_last_correct() > 0.7)
                             break;
                 }
-                Save_weights();
+                //Save_weights();
             }
         }
 
@@ -204,7 +204,7 @@ namespace NeuralNetworks1
             bool b = false;
 
             var t = Predict(data);
-            Debug.WriteLine("After first predict: " + Out_layer[0].ToString() + " " + Out_layer[1].ToString());
+            //Debug.WriteLine("After first predict: " + Out_layer[0].ToString() + " " + Out_layer[1].ToString());
             if (t == label)
                 correct.Add(true);
             else
@@ -212,7 +212,7 @@ namespace NeuralNetworks1
                 correct.Add(false);
                 Debug.WriteLine("Start backprop");
             }
-            while (t != label)
+            if (t != label)
             {
                 
                 // count dest vector
@@ -303,10 +303,11 @@ namespace NeuralNetworks1
                             b2 = true;
                     }
                 }
-                Debug.WriteLine("Before predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString());
+                Debug.WriteLine("Before predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString()
+                                + " " + Out_layer[2].ToString() + " " + Out_layer[3].ToString());
                 t = Predict(data);
-                Debug.WriteLine("After predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString());
-
+                Debug.WriteLine("After predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString()
+                                + " " + Out_layer[2].ToString() + " " + Out_layer[3].ToString());
                 //if (t == label)
                 //    correct.Add(true);
                 //else correct.Add(false);
