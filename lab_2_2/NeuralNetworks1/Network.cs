@@ -166,7 +166,7 @@ namespace NeuralNetworks1
                     {
                         var t1 = check_last_correct();
                         Debug.WriteLine("Recall: " + t1);
-                        if (t1 > 0.6)
+                        if (t1 > 0.5)
                             break;
                     }
                 }
@@ -180,19 +180,19 @@ namespace NeuralNetworks1
             for (int i = 0; i < Weights0.Length; ++i)
                 lines += Weights0[i] + " ";
 
-            System.IO.File.WriteAllText(@"weights0.txt", lines);
+            System.IO.File.WriteAllText(@"weights0_50.txt", lines);
 
             lines = "";
             for (int i = 0; i < Weights1.Length; ++i)
                 lines += Weights1[i] + " ";
 
-            System.IO.File.WriteAllText(@"weights1.txt", lines);
+            System.IO.File.WriteAllText(@"weights1_50.txt", lines);
 
             lines = "";
             for (int i = 0; i < Weights2.Length; ++i)
                 lines += Weights2[i] + " ";
 
-            System.IO.File.WriteAllText(@"weights2.txt", lines);
+            System.IO.File.WriteAllText(@"weights2_50.txt", lines);
         }
 
         private void Load_weights(string w0, string w1, string w2)
@@ -385,11 +385,11 @@ namespace NeuralNetworks1
             // normalize Hidden layer 1
             for (int i = 0; i < Hidden_layer1_size; ++i)
             { 
-                if (Math.Abs(max) > eps)
+                /*if (Math.Abs(max) > eps)
                 {
                     Hidden_layer_1[i] /= Math.Abs(max);
             
-                }
+                }*/
                 
                 Hidden_layer_1[i] = Activation(Hidden_layer_1[i]);
 
@@ -415,11 +415,11 @@ namespace NeuralNetworks1
             // normalize Hidden layer 2
             for (int i = 0; i < Hidden_layer2_size; ++i)
             {
-                if (Math.Abs(max) > eps)
+               /* if (Math.Abs(max) > eps)
                 {
                     Hidden_layer_2[i] /= Math.Abs(max);
                   
-                }
+                }*/
                
                 Hidden_layer_2[i] = Activation(Hidden_layer_2[i]);
 
@@ -445,12 +445,12 @@ namespace NeuralNetworks1
             // normalize Out layer
             for (int i = 0; i < Out_layer_size; ++i)
             {
-                if (Math.Abs(max) > eps)
-                    Out_layer[i] /= Math.Abs(max);
+                //if (Math.Abs(max) > eps)
+                   // Out_layer[i] /= Math.Abs(max);
 
-                //Out_layer[i] = Activation(Out_layer[i]);
+                Out_layer[i] = Activation(Out_layer[i]);
             }
-
+            
             // find max value in Out_layer
             double maxv = double.MinValue;
             int ind = -1;
