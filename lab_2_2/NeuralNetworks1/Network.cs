@@ -13,7 +13,7 @@ namespace NeuralNetworks1
     class Network
     {
         const int epoches = 10;
-        const double learning_rate = 0.01;
+        const double learning_rate = 0.001;
         const int samples_cnt = 100;
 
         const double eps = 0.001;
@@ -29,8 +29,14 @@ namespace NeuralNetworks1
         private double[] Weights2 = new double[Hidden_layer2_size * Out_layer_size];
 
         private double[] Hidden_layer_1 = new double[Hidden_layer1_size];
+        //private double[] H1_input = new double[Hidden_layer1_size];
+        
         private double[] Hidden_layer_2 = new double[Hidden_layer2_size];
+        //private double[] H2_input = new double[Hidden_layer2_size];
+
         private double[] Out_layer = new double[Out_layer_size];
+        //private double[] Out_layer_input = new double[Out_layer_size];
+
 
 
         private List<bool> correct = new List<bool>();
@@ -54,7 +60,7 @@ namespace NeuralNetworks1
             
             for (int i = 0; i < Weights0.Length; ++i)
             {
-                if (rand.Next(100) < 40)
+                if (rand.Next(100) < 20)
                 {
                     Weights0[i] = 0;
                 }
@@ -70,9 +76,20 @@ namespace NeuralNetworks1
         /// <returns></returns>
         private double Activation(double x)
         {
-            return 1 / (1 + Math.Exp(-1 * x)); // sigmoid
+            return 1 / (1 + Math.Exp(-x)); // sigmoid
             //return x; // identity
             //return (x > 0) ? x : 0; // ReLU
+        }
+
+        private double Derivative(double x)
+        {
+            // sigmoid
+            return x * (1 - x);
+
+            // relu
+            //if (x <= 0)
+            //    return 0;
+            //else return 1;
         }
 
         public double[] Preprocess(Image image)
@@ -134,8 +151,12 @@ namespace NeuralNetworks1
                     Debug.WriteLine("Complete");
                     ++iter_cnt;
                     if (correct.Count > 100)
-                        if (check_last_correct() > 0.7)
+                    {
+                        var t1 = check_last_correct();
+                        Debug.WriteLine("Recall: " + t1);
+                        if (t1 > 0.4)
                             break;
+                    }
                 }
                 //Save_weights();
             }
@@ -224,28 +245,23 @@ namespace NeuralNetworks1
                 // diffenerence between output and desired results 
                 double d = Out_layer[(int)t] - Out_layer[(int)label];
                 if (Math.Abs(d) < 1e-2)
-                    d += 0.5;
-                if (double.IsNaN(d))
-                    b = true;
+                    d += 0.1;
                 for (int i = 0; i < Out_layer_size; ++i)
                 {
                     if (i == (int)label)
                         continue;
-                    if (Math.Abs(Out_layer[i] - Out_layer[(int)label]) < 1e-2 || Out_layer[i] < Out_layer[(int)label])
+                    if (Math.Abs(Out_layer[i] - Out_layer[(int)label]) < 1e-2 || Out_layer[i] > Out_layer[(int)label])
                     {
                         dest[i] = Out_layer[i] - d;
                         err_out[i] = -d;
                         //dest[i] = Out_layer[(int)label];
                         //err_out[i] = dest[i] - Out_layer[(int)label];
-                        if (double.IsNaN(err_out[i]))
-                            b = true;
+
                     }
                     else
                     {
                         dest[i] = Out_layer[i];
                         err_out[i] = 0;
-                        if (double.IsNaN(err_out[i]))
-                            b = true;
                     }
                 }
                 dest[(int)label] += d;
@@ -272,7 +288,7 @@ namespace NeuralNetworks1
 
                         //double dw = Out_layer[j] * err_out[j] * learning_rate;
 
-                        double dw = Hidden_layer_2[i] * err_out[j] * learning_rate;
+                        double dw = Hidden_layer_2[i] * err_out[j] * learning_rate * Derivative(Out_layer[j]);
 
                         Weights2[w_index] += dw;
 
@@ -281,13 +297,10 @@ namespace NeuralNetworks1
 
                         // count error for hidden layer 2
                         err_2[i] += err_out[j] * Weights2[i * Out_layer_size + j]; // sum(errj * wij) * g'(inputsumi)
-
-                        if (double.IsNaN(Weights2[w_index]))
-                            b = true;
-
-                        if (Weights2[w_index] > 1)
-                            b = true;
+                        
+                       
                     }
+                    err_2[i] *= Derivative(Hidden_layer_2[i]);
                 }
 
                 // Hidden layer 2 ---> Hidden layer 1
@@ -296,11 +309,9 @@ namespace NeuralNetworks1
                     for (int j = 0; j < Hidden_layer2_size; ++j)
                     {
                         int w_index = i * Hidden_layer2_size + j;
-                        double dw = Hidden_layer_1[i] * err_2[j] * learning_rate;
+                        double dw = Hidden_layer_1[i] * err_2[j] * learning_rate * Derivative(Hidden_layer_2[j]);
                         Weights1[w_index] += dw;
-                        bool b2 = false;
-                        if (double.IsNaN(Weights1[w_index]))
-                            b2 = true;
+ 
                     }
                 }
                 Debug.WriteLine("Before predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString()
@@ -333,50 +344,48 @@ namespace NeuralNetworks1
                 if (Hidden_layer_1[i] > max)
                     max = Hidden_layer_1[i];
 
-                if (double.IsNaN(Hidden_layer_1[i]))
-                    b = true;
             }
             // normalize Hidden layer 1
-            if (max > 1)
-            {
-                for (int i = 0; i < Hidden_layer1_size; ++i)
+            for (int i = 0; i < Hidden_layer1_size; ++i)
+            { 
+                if (max > 1)
                 {
                     Hidden_layer_1[i] /= max;
-                    Hidden_layer_1[i] = Activation(Hidden_layer_1[i]);
-
+            
                 }
+                
+                Hidden_layer_1[i] = Activation(Hidden_layer_1[i]);
+
             }
 
             // Hidden layer 1 --- (Weights 1) ---> Hidden layer 2 
             max = double.MinValue;
             for (int j = 0; j < Hidden_layer2_size; ++j)                
             {
-                if (j == 299)
-                    b = true;
                 Hidden_layer_2[j] = 0;
 
                 // sum of inputs*weights
                 for (int i = 0; i < Hidden_layer1_size; ++i)
                 {
-                    Hidden_layer_2[j] += Hidden_layer_1[i] * Weights1[i * Hidden_layer2_size + j];
+                    Hidden_layer_2[j] += Activation(Hidden_layer_1[i]) * Weights1[i * Hidden_layer2_size + j];
                 }
 
                 if (Hidden_layer_2[j] > max)
                     max = Hidden_layer_2[j];
-
-                if (double.IsNaN(Hidden_layer_2[j]))
-                    b = true;
+                
             }
 
             // normalize Hidden layer 2
-            if (max > 1)
+            for (int i = 0; i < Hidden_layer2_size; ++i)
             {
-                for (int i = 0; i < Hidden_layer2_size; ++i)
+                if (max > 1)
                 {
                     Hidden_layer_2[i] /= max;
-                    Hidden_layer_2[i] = Activation(Hidden_layer_2[i]);
-
+                  
                 }
+               
+                Hidden_layer_2[i] = Activation(Hidden_layer_2[i]);
+
             }
 
             // Hidden layer 2 --- (Weights 2) ---> Out layer
@@ -387,39 +396,35 @@ namespace NeuralNetworks1
 
                 for (int i = 0; i < Hidden_layer2_size; ++i)
                 {
-                    Out_layer[j] += Hidden_layer_2[i] * Weights2[i * Out_layer_size + j];
+                    Out_layer[j] += Activation(Hidden_layer_2[i]) * Weights2[i * Out_layer_size + j];
                 }
 
                 if (Out_layer[j] > max)
                     max = Out_layer[j];
-
-                if (double.IsNaN(Out_layer[j]))
-                    b = true;
+                
 
             }
 
             // normalize Out layer
-            if (max > 1)
+            for (int i = 0; i < Out_layer_size; ++i)
             {
-                for (int i = 0; i < Out_layer_size; ++i)
-                {
+                if (max > 1)
                     Out_layer[i] /= max;
-                    Out_layer[i] = Activation(Out_layer[i]);
-
-                }
+                //Out_layer[i] = Activation(Out_layer[i]);
+                Out_layer[i] = Activation(Out_layer[i]);
             }
 
             // find max value in Out_layer
             double maxv = double.MinValue;
             int ind = -1;
             for (int i = 0; i < Out_layer_size; ++i)
+            {
                 if (Out_layer[i] > maxv)
                 {
                     maxv = Out_layer[i];
                     ind = i;
                 }
-            if (ind < 0)
-                b = true;
+            }
 
             return (Type)ind;
         }
