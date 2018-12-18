@@ -341,11 +341,9 @@ namespace NeuralNetworks1
                     }
                 }
 
-                Debug.WriteLine("Before predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString()
-                                + " " + Out_layer[2].ToString() + " " + Out_layer[3].ToString());
+                Debug.WriteLine(string.Format("Before: {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
                 t = Predict(data);
-                Debug.WriteLine("After predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString()
-                                + " " + Out_layer[2].ToString() + " " + Out_layer[3].ToString());
+                Debug.WriteLine(string.Format("After:  {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
                 //if (t == label)
                 //    correct.Add(true);
                 //else correct.Add(false);
