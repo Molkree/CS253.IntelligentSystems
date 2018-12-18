@@ -26,7 +26,7 @@ namespace NeuralNetworks1
         const int Img_size = 200;
         const int Input_size = Img_size + Img_size;
         const int Hidden_layer1_size = 800;
-        const int Hidden_layer2_size = 400;
+        const int Hidden_layer2_size = 800;
         const int Out_layer_size = 4;
 
         private double[] Weights0 = new double[Input_size * Hidden_layer1_size];
@@ -247,7 +247,7 @@ namespace NeuralNetworks1
                     if (i == (int)label)
                         err_out[i] = d;
                     //if (Math.Abs(Out_layer[i] - Out_layer[(int)label]) < 1e-2 || Out_layer[i] > Out_layer[(int)label])
-                    if (Out_layer[i] > Out_layer[(int)label])
+                    else if (Out_layer[i] > Out_layer[(int)label])
                         err_out[i] = Out_layer[(int)label] - Out_layer[i];          
                     else
                         err_out[i] = 0;
