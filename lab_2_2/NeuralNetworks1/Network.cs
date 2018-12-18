@@ -12,8 +12,13 @@ namespace NeuralNetworks1
 
     class Network
     {
+        const double min_rand = -0.5;
+        const double max_rand = 0.5;
+
+
+
         const int epoches = 10;
-        const double learning_rate = 0.001;
+        const double learning_rate = 0.1;
         const int samples_cnt = 100;
 
         const double eps = 0.001;
@@ -27,6 +32,8 @@ namespace NeuralNetworks1
         private double[] Weights0 = new double[Input_size * Hidden_layer1_size];
         private double[] Weights1 = new double[Hidden_layer1_size * Hidden_layer2_size];
         private double[] Weights2 = new double[Hidden_layer2_size * Out_layer_size];
+
+        private double[] Input_layer = new double[Input_size];
 
         private double[] Hidden_layer_1 = new double[Hidden_layer1_size];
         //private double[] H1_input = new double[Hidden_layer1_size];
@@ -50,17 +57,17 @@ namespace NeuralNetworks1
             {
                 if (i < Weights1.Length)
                 {
-                    Weights1[i] = rand.NextDouble();
+                    Weights1[i] = min_rand + rand.NextDouble() * (max_rand - min_rand);
                 }
                 if (i < Weights2.Length)
                 {
-                    Weights2[i] = rand.NextDouble();
+                    Weights2[i] = min_rand + rand.NextDouble() * (max_rand - min_rand);
                 }
             }
             
             for (int i = 0; i < Weights0.Length; ++i)
             {
-                if (rand.Next(100) < 20)
+                if (rand.Next(100) < 10)
                 {
                     Weights0[i] = 0;
                 }
@@ -134,12 +141,8 @@ namespace NeuralNetworks1
             else
             {
                 Painter p = new Painter();
-                //for (int i = 0; i < 1; ++i)
                 while (true)
                 {
-                    //bool b = false;
-                    //if (i % 100 == 0)
-                    //    b = true;
                     Random rand = new Random();
                     Image img = new Bitmap(200, 200);
                     //int t = i % 4;
@@ -222,10 +225,7 @@ namespace NeuralNetworks1
         
         private void TrainOne(double[] data, Type label)
         {
-            bool b = false;
-
             var t = Predict(data);
-            //Debug.WriteLine("After first predict: " + Out_layer[0].ToString() + " " + Out_layer[1].ToString());
             if (t == label)
                 correct.Add(true);
             else
@@ -235,10 +235,6 @@ namespace NeuralNetworks1
             }
             if (t != label)
             {
-                
-                // count dest vector
-                double[] dest = new double[Out_layer_size];
-
                 // error vector for output layer
                 double[] err_out = new double[Out_layer_size];
 
@@ -249,26 +245,15 @@ namespace NeuralNetworks1
                 for (int i = 0; i < Out_layer_size; ++i)
                 {
                     if (i == (int)label)
-                        continue;
-                    if (Math.Abs(Out_layer[i] - Out_layer[(int)label]) < 1e-2 || Out_layer[i] > Out_layer[(int)label])
-                    {
-                        dest[i] = Out_layer[i] - d;
-                        err_out[i] = -d;
-                        //dest[i] = Out_layer[(int)label];
-                        //err_out[i] = dest[i] - Out_layer[(int)label];
-
-                    }
+                        err_out[i] = d;
+                    //if (Math.Abs(Out_layer[i] - Out_layer[(int)label]) < 1e-2 || Out_layer[i] > Out_layer[(int)label])
+                    if (Out_layer[i] > Out_layer[(int)label])
+                        err_out[i] = Out_layer[(int)label] - Out_layer[i];          
                     else
-                    {
-                        dest[i] = Out_layer[i];
                         err_out[i] = 0;
-                    }
+                    
                 }
-                dest[(int)label] += d;
-                err_out[(int)label] = d;
-                //dest[(int)label] = Out_layer[(int)t];
-                //err_out[(int)label] = dest[(int)label] - Out_layer[(int)t];
-
+                
 
                 // Out layer --> Hidden layer 2
 
@@ -280,40 +265,80 @@ namespace NeuralNetworks1
                     err_2[i] = 0;
                     for (int j = 0; j < Out_layer_size; ++j)
                     {
-
-                        // count Weights2
                         int w_index = i * Out_layer_size + j;
+                        err_2[i] += err_out[j] * Weights2[w_index];
 
+                        // OLD VERSION
+                        // count Weights2
+                        
                         // Wji += alpha (== learning_rate) * aj * Erri [* g'(input_sumi) - for output layer]
 
                         //double dw = Out_layer[j] * err_out[j] * learning_rate;
 
-                        double dw = Hidden_layer_2[i] * err_out[j] * learning_rate * Derivative(Out_layer[j]);
+                        //double dw = Hidden_layer_2[i] * err_out[j] * learning_rate * Derivative(Out_layer[j]);
 
-                        Weights2[w_index] += dw;
+                        //Weights2[w_index] += dw;
 
 
                         // QUESTION: before or after recount of weights?
 
                         // count error for hidden layer 2
-                        err_2[i] += err_out[j] * Weights2[i * Out_layer_size + j]; // sum(errj * wij) * g'(inputsumi)
+                        //err_2[i] += err_out[j] * Weights2[i * Out_layer_size + j]; // sum(errj * wij) * g'(inputsumi)
                         
                        
                     }
-                    err_2[i] *= Derivative(Hidden_layer_2[i]);
+                    //err_2[i] *= Derivative(Hidden_layer_2[i]);
                 }
-
+                double[] err_1 = new double[Hidden_layer1_size];
                 // Hidden layer 2 ---> Hidden layer 1
                 for (int i = 0; i < Hidden_layer1_size; ++i)
                 {
+                    err_1[i] = 0;
                     for (int j = 0; j < Hidden_layer2_size; ++j)
                     {
                         int w_index = i * Hidden_layer2_size + j;
-                        double dw = Hidden_layer_1[i] * err_2[j] * learning_rate * Derivative(Hidden_layer_2[j]);
-                        Weights1[w_index] += dw;
- 
+                        err_1[i] += err_2[j] * Weights1[w_index];
                     }
                 }
+
+                // change weights
+                // Input --- (W0) ---> Hidden1
+                for (int i = 0; i < Input_size; ++i)
+                {
+                    for (int j = 0; j < Hidden_layer1_size; ++j)
+                    {
+                        int w_index = i * Input_size + j;
+                        if (Weights0[w_index] != 0)
+                        {
+                            double next_output = Hidden_layer_1[j];
+                            double dw = learning_rate * err_1[j] * Input_layer[i] * (next_output * (1 - next_output));
+                            Weights0[w_index] += dw;
+                        }
+                    }
+                }
+
+                // Hidden1 --- (W1) --- Hidden2
+                for (int i = 0; i  < Hidden_layer1_size; ++i)
+                {
+                    for (int j = 0; j < Hidden_layer2_size; ++j)
+                    {
+                        int w_index = i * Hidden_layer1_size + j;
+                        double next_out = Hidden_layer_2[j];
+                        double dw = learning_rate * err_2[j] * Hidden_layer_1[i] * (next_out * (1 - next_out));
+                    }
+                }
+
+                // Hidden2 --- (W2) --- Out
+                for (int i = 0; i < Hidden_layer2_size; ++i)
+                {
+                    for (int j = 0; j < Out_layer_size; ++j)
+                    {
+                        int w_index = i * Hidden_layer2_size + j;
+                        double next_out = Out_layer[j];
+                        double dw = learning_rate * err_out[j] * Hidden_layer_2[i] * (next_out * (1 - next_out));
+                    }
+                }
+
                 Debug.WriteLine("Before predict " + Out_layer[0].ToString() + " " + Out_layer[1].ToString()
                                 + " " + Out_layer[2].ToString() + " " + Out_layer[3].ToString());
                 t = Predict(data);
@@ -328,10 +353,12 @@ namespace NeuralNetworks1
 
         public Type Predict(double[] data)
         {
-            // Input layer --- (Weights0) ---> Hidden layer 1
+           
+            data.CopyTo(Input_layer, 0);
 
             double max = double.MinValue;
-            bool b = false;
+
+            // Input layer --- (Weights0) ---> Hidden layer 1
 
             for (int i = 0; i < Hidden_layer1_size; ++i)
             {
@@ -410,8 +437,8 @@ namespace NeuralNetworks1
             {
                 if (max > 1)
                     Out_layer[i] /= max;
+
                 //Out_layer[i] = Activation(Out_layer[i]);
-                Out_layer[i] = Activation(Out_layer[i]);
             }
 
             // find max value in Out_layer
