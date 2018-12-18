@@ -307,7 +307,7 @@ namespace NeuralNetworks1
                 {
                     for (int j = 0; j < Hidden_layer1_size; ++j)
                     {
-                        int w_index = i * Input_size + j;
+                        int w_index = i * Hidden_layer1_size + j;
                         if (Weights0[w_index] != 0)
                         {
                             double next_output = Hidden_layer_1[j];
@@ -322,7 +322,7 @@ namespace NeuralNetworks1
                 {
                     for (int j = 0; j < Hidden_layer2_size; ++j)
                     {
-                        int w_index = i * Hidden_layer1_size + j;
+                        int w_index = i * Hidden_layer2_size + j;
                         double next_out = Hidden_layer_2[j];
                         double dw = learning_rate * err_2[j] * Hidden_layer_1[i] * (next_out * (1 - next_out));
                         Weights1[w_index] += dw;
@@ -334,7 +334,7 @@ namespace NeuralNetworks1
                 {
                     for (int j = 0; j < Out_layer_size; ++j)
                     {
-                        int w_index = i * Hidden_layer2_size + j;
+                        int w_index = i * Out_layer_size + j;
                         double next_out = Out_layer[j];
                         double dw = learning_rate * err_out[j] * Hidden_layer_2[i] * (next_out * (1 - next_out));
                         Weights2[w_index] += dw;
