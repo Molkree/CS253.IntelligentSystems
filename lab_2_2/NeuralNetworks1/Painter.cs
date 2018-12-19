@@ -105,8 +105,8 @@ namespace NeuralNetworks1
             //max_size_y -= 20;
 
 
-            if (type < 0 || type > 2)
-                type = rand.Next(0, 2);
+            if (type < 0 || type > 3)
+                type = rand.Next(0, 3);
 
 //            if (type == 0)
 //                type = 2;

@@ -27,7 +27,7 @@ namespace NeuralNetworks1
         const int Input_size = Img_size + Img_size;
         const int Hidden_layer1_size = 800;
         const int Hidden_layer2_size = 800;
-        const int Out_layer_size = 2;
+        const int Out_layer_size = 3;
 
         private double[] Weights0 = new double[Input_size * Hidden_layer1_size];
 
@@ -156,7 +156,7 @@ namespace NeuralNetworks1
                 {
                     Image img = new Bitmap(200, 200);
                     //int t = i % 4;
-                    int t = rand.Next() % 2;
+                    int t = rand.Next() % 3;
                     img = p.GenerateImage(img, t);
                     //img.Save("img" + iter_cnt.ToString() + ".png");
                     Debug.WriteLine("Label: " + t.ToString());
@@ -355,10 +355,10 @@ namespace NeuralNetworks1
                 }
 
                 //Debug.WriteLine(string.Format("Before: {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
-                Debug.WriteLine(string.Format("Before: {0:F15} {1:F15}\n", Out_layer[0], Out_layer[1]));
+                Debug.WriteLine(string.Format("Before: {0:F15} {1:F15} {2:F15} \n", Out_layer[0], Out_layer[1], Out_layer[2]));
                 t = Predict(data);
                 //Debug.WriteLine(string.Format("After:  {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
-                Debug.WriteLine(string.Format("After:  {0:F15} {1:F15}\n", Out_layer[0], Out_layer[1]));
+                Debug.WriteLine(string.Format("After:  {0:F15} {1:F15} {2:F15} \n", Out_layer[0], Out_layer[1], Out_layer[2]));
                 //if (t == label)
                 //    correct.Add(true);
                 //else correct.Add(false);
