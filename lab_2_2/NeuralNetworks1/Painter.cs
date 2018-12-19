@@ -13,11 +13,11 @@ namespace NeuralNetworks1
         Pen pen = Pens.Black;
 
         // отклонение от цетра по x и y
-        int dx = 5;
-        int dy = 5;
+        int dx = 2;
+        int dy = 2;
 
 
-        int min_size = 70;
+        int min_size = 150;
        
 
         //  Координаты текущей точки на канве
@@ -95,18 +95,18 @@ namespace NeuralNetworks1
             int cx = w / 2 + rand.Next(-dx, dx);
             int cy = h / 2 + rand.Next(-dy, dy);
 
-            int max_size_x = w - cx;
-            int max_size_y = h - cy;
+            int max_size_x = w - cx/2;
+            int max_size_y = h - cy/2;
 
-            min_size = max_size_x - 30;
+            min_size = max_size_x - 10;
 
             // in order not to scale
             //max_size_x -= 20;
             //max_size_y -= 20;
 
 
-            if (type < 0 || type > 4)
-                type = rand.Next(0, 4);
+            if (type < 0 || type > 2)
+                type = rand.Next(0, 2);
 
 //            if (type == 0)
 //                type = 2;

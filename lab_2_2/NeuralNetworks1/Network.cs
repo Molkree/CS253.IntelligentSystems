@@ -18,7 +18,7 @@ namespace NeuralNetworks1
         const int connection_cnt = 6;
 
         const int epoches = 10;
-        const double learning_rate = 0.1;
+        const double learning_rate = 0.01;
         const int samples_cnt = 100;
 
         const double eps = 0.001;
@@ -27,7 +27,7 @@ namespace NeuralNetworks1
         const int Input_size = Img_size + Img_size;
         const int Hidden_layer1_size = 800;
         const int Hidden_layer2_size = 800;
-        const int Out_layer_size = 4;
+        const int Out_layer_size = 2;
 
         private double[] Weights0 = new double[Input_size * Hidden_layer1_size];
 
@@ -149,13 +149,14 @@ namespace NeuralNetworks1
             }
             else
             {
+                double rec = 20; 
+                    Random rand = new Random();
                 Painter p = new Painter();
                 while (true)
                 {
-                    Random rand = new Random();
                     Image img = new Bitmap(200, 200);
                     //int t = i % 4;
-                    int t = rand.Next() % 4;
+                    int t = rand.Next() % 2;
                     img = p.GenerateImage(img, t);
                     //img.Save("img" + iter_cnt.ToString() + ".png");
                     Debug.WriteLine("Label: " + t.ToString());
@@ -165,12 +166,14 @@ namespace NeuralNetworks1
                     if (correct.Count > 100)
                     {
                         var t1 = check_last_correct();
+                        if (t1 > rec)
+                            rec = t1;
                         Debug.WriteLine("Recall: " + t1);
-                        if (t1 > 0.5)
+                        if (t1 > 0.8)
                             break;
                     }
                 }
-                Save_weights();
+                //Save_weights();
             }
         }
 
@@ -351,9 +354,11 @@ namespace NeuralNetworks1
                     }
                 }
 
-                Debug.WriteLine(string.Format("Before: {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
+                //Debug.WriteLine(string.Format("Before: {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
+                Debug.WriteLine(string.Format("Before: {0:F15} {1:F15}\n", Out_layer[0], Out_layer[1]));
                 t = Predict(data);
-                Debug.WriteLine(string.Format("After:  {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
+                //Debug.WriteLine(string.Format("After:  {0:F15} {1:F15} {2:F15} {3:F15}\n", Out_layer[0], Out_layer[1], Out_layer[2], Out_layer[3]));
+                Debug.WriteLine(string.Format("After:  {0:F15} {1:F15}\n", Out_layer[0], Out_layer[1]));
                 //if (t == label)
                 //    correct.Add(true);
                 //else correct.Add(false);
@@ -385,11 +390,11 @@ namespace NeuralNetworks1
             // normalize Hidden layer 1
             for (int i = 0; i < Hidden_layer1_size; ++i)
             { 
-                /*if (Math.Abs(max) > eps)
+                if (Math.Abs(max) > eps)
                 {
                     Hidden_layer_1[i] /= Math.Abs(max);
             
-                }*/
+                }
                 
                 Hidden_layer_1[i] = Activation(Hidden_layer_1[i]);
 
@@ -415,11 +420,11 @@ namespace NeuralNetworks1
             // normalize Hidden layer 2
             for (int i = 0; i < Hidden_layer2_size; ++i)
             {
-               /* if (Math.Abs(max) > eps)
+                if (Math.Abs(max) > eps)
                 {
                     Hidden_layer_2[i] /= Math.Abs(max);
                   
-                }*/
+                }
                
                 Hidden_layer_2[i] = Activation(Hidden_layer_2[i]);
 
@@ -445,8 +450,8 @@ namespace NeuralNetworks1
             // normalize Out layer
             for (int i = 0; i < Out_layer_size; ++i)
             {
-                //if (Math.Abs(max) > eps)
-                   // Out_layer[i] /= Math.Abs(max);
+                if (Math.Abs(max) > eps)
+                    Out_layer[i] /= Math.Abs(max);
 
                 Out_layer[i] = Activation(Out_layer[i]);
             }
