@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Accord.Video.DirectShow;
 using Accord.Video;
 using Accord.Imaging.Filters;
+using System.IO;
 
 namespace NN2
 {
@@ -21,6 +22,10 @@ namespace NN2
         Bitmap image;
         Graphics g;
         Network net;
+        double[][] dataset;
+        double[][] labels;
+
+        const int classes = 10;
 
         public Form1()
         {
@@ -39,7 +44,7 @@ namespace NN2
             {
                 MessageBox.Show("Exception:" + ex.ToString());
             }
-            net = new Network(28 * 28, 500);
+            net = new Network(28 * 28, classes);
             
 
         }
@@ -66,27 +71,16 @@ namespace NN2
         private void button_catch_Click(object sender, EventArgs e)
         {
             Bitmap input_image = pictureBox1.Image as Bitmap;
-            Grayscale gray_filter = new Grayscale(0.2125, 0.7154, 0.0721);
-            BradleyLocalThresholding threshold_filter = new BradleyLocalThresholding();
-            threshold_filter.PixelBrightnessDifferenceLimit = 0.1f;
             ResizeBicubic scale_filter = new ResizeBicubic(pictureBox2.Width, pictureBox2.Height);
-            ResizeBicubic scale_small_filter = new ResizeBicubic(28, 28);
-            Crop crop_filter = new Crop(new Rectangle(51, 51, 199, 199));
-          
-            image = gray_filter.Apply(input_image);
-            image = crop_filter.Apply(image);
-            image = threshold_filter.Apply(image);
-
-            image = scale_small_filter.Apply(image);
-
+            
+            image = net.Filter(input_image);
+            
             pictureBox3.Image = image;
             pictureBox3.Refresh();
-
-
-
-            Bitmap bigger_bmp = scale_filter.Apply(image);
             
-            pictureBox2.Image = bigger_bmp;
+            Bitmap bigger_image = scale_filter.Apply(image);
+            
+            pictureBox2.Image = bigger_image;
             pictureBox2.Refresh();
 
         }
@@ -100,14 +94,14 @@ namespace NN2
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Enter)
+            if (e.KeyData == Keys.C)
                 button_catch_Click(sender, e);
         }
 
         private void button_predict_Click(object sender, EventArgs e)
         {
-            int number = net.Predict(image);
-            label_predict.Text = "It is " + number.ToString() + "!";
+            int number = net.Predict(pictureBox3.Image as Bitmap);
+            label_predict.Text = "Я думаю, это " + number.ToString() + ".";
         }
         
 
@@ -134,9 +128,129 @@ namespace NN2
 
         private void button_train_Click(object sender, EventArgs e)
         {
-            label_predict.Text = "training...";
-            net.Train();
-            label_predict.Text = "Ready!";
+            cVideoCaptureDevice.SignalToStop();            
+            Make_training_dataset();
+            label_predict.Text = "Тренировка...";
+            net.Train(dataset, labels);
+            label_predict.Text = "Готово!";
+            cVideoCaptureDevice.Start();
+
+        }
+
+        private void button_save_Click(object sender, EventArgs e)
+        {
+            //  Если нет изображения, то и сохранять нечего, выходим
+            if (pictureBox3.Image == null)
+                return;
+
+            SaveFileDialog saveDlg = new SaveFileDialog();
+
+            //  Открываем файлы из папки приложения
+            saveDlg.InitialDirectory = Environment.CurrentDirectory;
+
+            
+            //  После закрытия диалога восстанавливаем исходную текущую директорию
+            saveDlg.RestoreDirectory = true;
+
+            //  Определяем заголовок диалога
+            saveDlg.Title = "Сохранить изображение как...";
+
+            //  Показываем диалог, и если сохранение подтверждено, сохраняем файл
+            if (saveDlg.ShowDialog() == DialogResult.OK)
+                pictureBox3.Image.Save(saveDlg.FileName);
+
+            return;
+        }
+
+        private void button_open_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDlg = new OpenFileDialog();
+
+            openDlg.InitialDirectory = Environment.CurrentDirectory;
+            openDlg.RestoreDirectory = true;
+            openDlg.Title = "Открыть изображение как...";
+            if (openDlg.ShowDialog() == DialogResult.OK)
+                try
+                {
+                    pictureBox3.Image = new Bitmap(openDlg.FileName);
+                    ResizeBicubic scale_filter = new ResizeBicubic(pictureBox2.Width, pictureBox2.Height);
+                    pictureBox2.Image = scale_filter.Apply(pictureBox3.Image as Bitmap);
+                }
+                catch
+                {
+                    MessageBox.Show("Не могу открыть изображение.");
+                }
+            return;
+        }
+
+        public void Make_training_dataset()
+        {
+            List<double[]> list_dataset = new List<double[]>();
+            List<double[]> list_labels = new List<double[]>();
+
+            FolderBrowserDialog openDlg = new FolderBrowserDialog();
+            openDlg.SelectedPath = Environment.CurrentDirectory;
+            //OpenFileDialog openDlg = new OpenFileDialog();
+
+            //openDlg.InitialDirectory = Environment.CurrentDirectory;
+            //openDlg.RestoreDirectory = true;
+            openDlg.Description = "Выберите папку с изображениями...";
+            String path = "";
+            if (openDlg.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(openDlg.SelectedPath))                
+            {
+                path = openDlg.SelectedPath;
+            }
+
+            if (path != "")
+                foreach (string file in Directory.EnumerateFiles(path, "*.png"))
+                {
+                    Bitmap img = new Bitmap(file);
+                    String name = System.IO.Path.GetFileName(file);
+                    list_dataset.Add(net.Preprocess(img));
+                    double[] lbl = new double[classes];
+                    for (int i = 0; i < classes; ++i)
+                        lbl[i] = 0;
+                    switch (name[0])
+                    {
+                        case '0':
+                            lbl[0] = 1;
+                            break;
+                        case '1':
+                            lbl[1] = 1;
+                            break;
+                        case '2':
+                            lbl[2] = 1;
+                            break;
+                        case '3':
+                            lbl[3] = 1;
+                            break;
+                        case '4':
+                            lbl[4] = 1;
+                            break;
+                        case '5':
+                            lbl[5] = 1;
+                            break;
+                        case '6':
+                            lbl[6] = 1;
+                            break;
+                        case '7':
+                            lbl[7] = 1;
+                            break;
+                        case '8':
+                            lbl[8] = 1;
+                            break;
+                        case '9':
+                            lbl[9] = 1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    list_labels.Add(lbl);
+                }
+
+            dataset = list_dataset.ToArray();
+            labels = list_labels.ToArray();
         }
     }
     

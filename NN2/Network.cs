@@ -17,43 +17,66 @@ namespace NN2
     class Network
     {
         const double Eps = 1e-2;
-        const int Epochs = 100;
+        const int Epochs = 100000;
 
-        private UnmanagedImage data;
+        //private UnmanagedImage data;
         //BackPropagationLearning backprop;
         //ActivationLayer input_layer;
         //ActivationLayer hidden_layer;
         //ActivationLayer output_layer;
+        //double[] data;
         private int input_size;
-        private int hidden_size;
         private int output_size;
         ActivationNetwork net;
+        ParallelResilientBackpropagationLearning backprop;
+        NguyenWidrow nguen;
 
-        public Network(int input_sz, int hidden_sz, int output_sz = 10)
+        public Network(int input_sz, int output_sz = 10)
         {
             input_size = input_sz;
-            hidden_size = hidden_sz;
             output_size = output_sz;
-            net = new ActivationNetwork(new SigmoidFunction(), input_size, hidden_size, output_size);
+            net = new ActivationNetwork(new Accord.Neuro.BipolarSigmoidFunction(), 
+                input_size, input_size*3, input_size * 2, input_size, 100, output_size);
+            backprop = new ParallelResilientBackpropagationLearning(net);
+            nguen = new NguyenWidrow(net);
+            nguen.Randomize();
         }
 
         public int Predict(Bitmap img)
         {
+            //Filter(img);
             double[] res = net.Compute(Preprocess(img));
             return res.ArgMax();
         }
 
-        public double[] Preprocess(Bitmap input_image)
+        public double[] Preprocess(Bitmap bmp)
         {
-            Grayscale gray_filter = new Grayscale(0.2125, 0.7154, 0.0721);
-            ResizeBilinear scale_filter = new ResizeBilinear(28, 28);
-            BradleyLocalThresholding threshold_filter = new BradleyLocalThresholding();
+            int w = bmp.Width;
+            int h = bmp.Height;
 
-            Bitmap bmp = gray_filter.Apply(input_image);
-            bmp = scale_filter.Apply(bmp);
-            bmp = threshold_filter.Apply(bmp);
+            System.Drawing.Imaging.BitmapData imdata = bmp.LockBits(
+                new Rectangle(0, 0, w, h),
+                System.Drawing.Imaging.ImageLockMode.ReadWrite, bmp.PixelFormat);
 
-            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+            UnmanagedImage unmImg = new UnmanagedImage(imdata);
+
+                       
+            double[] res = new double[w*h];
+            for (int i = 0; i < w; ++i)
+                for (int j = 0; j < h; ++j)
+                {
+                    float c = unmImg.GetPixel(i, j).GetBrightness();
+                    res[i * w + j] = c;
+//                    Color c = bmp.GetPixel(i, j);
+                    /*if (c.R < 50 && c.G < 50 && c.B < 50)
+                        res[i * w + j] = 1;
+                    else res[i * w + j] = 0;*/
+                }
+
+            bmp.UnlockBits(imdata);
+
+            return res;
+            /*Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
             System.Drawing.Imaging.BitmapData bmpData =
                 bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
                 bmp.PixelFormat);
@@ -68,8 +91,24 @@ namespace NN2
             // Copy the RGB values into the array.
             System.Runtime.InteropServices.Marshal.Copy(ptr, res, 0, bytes);
 
+            return res;*/
+        }
 
-            return res;
+        public Bitmap Filter(Bitmap input_image)
+        {
+            Grayscale gray_filter = new Grayscale(0.2125, 0.7154, 0.0721);
+            BradleyLocalThresholding threshold_filter = new BradleyLocalThresholding();
+            threshold_filter.PixelBrightnessDifferenceLimit = 0.5f;
+            ResizeBicubic scale_small_filter = new ResizeBicubic(28, 28);
+            Crop crop_filter = new Crop(new Rectangle(51, 51, 199, 199));
+            ResizeBilinear scale_filter = new ResizeBilinear(28, 28);
+
+            Bitmap bmp = gray_filter.Apply(input_image);
+            bmp = crop_filter.Apply(bmp);
+            bmp = threshold_filter.Apply(bmp);
+            bmp = scale_small_filter.Apply(bmp);
+     
+            return bmp;
         }
 
         public void Load_net(String path)
@@ -77,30 +116,33 @@ namespace NN2
             net = Accord.Neuro.Network.Load(path) as ActivationNetwork;
         }
 
-        public void Train()
+        public void Train(double[][] dataset, double[][] labels)
         {
-            Accord.DataSets.MNIST mnist = new Accord.DataSets.MNIST();
-            var training = mnist.Training;
+            if (dataset.Length <= 0)
+                return;
+
+            net.Randomize();
             
-            BackPropagationLearning backprop = new BackPropagationLearning(net);
-            double error = double.MaxValue;
+            double error = 100;
             int epoch = 0;
-            while (epoch < Epochs)
+            int len = dataset.Length;
+      
+            while (error > 0.03 && epoch < Epochs)
             {
-                // for some reason it's size is not 28*28, it is 780...
-                var samples = training.Item1.ToDense();
-
+                error = backprop.RunEpoch(dataset, labels) / len;
+                Debug.WriteLine("iteration = " + epoch.ToString());
+                Debug.WriteLine("error = " + error.ToString());
                 // because we need double[][]
-                int len = training.Item2.Length;
-                double[][] labels = new double[len][];
-                for (int j = 0; j < len; ++j)
-                {
-                    labels[j] = new double[] { training.Item2[j] };
-                }
+                //int len = training.Item2.Length;
+                //double[][] labels = new double[len][];
+                //for (int j = 0; j < len; ++j)
+                //{
+                //    labels[j] = new double[] { training.Item2[j] };
+                //}
 
-                // var label = training.Item2;
-                error = backprop.RunEpoch(samples, labels);
-                Debug.WriteLine("error = ", error);
+                //// var label = training.Item2;
+                //error = backprop.RunEpoch(samples, labels);
+                //Debug.WriteLine("error = ", error);
 
                 ++epoch;
             }

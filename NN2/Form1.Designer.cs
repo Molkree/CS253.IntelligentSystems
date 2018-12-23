@@ -38,6 +38,10 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button_load = new System.Windows.Forms.Button();
             this.button_train = new System.Windows.Forms.Button();
+            this.button_save = new System.Windows.Forms.Button();
+            this.button_open = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -72,9 +76,9 @@
             // 
             this.button_catch.Location = new System.Drawing.Point(362, 159);
             this.button_catch.Name = "button_catch";
-            this.button_catch.Size = new System.Drawing.Size(75, 23);
+            this.button_catch.Size = new System.Drawing.Size(75, 40);
             this.button_catch.TabIndex = 5;
-            this.button_catch.Text = "Catch";
+            this.button_catch.Text = "Захват картинки";
             this.button_catch.UseVisualStyleBackColor = true;
             this.button_catch.Click += new System.EventHandler(this.button_catch_Click);
             // 
@@ -82,26 +86,27 @@
             // 
             this.pictureBox3.Location = new System.Drawing.Point(474, 53);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox3.Size = new System.Drawing.Size(28, 28);
             this.pictureBox3.TabIndex = 6;
             this.pictureBox3.TabStop = false;
             // 
             // button_predict
             // 
-            this.button_predict.Location = new System.Drawing.Point(350, 229);
+            this.button_predict.Location = new System.Drawing.Point(350, 245);
             this.button_predict.Name = "button_predict";
             this.button_predict.Size = new System.Drawing.Size(100, 44);
             this.button_predict.TabIndex = 7;
-            this.button_predict.Text = "Recognize";
+            this.button_predict.Text = "Определить цифру";
             this.button_predict.UseVisualStyleBackColor = true;
             this.button_predict.Click += new System.EventHandler(this.button_predict_Click);
             // 
             // label_predict
             // 
             this.label_predict.AutoSize = true;
-            this.label_predict.Location = new System.Drawing.Point(483, 245);
+            this.label_predict.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_predict.Location = new System.Drawing.Point(470, 256);
             this.label_predict.Name = "label_predict";
-            this.label_predict.Size = new System.Drawing.Size(0, 13);
+            this.label_predict.Size = new System.Drawing.Size(0, 20);
             this.label_predict.TabIndex = 8;
             // 
             // openFileDialog1
@@ -114,25 +119,47 @@
             this.button_load.Name = "button_load";
             this.button_load.Size = new System.Drawing.Size(120, 23);
             this.button_load.TabIndex = 9;
-            this.button_load.Text = "Load network";
+            this.button_load.Text = "Загрузить сеть";
             this.button_load.UseVisualStyleBackColor = true;
             this.button_load.Click += new System.EventHandler(this.button_load_Click);
             // 
             // button_train
             // 
-            this.button_train.Location = new System.Drawing.Point(362, 303);
+            this.button_train.Location = new System.Drawing.Point(350, 298);
             this.button_train.Name = "button_train";
-            this.button_train.Size = new System.Drawing.Size(75, 23);
+            this.button_train.Size = new System.Drawing.Size(100, 28);
             this.button_train.TabIndex = 10;
-            this.button_train.Text = "Train";
+            this.button_train.Text = "Тренировать";
             this.button_train.UseVisualStyleBackColor = true;
             this.button_train.Click += new System.EventHandler(this.button_train_Click);
+            // 
+            // button_save
+            // 
+            this.button_save.Location = new System.Drawing.Point(518, 53);
+            this.button_save.Name = "button_save";
+            this.button_save.Size = new System.Drawing.Size(75, 23);
+            this.button_save.TabIndex = 11;
+            this.button_save.Text = "Сохранить";
+            this.button_save.UseVisualStyleBackColor = true;
+            this.button_save.Click += new System.EventHandler(this.button_save_Click);
+            // 
+            // button_open
+            // 
+            this.button_open.Location = new System.Drawing.Point(518, 82);
+            this.button_open.Name = "button_open";
+            this.button_open.Size = new System.Drawing.Size(75, 23);
+            this.button_open.TabIndex = 12;
+            this.button_open.Text = "Открыть";
+            this.button_open.UseVisualStyleBackColor = true;
+            this.button_open.Click += new System.EventHandler(this.button_open_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_open);
+            this.Controls.Add(this.button_save);
             this.Controls.Add(this.button_train);
             this.Controls.Add(this.button_load);
             this.Controls.Add(this.label_predict);
@@ -166,6 +193,10 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button_load;
         private System.Windows.Forms.Button button_train;
+        private System.Windows.Forms.Button button_save;
+        private System.Windows.Forms.Button button_open;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
