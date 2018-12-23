@@ -13,10 +13,17 @@ using Accord.Video;
 using Accord.Imaging.Filters;
 using System.IO;
 
+using System.Speech;
+using System.Speech.Synthesis;
+using System.Speech.Recognition;
+
 namespace NN2
 {
     public partial class Form1 : Form
     {
+        SpeechSynthesizer synth;
+
+
         FilterInfoCollection videoDevicesList;
         VideoCaptureDevice cVideoCaptureDevice;
         Bitmap image;
@@ -45,7 +52,9 @@ namespace NN2
                 MessageBox.Show("Exception:" + ex.ToString());
             }
             net = new Network(28 * 28, classes);
-            
+
+            synth = new SpeechSynthesizer();
+            synth.SetOutputToDefaultAudioDevice();
 
         }
 
@@ -102,6 +111,7 @@ namespace NN2
         {
             int number = net.Predict(pictureBox3.Image as Bitmap);
             label_predict.Text = "Я думаю, это " + number.ToString() + ".";
+            synth.Speak("Я думаю, это " + number.ToString());
         }
         
 
@@ -112,9 +122,7 @@ namespace NN2
             openDlg.InitialDirectory = Environment.CurrentDirectory;
             openDlg.RestoreDirectory = true;
             openDlg.Title = "Загрузить данные сети";
-
-          
-
+            
             if (openDlg.ShowDialog() == DialogResult.OK)
                 try
                 {
@@ -123,18 +131,22 @@ namespace NN2
                 catch
                 {
                     MessageBox.Show("Невозможно загрузить.");
+                    synth.Speak("Хьюстон, у нас проблема. Не удалось загрузить сеть.");
                 }
+
+            synth.Speak("Готова к работе");
         }
 
         private void button_train_Click(object sender, EventArgs e)
         {
-            cVideoCaptureDevice.SignalToStop();            
-            Make_training_dataset();
+            cVideoCaptureDevice.SignalToStop();
             label_predict.Text = "Тренировка...";
+            synth.Speak("Начинаю тренировку");
+            Make_training_dataset();
             net.Train(dataset, labels);
             label_predict.Text = "Готово!";
             cVideoCaptureDevice.Start();
-
+            synth.Speak("Готова к работе");
         }
 
         private void button_save_Click(object sender, EventArgs e)
