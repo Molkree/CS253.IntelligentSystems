@@ -92,7 +92,7 @@
             // 
             // button_predict
             // 
-            this.button_predict.Location = new System.Drawing.Point(350, 245);
+            this.button_predict.Location = new System.Drawing.Point(350, 273);
             this.button_predict.Name = "button_predict";
             this.button_predict.Size = new System.Drawing.Size(100, 44);
             this.button_predict.TabIndex = 7;
@@ -104,7 +104,7 @@
             // 
             this.label_predict.AutoSize = true;
             this.label_predict.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_predict.Location = new System.Drawing.Point(470, 256);
+            this.label_predict.Location = new System.Drawing.Point(470, 284);
             this.label_predict.Name = "label_predict";
             this.label_predict.Size = new System.Drawing.Size(0, 20);
             this.label_predict.TabIndex = 8;
@@ -117,7 +117,7 @@
             // 
             this.button_load.Location = new System.Drawing.Point(12, 379);
             this.button_load.Name = "button_load";
-            this.button_load.Size = new System.Drawing.Size(120, 23);
+            this.button_load.Size = new System.Drawing.Size(100, 28);
             this.button_load.TabIndex = 9;
             this.button_load.Text = "Загрузить сеть";
             this.button_load.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@
             // 
             // button_train
             // 
-            this.button_train.Location = new System.Drawing.Point(350, 298);
+            this.button_train.Location = new System.Drawing.Point(130, 379);
             this.button_train.Name = "button_train";
             this.button_train.Size = new System.Drawing.Size(100, 28);
             this.button_train.TabIndex = 10;

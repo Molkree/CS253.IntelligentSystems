@@ -173,8 +173,8 @@ namespace NN2
                 try
                 {
                     pictureBox3.Image = new Bitmap(openDlg.FileName);
-                    ResizeBicubic scale_filter = new ResizeBicubic(pictureBox2.Width, pictureBox2.Height);
-                    pictureBox2.Image = scale_filter.Apply(pictureBox3.Image as Bitmap);
+                    //ResizeBicubic scale_filter = new ResizeBicubic(pictureBox2.Width, pictureBox2.Height);
+                    //pictureBox2.Image = scale_filter.Apply(pictureBox3.Image as Bitmap);
                 }
                 catch
                 {
