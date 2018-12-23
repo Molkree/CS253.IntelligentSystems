@@ -74,11 +74,11 @@
             // 
             // button_catch
             // 
-            this.button_catch.Location = new System.Drawing.Point(362, 159);
+            this.button_catch.Location = new System.Drawing.Point(350, 159);
             this.button_catch.Name = "button_catch";
-            this.button_catch.Size = new System.Drawing.Size(75, 40);
+            this.button_catch.Size = new System.Drawing.Size(100, 44);
             this.button_catch.TabIndex = 5;
-            this.button_catch.Text = "Захват картинки";
+            this.button_catch.Text = "Захват картинки (клавиша С)";
             this.button_catch.UseVisualStyleBackColor = true;
             this.button_catch.Click += new System.EventHandler(this.button_catch_Click);
             // 
