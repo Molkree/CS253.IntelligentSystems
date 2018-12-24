@@ -4,6 +4,7 @@ using Telegram.Bot;
 using Telegram.Bot.Args;
 using AIMLbot;
 using System.Linq;
+using System.Net;
 
 namespace Awesome
 {
@@ -21,8 +22,8 @@ namespace Awesome
             myUser = new User("Username", AI); // This creates a new User called "Username", using the object "AI"'s information.
             AI.isAcceptingUserInput = true; // This swithces the user input back on
 
-
-            botClient = new TelegramBotClient("token");
+            WebProxy myproxy = new WebProxy("189.90.248.75", 8080);
+            botClient = new TelegramBotClient("token", myproxy);
 
             var me = botClient.GetMeAsync().Result;
             Console.WriteLine(
