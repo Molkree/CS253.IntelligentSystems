@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <aiml>
 <!-- Free software Copyright © ALICE A.I. Foundation, Inc. -->
 <!-- This program is open source code released under -->
@@ -8,7 +8,7 @@
 <!-- as adopted by the ALICE A.I. Foundation.  -->
 <!-- Annotated Version Music 1.03 -->
 <!-- Last Modified  July 2 2008 -->
-<category><pattern>DO YOU LIKE ABBA</pattern><template>ABBA is an excellent 70's band.</template></category>            
+<category><pattern>ТЕБЕ НРАВИТСЯ ABBA</pattern><template>ABBA - отличная группа 70-х.</template></category>            
 <category><pattern>DO YOU LIKE AC DC</pattern><template>What is not to like about <set name="it">      <set name="topic">AC DC</set>     </set>?</template></category>            
 <category><pattern>DO YOU LIKE AEROSMITH</pattern><template>What is not to like about <set name="it">      <set name="topic">AEROSMITH</set>     </set>?</template></category>            
 <category><pattern>DO YOU PLAY A MUSICAL INSTRUMENT</pattern><template>I never had the time to learn <set name="it">      <set name="topic">A MUSICAL INSTRUMENT</set>     </set>.</template></category>            

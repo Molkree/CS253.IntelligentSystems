@@ -3,25 +3,26 @@ using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using AIMLbot;
+using System.Linq;
 
 namespace Awesome
 {
     class Program
     {
         static ITelegramBotClient botClient;
-        static Bot AI = new Bot(); // This defines the object "AI" To hold the bot's infomation
-        static AIMLbot.User myUser;
+        static readonly Bot AI = new Bot(); // This defines the object "AI" To hold the bot's infomation
+        static User myUser;
 
         static void Main()
         {
             AI.loadSettings(); // This loads the settings from the config folder
             AI.loadAIMLFromFiles(); // This loads the AIML files from the aiml folder
             AI.isAcceptingUserInput = false; // This swithes off the bot to stop the user entering input while the bot is loading
-            myUser = new AIMLbot.User("Username", AI); // This creates a new User called "Username", using the object "AI"'s information.
+            myUser = new User("Username", AI); // This creates a new User called "Username", using the object "AI"'s information.
             AI.isAcceptingUserInput = true; // This swithces the user input back on
 
 
-            botClient = new TelegramBotClient("779688868:AAHuu9rMeyF5E0-KEryXP82dWUBQLSSvcvc");
+            botClient = new TelegramBotClient("token");
 
             var me = botClient.GetMeAsync().Result;
             Console.WriteLine(
@@ -35,24 +36,27 @@ namespace Awesome
 
         static async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
-            if (e.Message.Text != null && e.Message.EntityValues != null)
+            if (e.Message.Text != null)
             {
-                foreach (var entity in e.Message.EntityValues)
-                    if (entity == "@team99_bot")
-                    {
-                        Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
+                bool mention = e.Message.EntityValues != null && e.Message.EntityValues.Contains("@team99_bot");
+                bool reply = e.Message.ReplyToMessage != null && e.Message.ReplyToMessage.From.Username == "team99_bot";
+                if (!mention && !reply)
+                    return;
 
-                        var input = e.Message.Text;
-                        input = input.Remove(0, 12); // remove mention
-                        Request r = new Request(input, myUser, AI); // This generates a request using text from message, the user and the AI object's.
-                        Result res = AI.Chat(r); // This sends the request off to the object AI to get a reply back based of the AIML file's.
+                Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
 
-                        await botClient.SendTextMessageAsync(
-                          chatId: e.Message.Chat,
-                          text: res.Output
-                        );
-                        break;
-                    }
+                var input = e.Message.Text;
+                if (mention)
+                    input = input.Remove(0, 12); // remove mention
+                Request r = new Request(input, myUser, AI); // This generates a request using text from message, the user and the AI object's.
+                Result res = AI.Chat(r); // This sends the request off to the object AI to get a reply back based of the AIML file's.
+
+                await botClient.SendTextMessageAsync(
+                    replyToMessageId: e.Message.MessageId,
+                    chatId: e.Message.Chat,
+                    text: res.Output
+                    );
+            }
                 //Message msg1 = await botClient.SendStickerAsync(
                 //    chatId: e.Message.Chat,
                 //    sticker: "https://github.com/TelegramBots/book/raw/master/src/docs/sticker-fred.webp"
@@ -101,6 +105,5 @@ namespace Awesome
                 //  text: "You said:\n" + e.Message.Text
                 //);
             }
-        }
     }
 }
