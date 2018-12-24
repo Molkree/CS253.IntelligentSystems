@@ -127,23 +127,11 @@ namespace NN2
             int epoch = 0;
             int len = dataset.Length;
       
-            while (error > 0.03 && epoch < Epochs)
+            while (error > 0.001 && epoch < Epochs)
             {
                 error = backprop.RunEpoch(dataset, labels) / len;
                 Debug.WriteLine("iteration = " + epoch.ToString());
                 Debug.WriteLine("error = " + error.ToString());
-                // because we need double[][]
-                //int len = training.Item2.Length;
-                //double[][] labels = new double[len][];
-                //for (int j = 0; j < len; ++j)
-                //{
-                //    labels[j] = new double[] { training.Item2[j] };
-                //}
-
-                //// var label = training.Item2;
-                //error = backprop.RunEpoch(samples, labels);
-                //Debug.WriteLine("error = ", error);
-
                 ++epoch;
             }
             net.Save("net");

@@ -109,6 +109,8 @@ namespace NN2
 
         private void button_predict_Click(object sender, EventArgs e)
         {
+            if (pictureBox3.Image == null)
+                return;
             int number = net.Predict(pictureBox3.Image as Bitmap);
             label_predict.Text = "Я думаю, это " + number.ToString() + ".";
             synth.Speak("Я думаю, это " + number.ToString());
@@ -135,18 +137,21 @@ namespace NN2
                 }
 
             synth.Speak("Готова к работе");
+            synth.Speak("Но предупреждаю сразу, я не очень умная.");
         }
 
         private void button_train_Click(object sender, EventArgs e)
         {
             cVideoCaptureDevice.SignalToStop();
-            label_predict.Text = "Тренировка...";
-            synth.Speak("Начинаю тренировку");
             Make_training_dataset();
+            synth.Speak("Начинаю тренировку");
+            label_predict.Text = "Тренировка...";
             net.Train(dataset, labels);
             label_predict.Text = "Готово!";
             cVideoCaptureDevice.Start();
             synth.Speak("Готова к работе");
+            synth.Speak("Но предупреждаю сразу, я не очень умная.");
+
         }
 
         private void button_save_Click(object sender, EventArgs e)
