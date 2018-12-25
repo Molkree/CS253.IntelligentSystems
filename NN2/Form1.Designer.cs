@@ -86,7 +86,7 @@
             // 
             this.pictureBox3.Location = new System.Drawing.Point(474, 53);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox3.Size = new System.Drawing.Size(95, 100);
             this.pictureBox3.TabIndex = 6;
             this.pictureBox3.TabStop = false;
             // 
@@ -135,7 +135,7 @@
             // 
             // button_save
             // 
-            this.button_save.Location = new System.Drawing.Point(518, 53);
+            this.button_save.Location = new System.Drawing.Point(625, 53);
             this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(75, 23);
             this.button_save.TabIndex = 11;
@@ -145,7 +145,7 @@
             // 
             // button_open
             // 
-            this.button_open.Location = new System.Drawing.Point(518, 82);
+            this.button_open.Location = new System.Drawing.Point(625, 82);
             this.button_open.Name = "button_open";
             this.button_open.Size = new System.Drawing.Size(75, 23);
             this.button_open.TabIndex = 12;

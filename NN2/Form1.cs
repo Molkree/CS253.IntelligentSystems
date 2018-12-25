@@ -14,23 +14,29 @@ using Accord.Imaging.Filters;
 using System.IO;
 
 using System.Speech;
-using System.Speech.Synthesis;
-using System.Speech.Recognition;
+//using System.Speech.Synthesis;
+//using System.Speech.Recognition;
+using Microsoft.Speech.Synthesis;
+using Microsoft.Speech.Recognition;
+
 
 namespace NN2
 {
     public partial class Form1 : Form
     {
-        SpeechSynthesizer synth;
-
-
-        FilterInfoCollection videoDevicesList;
-        VideoCaptureDevice cVideoCaptureDevice;
-        Bitmap image;
-        Graphics g;
-        Network net;
-        double[][] dataset;
-        double[][] labels;
+        static SpeechSynthesizer synth;
+        static SpeechRecognitionEngine sre;
+        static bool question_correct = false;
+        static bool question_train = false;
+        static bool question_number = false;
+        
+        static FilterInfoCollection videoDevicesList;
+        static VideoCaptureDevice cVideoCaptureDevice;
+        private Bitmap image;
+        private Graphics g;
+        private Network net;
+        private List<double[]> list_dataset;
+        private List<double[]> list_labels;
 
         const int classes = 10;
 
@@ -55,6 +61,200 @@ namespace NN2
 
             synth = new SpeechSynthesizer();
             synth.SetOutputToDefaultAudioDevice();
+
+            System.Globalization.CultureInfo ci;
+            ci = new System.Globalization.CultureInfo("ru-ru");
+            sre = new SpeechRecognitionEngine(ci);
+
+            synth.SetOutputToDefaultAudioDevice();
+            sre.SetInputToDefaultAudioDevice();
+            sre.SpeechRecognized += Sre_SpeechRecognized;
+
+            Choices PredictCommands = new Choices();
+            PredictCommands.Add("Что это");
+            PredictCommands.Add("Неправильно");
+            PredictCommands.Add("Нет");
+            PredictCommands.Add("Да");
+            PredictCommands.Add("Запомни");
+            PredictCommands.Add("Не надо");
+            PredictCommands.Add("Правильно");
+            PredictCommands.Add("Тренируйся");
+            PredictCommands.Add("Смотри");
+
+            PredictCommands.Add("Выход");
+
+            PredictCommands.Add("Глупая");
+            PredictCommands.Add("Молодец");
+            PredictCommands.Add("Замечательно");
+            PredictCommands.Add("Такс");
+
+
+            PredictCommands.Add("Ноль");
+            PredictCommands.Add("Один");
+            PredictCommands.Add("Два");
+            PredictCommands.Add("Три");
+            PredictCommands.Add("Четыре");
+            PredictCommands.Add("Пять");
+            PredictCommands.Add("Шесть");
+            PredictCommands.Add("Семь");
+            PredictCommands.Add("Восемь");
+            PredictCommands.Add("Девять");
+
+
+            
+            GrammarBuilder gb_Predict = new GrammarBuilder();
+            gb_Predict.Append(PredictCommands);
+
+            Grammar g_Predict = new Grammar(gb_Predict);
+            sre.LoadGrammarAsync(g_Predict);
+
+            sre.RecognizeAsync(RecognizeMode.Multiple);
+
+        }
+
+        private void Sre_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            string txt = e.Result.Text;
+
+            if (txt.IndexOf("Выход") >= 0)
+            {
+                synth.Speak("До свиданья");
+                this.Close();
+            }
+            if (txt.IndexOf("Что это") >= 0)
+            {
+                button_predict_Click(this, new EventArgs());
+            }
+            if (txt.IndexOf("Тренируйся") >= 0)
+            {
+                if (list_dataset != null)
+                {
+                    label_predict.Text = "Начинаю тренировку";
+                    synth.Speak("Начинаю тренировку");
+                    net.Train(list_dataset.ToArray(), list_labels.ToArray());
+                    label_predict.Text = "Готово";
+                    synth.Speak("Тренировка завершена");
+                }
+            }
+            if (txt.IndexOf("Смотри") >= 0)
+            {
+                button_catch_Click(this, new EventArgs());
+            }
+
+            // неправильно распознала
+            if (question_correct && (txt.IndexOf("Неправильно") >= 0 || txt.IndexOf("Нет") >= 0))
+            {
+                label_predict.Text = "Какая жалость. Мне запомнить этот образец?";
+                synth.Speak("Какая жалость. Мне запомнить этот образец?");
+                question_correct = false;
+                question_train = true;
+            }
+            // правильно распознала
+            if (question_correct && (txt.IndexOf("Правильно") >= 0 || txt.IndexOf("Да") >= 0))
+            {
+                label_predict.Text = "Ура, я что-то понимаю в этой жизни!";
+                synth.Speak("Ура, я что-то понимаю в этой жизни!");
+                question_correct = false;
+            }
+
+            // надо запомнить
+            if (question_train && txt.IndexOf("Запомни") >= 0)
+            {
+                label_predict.Text = "Что это за цифра?";
+                synth.Speak("Что это за цифра?");
+                question_number = true;
+                question_train = false;
+            }
+
+            //не надо запоминать
+            if (question_train && txt.IndexOf("Не надо") >= 0)
+            {
+                label_predict.Text = "Как скажете.";
+                synth.Speak("Как скажете");
+                question_train = false;
+            }
+
+            if (question_number)
+            {
+                int correct_class = -1;
+                if (txt.IndexOf("Ноль") >= 0)
+                {
+                    correct_class = 0;
+                }
+                if (txt.IndexOf("Один") >= 0)
+                {
+                    correct_class = 1;
+                }
+                if (txt.IndexOf("Два") >= 0)
+                {
+                    correct_class = 2;
+                }
+                if (txt.IndexOf("Три") >= 0)
+                {
+                    correct_class = 3;
+                }
+                if (txt.IndexOf("Четыре") >= 0)
+                {
+                    correct_class = 4;
+                }
+                if (txt.IndexOf("Пять") >= 0)
+                {
+                    correct_class = 5;
+                }
+                if (txt.IndexOf("Шесть") >= 0)
+                {
+                    correct_class = 6;
+                }
+                if (txt.IndexOf("Семь") >= 0)
+                {
+                    correct_class = 7;
+                }
+                if (txt.IndexOf("Восемь") >= 0)
+                {
+                    correct_class = 8;
+                }
+                if (txt.IndexOf("Девять") >= 0)
+                {
+                    correct_class = 9;
+                }
+
+                if (correct_class != -1)
+                {
+                    question_number = false;
+                    synth.Speak("Хорошо, я запомню, что это цифра " + correct_class.ToString());
+                    label_predict.Text = "Тренировка";
+                    synth.Speak("Начинаю учить");
+                    cVideoCaptureDevice.SignalToStop();
+                    net.Train_more(pictureBox3.Image as Bitmap, correct_class);
+                    label_predict.Text = "Готово";
+                    synth.Speak("Я снова с вами");
+                    cVideoCaptureDevice.Start();
+                }
+                else
+                {
+                    synth.Speak("Я не услышала. Повторите, пожалуйста.");
+                }
+            }
+
+
+            // фичи
+            if (txt.IndexOf("Глупая") >= 0)
+            {
+                synth.Speak("Не надо так говорить, а то возьму и обижусь. Так о себе говорить могу только я");
+            }
+            if (txt.IndexOf("Молодец") >= 0 || txt.IndexOf("Замечательно") >= 0)
+            {
+                synth.Speak("Ой, спасибо. Засмущали");
+            }
+            if (txt.IndexOf("Такс") >= 0)
+            {
+                synth.Rate = 2;
+                synth.Speak("Да-да?");
+                synth.Rate = 1;
+                synth.Speak("Я слушаю");
+
+            }
+
 
         }
 
@@ -86,9 +286,9 @@ namespace NN2
             
             pictureBox3.Image = image;
             pictureBox3.Refresh();
-            
+
             Bitmap bigger_image = scale_filter.Apply(image);
-            
+        
             pictureBox2.Image = bigger_image;
             pictureBox2.Refresh();
 
@@ -114,6 +314,8 @@ namespace NN2
             int number = net.Predict(pictureBox3.Image as Bitmap);
             label_predict.Text = "Я думаю, это " + number.ToString() + ".";
             synth.Speak("Я думаю, это " + number.ToString());
+            synth.Speak("Я угадала?");
+            question_correct = true;
         }
         
 
@@ -129,15 +331,14 @@ namespace NN2
                 try
                 {
                    net.Load_net(openDlg.FileName);
+                    synth.Speak("Готова к работе");
+                    synth.Speak("Но предупреждаю сразу, я не очень умная.");
                 }
                 catch
                 {
                     MessageBox.Show("Невозможно загрузить.");
                     synth.Speak("Хьюстон, у нас проблема. Не удалось загрузить сеть.");
                 }
-
-            synth.Speak("Готова к работе");
-            synth.Speak("Но предупреждаю сразу, я не очень умная.");
         }
 
         private void button_train_Click(object sender, EventArgs e)
@@ -146,7 +347,7 @@ namespace NN2
             Make_training_dataset();
             synth.Speak("Начинаю тренировку");
             label_predict.Text = "Тренировка...";
-            net.Train(dataset, labels);
+            net.Train(list_dataset.ToArray(), list_labels.ToArray());
             label_predict.Text = "Готово!";
             cVideoCaptureDevice.Start();
             synth.Speak("Готова к работе");
@@ -199,11 +400,10 @@ namespace NN2
                 }
             return;
         }
-
-        public void Make_training_dataset()
+        public void Make_training_dataset(string path = "")
         {
-            List<double[]> list_dataset = new List<double[]>();
-            List<double[]> list_labels = new List<double[]>();
+            list_dataset = new List<double[]>();
+            list_labels = new List<double[]>();
 
             FolderBrowserDialog openDlg = new FolderBrowserDialog();
             openDlg.SelectedPath = Environment.CurrentDirectory;
@@ -212,12 +412,14 @@ namespace NN2
             //openDlg.InitialDirectory = Environment.CurrentDirectory;
             //openDlg.RestoreDirectory = true;
             openDlg.Description = "Выберите папку с изображениями...";
-            String path = "";
-            if (openDlg.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(openDlg.SelectedPath))                
+            //path = "../../images";
+            if (path == "")
             {
-                path = openDlg.SelectedPath;
+                if (openDlg.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(openDlg.SelectedPath))
+                {
+                    path = openDlg.SelectedPath;
+                }
             }
-
             if (path != "")
                 foreach (string file in Directory.EnumerateFiles(path, "*.png"))
                 {
@@ -265,9 +467,6 @@ namespace NN2
 
                     list_labels.Add(lbl);
                 }
-
-            dataset = list_dataset.ToArray();
-            labels = list_labels.ToArray();
         }
     }
     

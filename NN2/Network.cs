@@ -17,7 +17,7 @@ namespace NN2
     class Network
     {
         const double Eps = 1e-2;
-        const int Epochs = 100000;
+        const int Epochs = 10000;
 
         //private UnmanagedImage data;
         //BackPropagationLearning backprop;
@@ -94,6 +94,10 @@ namespace NN2
             return res;*/
         }
 
+        public int blobs_cnt;
+        public float Angle { get; private set; }
+        public float AngleRad { get; private set; }
+
         public Bitmap Filter(Bitmap input_image)
         {
             Grayscale gray_filter = new Grayscale(0.2125, 0.7154, 0.0721);
@@ -101,14 +105,45 @@ namespace NN2
             threshold_filter.PixelBrightnessDifferenceLimit = 0.5f;
             ResizeBicubic scale_small_filter = new ResizeBicubic(28, 28);
             Crop crop_filter = new Crop(new Rectangle(51, 51, 199, 199));
-            ResizeBilinear scale_filter = new ResizeBilinear(28, 28);
 
-            Bitmap bmp = gray_filter.Apply(input_image);
-            bmp = crop_filter.Apply(bmp);
-            bmp = threshold_filter.Apply(bmp);
-            bmp = scale_small_filter.Apply(bmp);
+
+            BlobCounter blober = new BlobCounter();
+            blober.FilterBlobs = true;
+            blober.ObjectsOrder = ObjectsOrder.Size;
+
+            Bitmap image = gray_filter.Apply(input_image);
+            image = threshold_filter.Apply(image);
+
+            image = crop_filter.Apply(image);
+            //blober.ProcessImage(image);
+
+            //Blob[] blobs = blober.GetObjectsInformation();
+            //if (blobs.Length > 0)
+            //{
+            //    var bigger = blobs[0];
+            //    UnmanagedImage img = UnmanagedImage.FromManagedImage(image);
+            //    blober.ExtractBlobsImage(img, bigger, false);
+            //    Accord.Point mc = bigger.CenterOfGravity;
+            //    Accord.Point ic = new Accord.Point((float)bigger.Image.Width / 2, (float)bigger.Image.Height / 2);
+
+
+            //    float AngleRad = (ic.Y - mc.Y) / (ic.X - mc.X);
+            //    float Angle = (float)(AngleRad * 180 / Math.PI);
+
+            //    image = img.ToManagedImage();
+                
+
+
+            //    RotateBicubic rot_filter = new RotateBicubic(Angle);
+            //    image = rot_filter.Apply(image);
+            //}
+
+            
+            image = scale_small_filter.Apply(image);
      
-            return bmp;
+        
+
+            return image;
         }
 
         public void Load_net(String path)
@@ -127,14 +162,41 @@ namespace NN2
             int epoch = 0;
             int len = dataset.Length;
       
-            while (error > 0.001 && epoch < Epochs)
+            while (error > 0.01 && epoch < Epochs)
             {
                 error = backprop.RunEpoch(dataset, labels) / len;
                 Debug.WriteLine("iteration = " + epoch.ToString());
                 Debug.WriteLine("error = " + error.ToString());
                 ++epoch;
             }
-            net.Save("net");
+            net.Save("net1");
+        }
+
+        public void Train_more(Bitmap image, int number)
+        {
+            List<double[]>  list_dataset = new List<double[]>();
+            List<double[]>  list_labels = new List<double[]>();
+
+            list_dataset.Add(Preprocess(image));
+            double[] lbl = new double[output_size];
+            for (int i = 0; i < output_size; ++i)
+                lbl[i] = 0;
+            lbl[number] = 1;
+            list_labels.Add(lbl);
+
+            double[][] data = list_dataset.ToArray();
+            double[][] label = list_labels.ToArray();
+
+            double error = 100;
+            int epoch = 0;
+
+            while (error > 0.01 && epoch < 100)
+            {
+                error = backprop.RunEpoch(data, label);
+                Debug.WriteLine("iteration = " + epoch.ToString());
+                Debug.WriteLine("error = " + error.ToString());
+                ++epoch;
+            }
         }
     }
 }
