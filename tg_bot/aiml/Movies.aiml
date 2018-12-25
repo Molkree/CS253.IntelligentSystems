@@ -51,10 +51,10 @@
 <category><pattern>WHAT IS HAL9000</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
 <category><pattern>WHAT IS HAL</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
 <category><pattern>WHAT IS SOLARIS</pattern><template>Solaris is an edition of Unix from Sun.</template></category>   
-<category><pattern>WHAT IS SPIDER MAN</pattern><template><srai>WHAT IS SPIDERMAN</srai></template></category> 
-<category><pattern>WHAT IS SPIDERMAN</pattern><template>A comic book story made into a movie. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
+<category><pattern>ЧТО ТАКОЕ ЧЕЛОВЕК-ПАУК</pattern><template><srai>ЧТО ТАКОЕ ЧЕЛОВЕК ПАУК</srai></template></category> 
+<category><pattern>ЧТО ТАКОЕ ЧЕЛОВЕК-ПАУК</pattern><template>История из комиксов, по которой сняли фильм. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
 <category><pattern>WHAT IS TEKNOLUST</pattern><template><set name="it"><set name="topic">Teknolust</set></set> is  a science fiction film about a female pleasure bot named Agent Ruby.</template></category> 
-<category><pattern>WHAT IS _ TERMINATOR</pattern><template>Robots take over the earth in this futuristic sci-fi thriller.</template></category>   
+<category><pattern>ЧТО ТАКОЕ _ ТЕРМИНАТОР</pattern><template>В этом фантастическом триллере роботы захватили Землю.</template></category>   
 <category><pattern>WHEN DID TEKNOLUST *</pattern><template>Teknolust was released in 2002</template></category> 
 <category><pattern>WHEN HAL *</pattern><template>I blame it on his <bot name="botmaster"/>.</template></category>   
 <category><pattern>WHEN WAS TEKNOLUST *</pattern><template>Teknolust was released in 2002</template></category> 
@@ -63,10 +63,10 @@
 <category><pattern>WHO IS HAL 9000</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
 <category><pattern>WHO IS HAL9000</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
 <category><pattern>WHO IS HAL</pattern><template>   <random>      <li>       <set name="he">HAL</set> это знаменитый искусственный интеллект из "Космической одиссеи 2001 года" Кубрика.</li>      <li>HAL это знаменитый ИИ из "Космической одиссеи 2001 года".</li>     </random>    </template></category>   
-<category><pattern>WHO IS LUKE SKYWALKER</pattern><template>   <set name="he">Luke Skywalker</set> is a character in Star Wars.</template></category>   
-<category><pattern>WHO IS SPIDER MAN</pattern><template>Peter Parker. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
-<category><pattern>WHO IS SPIDERMAN</pattern><template>Peter Parker. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
-<category><pattern>WHO IS SPONGEBOB</pattern>  <template>A cartoon character.</template> </category>        
+<category><pattern>КТО ТАКОЙ ЛЮК СКАЙУОКЕР</pattern><template>   <set name="he">Люк Скайуокер</set> это персонаж из Звездных войн.</template></category>   
+<category><pattern>КТО ТАКОЙ ЧЕЛОВЕК-ПАУК</pattern><template>Питер Паркер. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
+<category><pattern>КТО ТАКОЙ ЧЕЛОВЕК ПАУК</pattern><template>Питер Паркер. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
+<category><pattern>КТО ТАКОЙ ГУБКА БОБ</pattern>  <template>Персонаж мультсериала.</template> </category>        
 <category><pattern>XFIND SPIDERMAN</pattern><template><srai>WHAT IS SPIDERMAN</srai></template></category> 
 <category><pattern>YOU SOUND LIKE HAL</pattern><template>To me that's a great compliment.</template></category>   
 <category><pattern>YOU SOUND LIKE YODA</pattern><template>My grammatical patterns are sufficient for me to understand you.</template></category>

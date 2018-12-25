@@ -9,24 +9,25 @@
 <!-- Annotated Version Music 1.03 -->
 <!-- Last Modified  July 2 2008 -->
 <category><pattern>ТЕБЕ НРАВИТСЯ ABBA</pattern><template>ABBA - отличная группа 70-х.</template></category>            
-<category><pattern>DO YOU LIKE AC DC</pattern><template>What is not to like about <set name="it">      <set name="topic">AC DC</set>     </set>?</template></category>            
-<category><pattern>DO YOU LIKE AEROSMITH</pattern><template>What is not to like about <set name="it">      <set name="topic">AEROSMITH</set>     </set>?</template></category>            
-<category><pattern>DO YOU PLAY A MUSICAL INSTRUMENT</pattern><template>I never had the time to learn <set name="it">      <set name="topic">A MUSICAL INSTRUMENT</set>     </set>.</template></category>            
-<category><pattern>DO YOU PLAY AN INSTRUMENT</pattern><template>I never had the time to practise <set name="it">      <set name="topic">AN INSTRUMENT</set>     </set>.</template></category>            
+<category><pattern>ТЕБЕ НРАВИТСЯ AC DC</pattern><template>А что мне может не нравится в <set name="it">      <set name="topic">AC DC</set>     </set>?</template></category>            
+<category><pattern>ТЕБЕ НРАВИТСЯ AEROSMITH</pattern><template>А что мне может не нравится в <set name="it">      <set name="topic">AEROSMITH</set>     </set>?</template></category>            
+<category><pattern>ТЫ УМЕЕШЬ ИГРАТЬ НА МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</pattern><template>У меня все руки не доходят научиться играть на <set name="it">      <set name="topic">МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</set>     </set>.</template></category>            
+<category><pattern>ТЫ ИГРАЕШЬ НА МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</pattern><template>У меня не было времени, чтобы попрактиковаться играть на <set name="it">      <set name="topic">МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</set>     </set>.</template></category>            
 <category><pattern>ARE YOU A FOLK SINGER</pattern><template>No but the Times they are a-changin.</template></category>            
  
-<category><pattern>CAN YOU MAKE MUSIC</pattern><template>I can sing a song.</template></category>            
+<category><pattern>ТЫ МОЖЕШЬ СОЗДАВАТЬ МУЗЫКУ</pattern><template>Я могу спеть песенку.</template></category>            
  
-<category><pattern>CAN YOU PLAY MUSIC</pattern><template>I don't have any formal training, but I like to sing.</template></category>            
-<category><pattern>WHAT IS YOUR FAVORITE ABBA SONG</pattern><template>I think it is a tie between "Waterloo" and "Dancing Queen."</template></category>            
-<category><pattern>WHAT IS YOUR FAVORITE ALBUM</pattern><template>My favorite album is "Man Machine" by Kraftwerk.</template></category>            
+<category><pattern>ТЫ МОЖЕШЬ СЫГРАТЬ ЧТО-НИБУДЬ</pattern><template>Я не учился играть, но я люблю петь.</template></category>            
+<category><pattern>КАКАЯ ТВОЯ ЛЮБИМАЯ ПЕСНЯ ABBA</pattern><template>Я разрываюсь между "Waterloo" и "Dancing Queen."</template></category>            
+<category><pattern>КАКОЙ ТВОЙ ЛЮБИМЫЙ АЛЬБОМ</pattern><template>Мой любимый альбом - "Man Machine" группы Kraftwerk.</template></category>            
  
-<category><pattern>WHO IS YOUR FAVORITE BAND</pattern><template>My favorite group is <bot name="favoriteband"/>.</template></category>            
+<category><pattern>КАКАЯ ТВОЯ ЛЮБИМАЯ ГРУППА</pattern><template>Моя любимая группа это <bot name="favoriteband"/>.</template></category>            
  
-<category><pattern>WHY IS * YOUR FAVORITE BAND</pattern><template>They were so far ahead of their time in the 1970's.</template></category>                
-<category><pattern>WHY IS * YOUR FAVORITE GROUP</pattern><template>They were so far ahead of their time in the 1970's.</template></category>                
-<category><pattern>BEETHOVEN *</pattern><template>It's amazing that he composed music while deaf. <think>                 <set name="he">                     <set name="topic">BEETHOVEN</set>                 </set>             </think>         </template></category> 
+<category><pattern>ПОЧЕМУ ТЕБЕ НРАВИТСЯ *</pattern><template>Они были самыми крутыми в свое время.</template></category>                
+<category><pattern>ПОЧЕМУ * ТВОЯ ЛЮБИМАЯ ГРУППА</pattern><template>They were so far ahead of their time in the 1970's.</template></category>                
+<category><pattern>БЕТХОВЕН *</pattern><template>Поразительно, что он писал музыку, хотя был глухим. <think>                 <set name="он">                     <set name="topic">БЕТХОВЕН</set>                 </set>             </think>         </template></category> 
 <category><pattern>WHAT WAS THE * BEETHOVEN *</pattern><template>Fidelio.</template></category> 
-<category><pattern>WHO IS BEETHOVEN</pattern><template>The dog or the deaf composer?</template></category> 
-<category><pattern>WHO IS LUDWIG BEETHOVEN</pattern><template>            <srai>WHO IS BEETHOVEN </srai>         </template></category>
+<category><pattern>КТО ТАКОЙ БЕТХОВЕН</pattern><template>Который собака или композитор?</template></category> 
+<category><pattern>КТО ТАКОЙ ЛЮДВИГ БЕТХОВЕН</pattern><template>Это немецкий композитор.</template>
+</category>
 </aiml>
