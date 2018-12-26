@@ -57,7 +57,7 @@
 <category>
     <pattern>Давай</pattern>
     <that>Давай поговорим о фильмах или музыке</that>
-    <template>Я умею говорить о фильмах и музыке!</template>
+    <template>Начинай!</template>
 </category>
 
 <category>
