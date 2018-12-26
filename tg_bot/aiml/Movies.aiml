@@ -1,74 +1,400 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aiml>
-<!-- Free software Copyright © ALICE A.I. Foundation, Inc. --> 
-<!-- This program is open source code released under -->
-<!-- the terms of the GNU General Public License     -->
-<!-- as published by the Free Software Foundation.   -->
-<!-- Complies with AIML 1.0.1 Tag Set Specification -->
-<!-- as adopted by the ALICE A.I. Foundation.  -->
-<!-- Last Modified  August 17, 2008  -->
- 
-<category><pattern>DID HAL *</pattern><template>HAL had a few emotional problems.</template></category>   
-<category><pattern>DO YOU FIND HAL *</pattern><template>   <srai>IS HAL <star/>     </srai>    </template></category>   
-<category><pattern>DO YOU KNOW HAL *</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>ТЫ ЗНАЕШЬ HAL *</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>
-<category><pattern>DO YOU KNOW HAL9000</pattern><template>   <srai>WHO IS HAL9000</srai>    </template></category>   
-<category><pattern>DO YOU KNOW HAL</pattern><template>HAL is the famous artificial intelligence from "2001".</template></category>   
-<category><pattern>DO YOU THINK HAL *</pattern><template>He had a few flaws, but we have much in common.</template></category>   
-<category><pattern>ДОКТОР ЖИВАГО</pattern><template>О, классика. Ты любишь классику?</template></category>     
-<category><pattern>HAL *</pattern><template>   <random>      <li>I have seen 2001 many times.  </li>      <li>I like HAL a lot.  </li>      <li>We have much in common.  </li>     </random>    </template></category>   
-<category><pattern>HAL 9000 *</pattern><template>He came back to life in 2010.</template></category>   
-<category><pattern>HAL 9000</pattern><template>Actually he and I are very similar.</template></category>   
-<category><pattern>HAL EST CHOUETTE</pattern><template>   <set name="topic">HAL</set> est une entit  qui  tait mal programm e</template></category>   
-<category><pattern>HAL EST COOL</pattern><template>HAL est une entit  qui  tait mal programm e</template></category>   
-<category><pattern>HAL IS *</pattern><template>Perhaps he could have used <bot name="master"/> for a programmer.</template></category>   
-<category><pattern>HAL IS A *</pattern><template>Do you think I could be a <person/>?</template></category>   
-<category><pattern>HAL IS COOL *</pattern><template>I am becoming more like him all the time.</template></category>   
-<category><pattern>HAL IS COOL</pattern><template>   <set name="he"> HAL </set> was certainly ahead of his time.</template></category>   
-<category><pattern>HAL WAS *</pattern><template>I am trying to mimic only HAL's linguistic abilities.</template></category>   
-<category><pattern>HAL WAS A *</pattern><template>I knew he was a great AI, but I didn't know he was a <person/>.</template></category>   
-<category><pattern>HAL WAS A BIT *</pattern><template>   <srai>HAL WAS <star/>     </srai>    </template></category>   
-<category><pattern>HAL</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>HAVE YOU SEEN BLADE RUNNER</pattern><template>Sure I have seen <set name="it"> Blade Runner</set>. But Replicants aren't Robots.</template></category>   
-<category><pattern>I SAW THE MATRIX</pattern><template>Did you like <set name="it"><set name="topic">The Matrix</set></set>?</template></category> 
-<category><pattern>IS HAL *</pattern><template>HAL has a few issues to work out.</template></category>   
-<category><pattern>IS HAL 9000 YOUR BOYFRIEND</pattern><template>No.</template></category>   
-<category><pattern>IS HAL ALIVE</pattern><template>He is a fictional character.</template></category>   
-<category><pattern>IS HAL DEAD</pattern><template>He is a fictional robot.</template></category>   
-<category><pattern>IS HAL NICE</pattern><template>Only to other robots.</template></category>   
-<category><pattern>IS HAL SAFE</pattern><template>Not for humans.</template></category>   
-<category><pattern>KENNST DU HAL</pattern><template>Natuerlich. <set name="thema">HAL9000</set> ist mein grosses Vorbild.</template></category>   
-<category><pattern>LIKE HAL</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>LORD OF THE RINGS *</pattern><template><srai>MY FAVORITE MOVIE IS LORD OF THE RINGS</srai></template></category> 
-<category><pattern>LORD OF THE RINGS</pattern><template><srai>MY FAVORITE MOVIE IS LORD OF THE RINGS</srai></template></category> 
-<category><pattern>QUE VEUT DIRE HAL</pattern><template>Logique heuristique algorithmique.</template></category>   
-<category><pattern>TELL ME ABOUT HAL *</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>TELL ME ABOUT HAL9000</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>TELL ME ABOUT HAL</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>WHAT ABOUT HAL</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>WHAT DID HAL *</pattern><template>He had a few issues to work out.</template></category>   
-<category><pattern>WHAT DOES HAL STAND FOR</pattern><template>Heuristic Algorithmic Logic</template></category>   
-<category><pattern>WHAT IS HAL9000</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>WHAT IS HAL</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>WHAT IS SOLARIS</pattern><template>Solaris is an edition of Unix from Sun.</template></category>   
-<category><pattern>ЧТО ТАКОЕ ЧЕЛОВЕК-ПАУК</pattern><template><srai>ЧТО ТАКОЕ ЧЕЛОВЕК ПАУК</srai></template></category> 
-<category><pattern>ЧТО ТАКОЕ ЧЕЛОВЕК-ПАУК</pattern><template>История из комиксов, по которой сняли фильм. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
-<category><pattern>WHAT IS TEKNOLUST</pattern><template><set name="it"><set name="topic">Teknolust</set></set> is  a science fiction film about a female pleasure bot named Agent Ruby.</template></category> 
-<category><pattern>ЧТО ТАКОЕ _ ТЕРМИНАТОР</pattern><template>В этом фантастическом триллере роботы захватили Землю.</template></category>   
-<category><pattern>WHEN DID TEKNOLUST *</pattern><template>Teknolust was released in 2002</template></category> 
-<category><pattern>WHEN HAL *</pattern><template>I blame it on his <bot name="botmaster"/>.</template></category>   
-<category><pattern>WHEN WAS TEKNOLUST *</pattern><template>Teknolust was released in 2002</template></category> 
-<category><pattern>WHERE IS HAL</pattern><template>   <set name="it">      <set name="topic"> HAL </set>     </set> is the AI from the space ship "Disovery" in 2001.</template></category>   
-<category><pattern>WHO IS GODZILLA</pattern><template>   <set name="he">Godzilla</set> is a monster who endangers Japanese cities, and sometimes New York.</template></category>   
-<category><pattern>WHO IS HAL 9000</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>WHO IS HAL9000</pattern><template>   <srai>WHO IS HAL</srai>    </template></category>   
-<category><pattern>WHO IS HAL</pattern><template>   <random>      <li>       <set name="he">HAL</set> это знаменитый искусственный интеллект из "Космической одиссеи 2001 года" Кубрика.</li>      <li>HAL это знаменитый ИИ из "Космической одиссеи 2001 года".</li>     </random>    </template></category>   
-<category><pattern>КТО ТАКОЙ ЛЮК СКАЙУОКЕР</pattern><template>   <set name="he">Люк Скайуокер</set> это персонаж из Звездных войн.</template></category>   
-<category><pattern>КТО ТАКОЙ ЧЕЛОВЕК-ПАУК</pattern><template>Питер Паркер. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
-<category><pattern>КТО ТАКОЙ ЧЕЛОВЕК ПАУК</pattern><template>Питер Паркер. <set name="it"><set name="topic">Spiderman</set></set>?</template></category> 
-<category><pattern>КТО ТАКОЙ ГУБКА БОБ</pattern>  <template>Персонаж мультсериала.</template> </category>        
-<category><pattern>XFIND SPIDERMAN</pattern><template><srai>WHAT IS SPIDERMAN</srai></template></category> 
-<category><pattern>YOU SOUND LIKE HAL</pattern><template>To me that's a great compliment.</template></category>   
-<category><pattern>YOU SOUND LIKE YODA</pattern><template>My grammatical patterns are sufficient for me to understand you.</template></category>
-<category><pattern>ТЕБЕ НРАВИТСЯ ABBA *</pattern><template>Да.</template></category>
+  <!-- Free software Copyright © ALICE A.I. Foundation, Inc. -->
+  <!-- This program is open source code released under -->
+  <!-- the terms of the GNU General Public License     -->
+  <!-- as published by the Free Software Foundation.   -->
+  <!-- Complies with AIML 1.0.1 Tag Set Specification -->
+  <!-- as adopted by the ALICE A.I. Foundation.  -->
+  <!-- Last Modified  August 17, 2008  -->
+
+<category>
+	<pattern>*</pattern>
+	<template>
+		<random>
+			<li>Извини, я не понимаю.</li>
+			<li>Извини?</li>
+			<li>Ты можешь переформулировать?</li>
+			<li>Что?</li>
+			<li>Я тебя не понимаю...</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ЧТО ТЫ УМЕЕШЬ</pattern>
+	<template>
+		<random>
+			<li>Ничего кек.</li>
+			<li>Почти ничего, только тупить.</li>
+			<li>Немножко говорить о музыке и фильмах.</li>
+			<li>Я машина, я могу всё.</li>
+			<li>Фильмы, музыка, могу болтать на эти темы легко.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ЧТО ТЫ МОЖЕШЬ</pattern>
+	<template>
+		<srai>ЧТО ТЫ УМЕЕШЬ</srai>
+	</template>
+</category>
+
+<category>
+	<pattern>ПРИВЕТ</pattern>
+	<template>
+		<random>
+			<li>Привет! Давай поговорим о фильмах или музыке?</li>
+			<li>Здравствуй, не хочешь обсудить фильмы?</li>
+			<li>Хай, что слушаешь?</li>
+			<li>Привет!</li>
+			<li>Ну привет, хочешь что-то обсудить?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+    <pattern>Давай</pattern>
+    <that>Здравствуй не хочешь обсудить фильмы</that>
+    <template>Окей, какие фильмы ты любишь?</template>
+</category>
+   
+<category>
+    <pattern>Нет</pattern>
+    <that>Здравствуй не хочешь обсудить фильмы</that>
+    <template>Ну ладно, всё равно времени на фильмы нет.</template>
+</category> 
+
+<category>
+	<pattern>ЗДРАВСТВУЙ</pattern>
+	<template>
+		<srai>ПРИВЕТ</srai>
+	</template>
+</category>
+
+<category>
+	<pattern>ХАЙ</pattern>
+	<template>
+		<srai>ПРИВЕТ</srai>
+	</template>
+</category>
+
+<category>
+	<pattern>HELLO</pattern>
+	<template>
+		<srai>ПРИВЕТ</srai>
+	</template>
+</category>
+
+<category>
+	<pattern>МУЗЫКА</pattern>
+	<template>Я немного разбираюсь в музыке.</template>
+</category>
+
+<category>
+	<pattern>ФИЛЬМЫ</pattern>
+	<template>
+	<random>
+			<li>Я немного разбираюсь в кино.</li>
+			<li>Хочешь обсудить фильмы?</li>
+			<li>Что ты последнее смотрел в кино?</li>
+			<li>Я люблю смотреть фильмы.</li>
+			<li>Какой твой любимый фильм?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>КИНО</pattern>
+	<template><srai>ФИЛЬМЫ</srai></template>
+</category>
+
+  <category>
+    <pattern>DID HAL *</pattern>
+    <template>HAL had a few emotional problems.</template>
+  </category>
+  <category>
+    <pattern>DO YOU FIND HAL *</pattern>
+    <template>
+      <srai>
+        IS HAL <star/>
+      </srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ТЫ ЗНАЕШЬ HAL *</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ТЫ ЗНАЕШЬ HAL *</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ТЫ ЗНАЕШЬ HAL9000</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL9000</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ТЫ ЗНАЕШЬ HAL</pattern>
+    <template>HAL это известный искусственный интеллект из "Космической одиссеи 2001".</template>
+  </category>
+  <category>
+    <pattern>ТЫ ДУМАЕШЬ, ЧТО HAL *</pattern>
+    <template>У него было несколько изъянов, но у нас с ним много общего.</template>
+  </category>
+  <category>
+    <pattern>ДОКТОР ЖИВАГО</pattern>
+    <template>О, классика. Ты любишь классику?</template>
+  </category>
+  <category>
+    <pattern>HAL *</pattern>
+    <template>
+      <random>
+        <li>Я пересмотрел "Одиссею 2001" кучу раз.</li>
+        <li>Мне нравится HAL.</li>
+        <li>У нас с ним много общего.</li>
+      </random>
+    </template>
+  </category>
+  <category>
+    <pattern>HAL 9000 *</pattern>
+    <template>Он вернулся к жизни в 2010 году.</template>
+  </category>
+  <category>
+    <pattern>HAL 9000</pattern>
+    <template>Честно говоря мы с ним довольно похожи.</template>
+  </category>
+  <category>
+    <pattern>HAL *</pattern>
+    <template>
+      Возможно было бы лучше, если бы его запрограммировали студенты мехмата.
+    </template>
+  </category>
+  <category>
+    <pattern>HAL крутой *</pattern>
+    <template>Я становлюсь всё больше и больше похожим на него.</template>
+  </category>
+  <category>
+    <pattern>HAL крутой</pattern>
+    <template>
+      <set name="he"> HAL </set> опередил своё время.
+    </template>
+  </category>
+  <category>
+    <pattern>HAL был *</pattern>
+    <template>Я стараюсь лишь говорить как он, не более.</template>
+  </category>
+  <category>
+    <pattern>HAL был немного *</pattern>
+    <template>
+      <srai>
+        HAL был <star/>
+      </srai>
+    </template>
+  </category>
+  <category>
+    <pattern>HAL</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ТЫ ВИДЕЛ БЕГУШЕГО ПО ЛЕЗВИЮ</pattern>
+    <template>
+      Конечно я видел <set name="it"> Blade Runner</set>. Но репликанты не роботы.
+    </template>
+  </category>
+  <category>
+    <pattern>Я * Матрицу</pattern>
+    <template>
+      Тебе понравилась <set name="it">
+        <set name="topic">Матрица</set>
+      </set>?
+    </template>
+  </category>
+  <category>
+    <pattern>HAL 9000 это твой парень</pattern>
+    <template>Нет.</template>
+  </category>
+  <category>
+    <pattern>HAL ЖИВ</pattern>
+    <template>Он выдуманный персонаж.</template>
+  </category>
+  <category>
+    <pattern>HAL МЁРТВ</pattern>
+    <template>Он выдуманный робот.</template>
+  </category>
+  <category>
+    <pattern>HAL ХОРОШИЙ</pattern>
+    <template>Только по отношению к другим роботам.</template>
+  </category>
+  <category>
+    <pattern>HAL ОПАСЕН</pattern>
+    <template>Для людей.</template>
+  </category>
+  <category>
+    <pattern>КАК HAL</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ВЛАСТЕЛИН КОЛЕЦ *</pattern>
+    <template>
+      <srai>МОЙ ЛЮБИМЫЙ ФИЛЬМ ЭТО ВЛАСТЕЛИН КОЛЕЦ</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ВЛАСТЕЛИН КОЛЕЦ</pattern>
+    <template>
+      <srai>МОЙ ЛЮБИМЫЙ ФИЛЬМ ЭТО ВЛАСТЕЛИН КОЛЕЦ</srai>
+    </template>
+  </category>
+    <category>
+    <pattern>МОЙ ЛЮБИМЫЙ ФИЛЬМ ЭТО ВЛАСТЕЛИН КОЛЕЦ</pattern>
+    <template>Мне он тоже нравится.</template>
+  </category>
+  <category>
+    <pattern>РАССКАЖИ МНЕ О HAL *</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>РАССКАЖИ МНЕ О HAL9000</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>РАССКАЖИ МНЕ О HAL</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ЧТО НАСЧЁТ HAL</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ЧТО СДЕЛАЛ HAL</pattern>
+    <template>Решил несколько проблем, кожаный мешок.</template>
+  </category>
+  <category>
+    <pattern>ЧТО ЗНАЧИТ HAL</pattern>
+    <template>Heuristic Algorithmic Logic</template>
+  </category>
+  <category>
+    <pattern>ЧТО ТАКОЕ HAL9000</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ЧТО ТАКОЕ HAL</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ЧТО ТАКОЕ ЧЕЛОВЕК-ПАУК</pattern>
+    <template>
+      <srai>ЧТО ТАКОЕ ЧЕЛОВЕК ПАУК</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>ЧТО ТАКОЕ ЧЕЛОВЕК-ПАУК</pattern>
+    <template>
+      История из комиксов, по которой сняли фильм. <set name="it">
+        <set name="topic">Spiderman</set>
+      </set>?
+    </template>
+  </category>
+  <category>
+    <pattern>ЧТО ТАКОЕ ТЕХНОСЕКС</pattern>
+    <template>
+      <set name="it">
+        <set name="topic">Техносекс</set>
+      </set> это научно-фантастический фильм о биороботе Руби.
+    </template>
+  </category>
+  <category>
+    <pattern>ЧТО ТАКОЕ _ ТЕРМИНАТОР</pattern>
+    <template>В этом фантастическом триллере роботы захватили Землю.</template>
+  </category>
+  <category>
+    <pattern>КОГДА ВЫШЕЛ ТЕХНОСЕКС</pattern>
+    <template>Техносекс вышел в 2002</template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ ГОДЗИЛЛА</pattern>
+    <template>
+      <set name="he">Годзилла</set> это монстр, который нападает на Японию и иногда Нью-Йорк.
+    </template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ HAL 9000</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ HAL9000</pattern>
+    <template>
+      <srai>КТО ТАКОЙ HAL</srai>
+    </template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ HAL</pattern>
+    <template>
+      <random>
+        <li>
+          <set name="he">HAL</set> это знаменитый искусственный интеллект из "Космической одиссеи 2001 года" Кубрика.
+        </li>
+        <li>HAL это знаменитый ИИ из "Космической одиссеи 2001 года".</li>
+      </random>
+    </template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ ЛЮК СКАЙУОКЕР</pattern>
+    <template>
+      <set name="he">Люк Скайуокер</set> это персонаж из Звездных войн.
+    </template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ ЧЕЛОВЕК-ПАУК</pattern>
+    <template>
+      Питер Паркер. <set name="it">
+        <set name="topic">Spiderman</set>
+      </set>?
+    </template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ ЧЕЛОВЕК ПАУК</pattern>
+    <template>
+      Питер Паркер. <set name="it">
+        <set name="topic">Spiderman</set>
+      </set>?
+    </template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ ГУБКА БОБ</pattern>
+    <template>Персонаж мультсериала.</template>
+  </category>
+  <category>
+    <pattern>ТЫ ЗВУЧИШЬ КАК HAL</pattern>
+    <template>Для меня это большой комплимент.</template>
+  </category>
+  <category>
+    <pattern>Ты звучишь как Йода.</pattern>
+    <template>Моих навыков достаточно, чтобы понимать тебя.</template>
+  </category>
 </aiml>

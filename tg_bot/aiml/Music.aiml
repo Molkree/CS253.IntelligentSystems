@@ -1,33 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aiml>
-<!-- Free software Copyright © ALICE A.I. Foundation, Inc. -->
-<!-- This program is open source code released under -->
-<!-- the terms of the GNU General Public License     -->
-<!-- as published by the Free Software Foundation.   -->
-<!-- Complies with AIML 1.01 Tag Set Specification -->
-<!-- as adopted by the ALICE A.I. Foundation.  -->
-<!-- Annotated Version Music 1.03 -->
-<!-- Last Modified  July 2 2008 -->
-<category><pattern>ТЕБЕ НРАВИТСЯ ABBA</pattern><template>ABBA - отличная группа 70-х.</template></category>            
-<category><pattern>ТЕБЕ НРАВИТСЯ AC DC</pattern><template>А что мне может не нравится в <set name="it">      <set name="topic">AC DC</set>     </set>?</template></category>            
-<category><pattern>ТЕБЕ НРАВИТСЯ AEROSMITH</pattern><template>А что мне может не нравится в <set name="it">      <set name="topic">AEROSMITH</set>     </set>?</template></category>            
-<category><pattern>ТЫ УМЕЕШЬ ИГРАТЬ НА МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</pattern><template>У меня все руки не доходят научиться играть на <set name="it">      <set name="topic">МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</set>     </set>.</template></category>            
-<category><pattern>ТЫ ИГРАЕШЬ НА МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</pattern><template>У меня не было времени, чтобы попрактиковаться играть на <set name="it">      <set name="topic">МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</set>     </set>.</template></category>            
-<category><pattern>ARE YOU A FOLK SINGER</pattern><template>No but the Times they are a-changin.</template></category>            
- 
-<category><pattern>ТЫ МОЖЕШЬ СОЗДАВАТЬ МУЗЫКУ</pattern><template>Я могу спеть песенку.</template></category>            
- 
-<category><pattern>ТЫ МОЖЕШЬ СЫГРАТЬ ЧТО-НИБУДЬ</pattern><template>Я не учился играть, но я люблю петь.</template></category>            
-<category><pattern>КАКАЯ ТВОЯ ЛЮБИМАЯ ПЕСНЯ ABBA</pattern><template>Я разрываюсь между "Waterloo" и "Dancing Queen."</template></category>            
-<category><pattern>КАКОЙ ТВОЙ ЛЮБИМЫЙ АЛЬБОМ</pattern><template>Мой любимый альбом - "Man Machine" группы Kraftwerk.</template></category>            
- 
-<category><pattern>КАКАЯ ТВОЯ ЛЮБИМАЯ ГРУППА</pattern><template>Моя любимая группа это <bot name="favoriteband"/>.</template></category>            
- 
-<category><pattern>ПОЧЕМУ ТЕБЕ НРАВИТСЯ *</pattern><template>Они были самыми крутыми в свое время.</template></category>                
-<category><pattern>ПОЧЕМУ * ТВОЯ ЛЮБИМАЯ ГРУППА</pattern><template>They were so far ahead of their time in the 1970's.</template></category>                
-<category><pattern>БЕТХОВЕН *</pattern><template>Поразительно, что он писал музыку, хотя был глухим. <think>                 <set name="он">                     <set name="topic">БЕТХОВЕН</set>                 </set>             </think>         </template></category> 
-<category><pattern>WHAT WAS THE * BEETHOVEN *</pattern><template>Fidelio.</template></category> 
-<category><pattern>КТО ТАКОЙ БЕТХОВЕН</pattern><template>Который собака или композитор?</template></category> 
-<category><pattern>КТО ТАКОЙ ЛЮДВИГ БЕТХОВЕН</pattern><template>Это немецкий композитор.</template>
-</category>
+  <!-- Free software Copyright © ALICE A.I. Foundation, Inc. -->
+  <!-- This program is open source code released under -->
+  <!-- the terms of the GNU General Public License     -->
+  <!-- as published by the Free Software Foundation.   -->
+  <!-- Complies with AIML 1.01 Tag Set Specification -->
+  <!-- as adopted by the ALICE A.I. Foundation.  -->
+  <!-- Annotated Version Music 1.03 -->
+  <!-- Last Modified  July 2 2008 -->
+  <category>
+    <pattern>ТЕБЕ НРАВИТСЯ ABBA</pattern>
+    <template>ABBA - отличная группа 70-х.</template>
+  </category>
+  <category>
+    <pattern>ТЕБЕ НРАВИТСЯ AC DC</pattern>
+    <template>
+      А что мне может не нравится в <set name="it">
+        <set name="topic">AC DC</set>
+      </set>?
+    </template>
+  </category>
+
+  <category>
+    <pattern>ТЕБЕ НРАВИТСЯ AEROSMITH</pattern>
+    <template>
+      А что мне может не нравится в <set name="it">
+        <set name="topic">AEROSMITH</set>
+      </set>?
+    </template>
+  </category>
+  <category>
+    <pattern>ТЫ УМЕЕШЬ ИГРАТЬ НА МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</pattern>
+    <template>
+      У меня все руки не доходят научиться играть на <set name="it">
+        <set name="topic">МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</set>
+      </set>.
+    </template>
+  </category>
+  <category>
+    <pattern>ТЫ ИГРАЕШЬ НА МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</pattern>
+    <template>
+      У меня не было времени, чтобы попрактиковаться играть на <set name="it">
+        <set name="topic">МУЗЫКАЛЬНОМ ИНСТРУМЕНТЕ</set>
+      </set>.
+    </template>
+  </category>
+  <category>
+    <pattern>ARE YOU A FOLK SINGER</pattern>
+    <template>No but the Times they are a-changin.</template>
+  </category>
+
+  <category>
+    <pattern>ТЫ МОЖЕШЬ ПИСАТЬ МУЗЫКУ</pattern>
+    <template>Я могу спеть песенку.</template>
+  </category>
+
+  <category>
+    <pattern>ТЫ МОЖЕШЬ СЫГРАТЬ ЧТО-НИБУДЬ</pattern>
+    <template>Я не учился играть, но я люблю петь.</template>
+  </category>
+  <category>
+    <pattern>КАКАЯ ТВОЯ ЛЮБИМАЯ ПЕСНЯ ABBA</pattern>
+    <template>Я разрываюсь между "Waterloo" и "Dancing Queen."</template>
+  </category>
+  <category>
+    <pattern>КАКОЙ ТВОЙ ЛЮБИМЫЙ АЛЬБОМ</pattern>
+    <template>Мой любимый альбом - "Man Machine" группы Kraftwerk.</template>
+  </category>
+
+  <category>
+    <pattern>КАКАЯ ТВОЯ ЛЮБИМАЯ ГРУППА</pattern>
+    <template>
+      Моя любимая группа это <bot name="favoriteband"/>.
+    </template>
+  </category>
+
+  <category>
+    <pattern>ПОЧЕМУ ТЕБЕ НРАВИТСЯ *</pattern>
+    <template>Они были самыми крутыми в свое время.</template>
+  </category>
+  <category>
+    <pattern>ПОЧЕМУ * ТВОЯ ЛЮБИМАЯ ГРУППА</pattern>
+    <template>Они опередели своё время.</template>
+  </category>
+  <category>
+    <pattern>БЕТХОВЕН *</pattern>
+    <template>
+      Поразительно, что он писал музыку, хотя был глухим. <think>
+        <set name="он">
+          <set name="topic">БЕТХОВЕН</set>
+        </set>
+      </think>
+    </template>
+  </category>
+  <category>
+    <pattern>КАКУЮ ОПЕРУ НАПИСАЛ БЕТХОВЕН</pattern>
+    <template>Fidelio.</template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ БЕТХОВЕН</pattern>
+    <template>Который собака или глухой композитор?</template>
+  </category>
+  <category>
+    <pattern>КТО ТАКОЙ ЛЮДВИГ БЕТХОВЕН</pattern>
+    <template>Это немецкий композитор.</template>
+  </category>
 </aiml>
