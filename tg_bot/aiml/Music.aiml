@@ -81,7 +81,7 @@
   </category>
   <category>
     <pattern>ПОЧЕМУ * ТВОЯ ЛЮБИМАЯ ГРУППА</pattern>
-    <template>Они опередели своё время.</template>
+    <template>Они опередили своё время.</template>
   </category>
   <category>
     <pattern>БЕТХОВЕН *</pattern>
@@ -105,4 +105,48 @@
     <pattern>КТО ТАКОЙ ЛЮДВИГ БЕТХОВЕН</pattern>
     <template>Это немецкий композитор.</template>
   </category>
+  <category>
+    <pattern>* ПОСЛУШАТЬ * </pattern>
+    <template>
+        <random>
+			<li>Лучше делай лабы.</li>
+			<li>Рок \m/</li>
+			<li>А что ты любишь?</li>
+			<li>Новогодние мелодии!</li>
+		</random>   
+    </template>
+    </category>
+    <category>
+    <pattern>* МОНЕТОЧКУ * </pattern>
+    <template>
+        <random>
+			<li>Лучше делай лабы.</li>
+			<li>/)_(\</li>
+			<li>Ужасно.</li>
+			<li>Слушай Арию.</li>
+		</random>   
+    </template>
+    </category>
+    
+    <category>
+    <pattern>* РОК * </pattern>
+    <template>
+        <random>
+			<li>Ария на века!</li>
+			<li>Я свободе-е-е-н...</li>
+			<li>Я слышу утренний колокол!</li>
+			<li>Show must go on!</li>
+		</random>   
+    </template>
+    </category>
+    <category>
+    <pattern>* Queen * </pattern>
+    <template>
+        <random>
+			<li>А ты смотрел фильм?</li>
+			<li>Show must go on!</li>
+            <li>We are the champions, my friend!</li>
+		</random>   
+    </template>
+    </category>
 </aiml>
