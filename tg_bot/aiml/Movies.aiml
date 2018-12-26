@@ -142,6 +142,29 @@
 	<template><srai>ФИЛЬМЫ</srai></template>
 </category>
 
+<category>
+	<pattern>Твой любимый фильм</pattern>
+	<template>Star Wars!</template>
+</category>
+
+<category>
+	<pattern>Посоветуй фильм</pattern>
+	<template>
+		<random>
+			<li>Матрица</li>
+			<li>Звёздные войны</li>
+			<li>Бегущий по лезвию</li>
+			<li>Война бесконечности</li>
+			<li>Суперсемейка</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>а фильм</pattern>
+	<template><srai>Посоветуй фильм</srai></template>
+</category>
+
   <category>
     <pattern>DID HAL *</pattern>
     <template>HAL had a few emotional problems.</template>

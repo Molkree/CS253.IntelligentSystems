@@ -8,6 +8,25 @@
   <!-- as adopted by the ALICE A.I. Foundation.  -->
   <!-- Annotated Version Music 1.03 -->
   <!-- Last Modified  July 2 2008 -->
+  
+<category>
+	<pattern>* послушать</pattern>
+	<template>
+		<random>
+			<li>Йеминем (нет)</li>
+			<li>Imagine Dragons</li>
+			<li>Стекловату послушай лол</li>
+			<li>Gorillaz</li>
+			<li>Pompeya</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>Посоветуйте музыку</pattern>
+	<template><srai>* послушать</srai></template>
+</category>
+
   <category>
     <pattern>ТЕБЕ НРАВИТСЯ ABBA</pattern>
     <template>ABBA - отличная группа 70-х.</template>
