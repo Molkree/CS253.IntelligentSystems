@@ -149,4 +149,15 @@
 		</random>   
     </template>
     </category>
+    <category>
+    <pattern>* рэп * </pattern>
+    <template>
+        <random>
+			<li>А вы шо, таки серьезно хотите это слушать?</li>
+			<li>Слушай Арию.</li>
+            <li>Ужасно.</li>
+		</random>   
+    </template>
+    </category>
+
 </aiml>

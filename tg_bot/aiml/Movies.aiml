@@ -429,4 +429,21 @@
     <pattern>Ты звучишь как Йода.</pattern>
     <template>Моих навыков достаточно, чтобы понимать тебя.</template>
   </category>
-</aiml>
+  <category>
+    <pattern>* мультик * </pattern>
+    <template>
+        <random>
+			<li>Анимэ</li>
+			<li>Смотрели Ральфа?</li>
+            <li>У меня нет времени(</li>
+            <li>Мультики топ!</li>
+		</random>   
+    </template>
+    </category>
+    <category>
+    <pattern>* мультики *</pattern>
+    <template>
+      <srai>Мультики топ!</srai>
+    </template>
+  </category>
+  </aiml>
