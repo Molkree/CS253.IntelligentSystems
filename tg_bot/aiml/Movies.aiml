@@ -49,9 +49,31 @@
 			<li>Здравствуй, не хочешь обсудить фильмы?</li>
 			<li>Хай, что слушаешь?</li>
 			<li>Привет!</li>
-			<li>Ну привет, хочешь что-то обсудить?</li>
+			<li>Ну привет, хочешь поговорить?</li>
 		</random>
 	</template>
+</category>
+
+<category>
+    <pattern>Давай</pattern>
+    <that>Давай поговорим о фильмах или музыке</that>
+    <template>Я умею говорить о фильмах и музыке!</template>
+</category>
+
+<category>
+    <pattern>Давай</pattern>
+    <that>Ну привет хочешь поговорить</that>
+    <template>Я умею говорить о фильмах и музыке!</template>
+</category>
+
+<category>
+    <pattern>*</pattern>
+    <that>Хай что слушаешь</that>
+    <template>
+	<random>
+			<li>Круто, мне тоже нравится <star/></li>
+			<li>Ну и вкусы у тебя ಠ_ಠ</li>
+		</random></template>
 </category>
 
 <category>
